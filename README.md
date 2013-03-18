@@ -1,6 +1,3 @@
-dge is for
-===
-
 Damn Good Editor !
 ------------------
 
