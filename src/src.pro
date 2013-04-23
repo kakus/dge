@@ -14,10 +14,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    console.cpp
+    console.cpp \
+    tabview.cpp \
+    stage.cpp
 
 HEADERS  += mainwindow.h \
-    console.h
+    console.h \
+    tabview.h \
+    stage.h
 
 FORMS    += mainwindow.ui \
-    console.ui
+    console.ui \
+    tabview.ui \
+    stage.ui
