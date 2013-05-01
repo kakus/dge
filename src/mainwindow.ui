@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="TabView" name="tabWidget"/>
+     <widget class="QTabWidget" name="tabWidget"/>
     </item>
    </layout>
   </widget>
@@ -57,10 +57,14 @@
    </attribute>
    <addaction name="actionOpen_project"/>
    <addaction name="actionSave_project"/>
+   <addaction name="actionNew_Project"/>
+   <addaction name="actionRectangle"/>
   </widget>
   <action name="actionOpen_project">
    <property name="icon">
-    <iconset theme="document-open"/>
+    <iconset theme="document-open">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Open project</string>
@@ -77,16 +81,21 @@
     <string>Ctrl+S</string>
    </property>
   </action>
+  <action name="actionNew_Project">
+   <property name="text">
+    <string>New Project</string>
+   </property>
+   <property name="toolTip">
+    <string>Create new project</string>
+   </property>
+  </action>
+  <action name="actionRectangle">
+   <property name="text">
+    <string>Rectangle</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>TabView</class>
-   <extends>QTabWidget</extends>
-   <header>tabview.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

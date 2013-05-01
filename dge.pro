@@ -1,4 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    src
+    src \
+    # test
+
+OTHER_FILES += box2d.pri

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui script
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,15 +15,24 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     console.cpp \
-    tabview.cpp \
-    stage.cpp
+    stage.cpp \
+    qbodydef.cpp \
+    qfixturedef.cpp \
+    worldmodel.cpp \
+    controller.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
-    tabview.h \
-    stage.h
+    stage.h \
+    qbodydef.h \
+    qfixturedef.h \
+    worldmodel.h \
+    controller.h \
+    worldview.h
 
 FORMS    += mainwindow.ui \
     console.ui \
     tabview.ui \
     stage.ui
+
+include(../box2d.pri)

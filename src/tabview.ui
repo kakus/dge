@@ -14,22 +14,9 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>-1</number>
   </property>
-  <widget class="Stage" name="tab">
-   <attribute name="title">
-    <string>Page</string>
-   </attribute>
-  </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Stage</class>
-   <extends>QWidget</extends>
-   <header>stage.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
