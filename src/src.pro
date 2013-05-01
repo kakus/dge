@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = gui
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++0x
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -19,7 +20,8 @@ SOURCES += main.cpp\
     qbodydef.cpp \
     qfixturedef.cpp \
     worldmodel.cpp \
-    controller.cpp
+    controller.cpp \
+    engine.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -28,7 +30,8 @@ HEADERS  += mainwindow.h \
     qfixturedef.h \
     worldmodel.h \
     controller.h \
-    worldview.h
+    worldview.h \
+    engine.h
 
 FORMS    += mainwindow.ui \
     console.ui \
