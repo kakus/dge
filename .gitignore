@@ -13,4 +13,4 @@
 *.a
 
 # qtcreator user settings
-*.user.pro
+*.pro.user
