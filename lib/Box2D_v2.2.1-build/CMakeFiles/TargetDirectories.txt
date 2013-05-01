@@ -1,0 +1,5 @@
+/home/kakus/Projects/qt/dge/Box2D_v2.2.1-build/Box2D/CMakeFiles/Box2D.dir
+/home/kakus/Projects/qt/dge/Box2D_v2.2.1-build/HelloWorld/CMakeFiles/HelloWorld.dir
+/home/kakus/Projects/qt/dge/Box2D_v2.2.1-build/Testbed/CMakeFiles/Testbed.dir
+/home/kakus/Projects/qt/dge/Box2D_v2.2.1-build/freeglut/CMakeFiles/freeglut_static.dir
+/home/kakus/Projects/qt/dge/Box2D_v2.2.1-build/glui/CMakeFiles/glui.dir
