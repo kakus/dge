@@ -31,6 +31,7 @@ HEADERS  += mainwindow.h \
     worldmodel.h \
     controller.h \
     worldview.h \
+    engine.h \
     engine.h
 
 FORMS    += mainwindow.ui \
