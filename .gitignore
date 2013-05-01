@@ -10,7 +10,9 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 
 # qtcreator user settings
 *.pro.user
+
+# vim swp
+*.swp
