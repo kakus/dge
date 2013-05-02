@@ -25,11 +25,15 @@ public:
     void testTools(const QString& fileName, const QString& functionName) const;
     ~Engine();
 
+    QScriptValue getGlobalObject() const;
+    QScriptValue getNewQObject(QObject*);
+
 public slots:
     void evaluate(const QString& code);
 
 signals:
-    void evaluateResult(const QScriptValue& code);
+    //void evaluateResult(const QScriptValue& code);
+    void evaluateResult(const QString& value);
 
 private:
 

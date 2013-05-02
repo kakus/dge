@@ -25,11 +25,27 @@ Engine* Engine::getInstance()
     return pInstance_;
 }
 
+QScriptValue Engine::getGlobalObject() const
+{
+    mutex_.lock();
+        QScriptValue v = engine_.globalObject();
+    mutex_.unlock();
+    return v;
+}
+
+QScriptValue Engine::getNewQObject(QObject* object)
+{
+    mutex_.lock();
+        QScriptValue v =  engine_.newQObject(object);
+    mutex_.unlock();
+    return v;
+}
 
 void Engine::evaluate(const QString &code)
 {
     QScriptValue result = engine_.evaluate(code);
     emit evaluateResult(result);
+    emit evaluateResult(result.toString());
 }
 
 void Engine::testTools(const QString& fileName, const QString& functionName) const

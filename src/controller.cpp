@@ -3,11 +3,23 @@
 #include "ui_mainwindow.h"
 #include "stage.h"
 #include "worldmodel.h"
+#include "engine.h"
 
 Controller::Controller(MainWindow *mainWindow) :
     QObject(mainWindow),
     mainWindow_(mainWindow)
 {
+
+    // Add console to script engine, so user can write on console
+    QScriptValue console = Engine::getInstance()->getNewQObject(mainWindow_->console_);
+    Engine::getInstance()->getGlobalObject().setProperty("console", console);
+
+    // Connect console to the script engine
+    connect(mainWindow->console_, SIGNAL(command(QString)),
+            Engine::getInstance(), SLOT(evaluate(QString)));
+
+    connect(Engine::getInstance(), SIGNAL(evaluateResult(QString)),
+            mainWindow->console_,  SLOT(write(QString)));
 }
 
 void Controller::createNewProject()
