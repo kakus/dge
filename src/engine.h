@@ -27,6 +27,9 @@ public:
 
     QScriptValue getGlobalObject() const;
     QScriptValue getNewQObject(QObject*);
+    QScriptValue getNewFunction(QScriptEngine::FunctionSignature fun, int length = 0);
+    QScriptValue getNewQMetaObject(const QMetaObject * meta,
+                                   const QScriptValue ctor = QScriptValue());
 
 public slots:
     void evaluate(const QString& code);

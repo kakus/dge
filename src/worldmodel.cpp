@@ -15,3 +15,12 @@ void WorldModel::addBody(const QBodyDef *bodyDef)
     bodyList_.append(SpQBodyDef(bodyDef));
     emit bodyAdded(bodyDef);
 }
+
+void WorldModel::addBody(const QScriptValue &value)
+{
+    QObject *obj = value.toQObject();
+    QBodyDef *body = dynamic_cast<QBodyDef*>(obj);
+
+    if (body)
+        addBody(body);
+}

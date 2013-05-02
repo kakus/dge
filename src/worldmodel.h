@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QLinkedList>
 #include <QSharedPointer>
+#include <QScriptValue>
 #include "qbodydef.h"
 
 class WorldModel : public QObject
@@ -15,14 +16,15 @@ public:
 
     explicit WorldModel(QObject *parent = 0);
 
+    void addBody(const QBodyDef*);
     QLinkedList<SpQBodyDef> getBodyList() const;
-    
+
 signals:
     void bodyAdded(const QBodyDef*);
     void bodyRemoved(const QBodyDef*);
     
 public slots:
-    void addBody(const QBodyDef*);
+    void addBody(const QScriptValue&);
 
 private:
     QLinkedList<SpQBodyDef> bodyList_;

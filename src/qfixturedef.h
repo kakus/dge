@@ -54,6 +54,7 @@ public:
     // void setFilter( b2Filter value ) { fixtureDef_.filter = value; }
 
 public slots:
+    void setAsBox(qreal width, qreal height);
 
 private:
     b2FixtureDef fixtureDef_;

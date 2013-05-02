@@ -5,14 +5,23 @@
 #include "worldmodel.h"
 #include "engine.h"
 
+template<class T>
+QScriptValue scriptConstructor(QScriptContext *context, QScriptEngine *engine)
+{
+    QObject *parent = context->argument(0).toQObject();
+    T *object = new T(parent);
+    return engine->newQObject(object, QScriptEngine::ScriptOwnership);
+}
+
+Controller *Controller::instance_ = nullptr;
+
 Controller::Controller(MainWindow *mainWindow) :
     QObject(mainWindow),
     mainWindow_(mainWindow)
 {
+    instance_ = this;
 
-    // Add console to script engine, so user can write on console
-    QScriptValue console = Engine::getInstance()->getNewQObject(mainWindow_->console_);
-    Engine::getInstance()->getGlobalObject().setProperty("console", console);
+    initEngine();
 
     // Connect console to the script engine
     connect(mainWindow->console_, SIGNAL(command(QString)),
@@ -20,6 +29,31 @@ Controller::Controller(MainWindow *mainWindow) :
 
     connect(Engine::getInstance(), SIGNAL(evaluateResult(QString)),
             mainWindow->console_,  SLOT(write(QString)));
+}
+
+void Controller::initEngine()
+{
+    // Add console to script engine, so user can write on console
+    QScriptValue console = Engine::getInstance()->getNewQObject(mainWindow_->console_);
+    Engine::getInstance()->getGlobalObject().setProperty("console", console);
+
+    // Add QBodyDef constructor
+    QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QBodyDef>);
+    QScriptValue qBodyMeta = Engine::getInstance()->
+            getNewQMetaObject(&QObject::staticMetaObject, ctor);
+    Engine::getInstance()->getGlobalObject().setProperty("BodyDef", qBodyMeta);
+
+    // Add QFixtureDef constructor
+    ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QFixtureDef>);
+    QScriptValue qFixtureMeta = Engine::getInstance()->
+            getNewQMetaObject(&QObject::staticMetaObject, ctor);
+    Engine::getInstance()->getGlobalObject().setProperty("FixtureDef", qFixtureMeta);
+
+    // Add active world to the engine
+    Engine::getInstance()->getGlobalObject()
+            .setProperty("world",
+                         Engine::getInstance()->getNewFunction(&Controller::getActiveModel),
+                         QScriptValue::PropertyGetter);
 }
 
 void Controller::createNewProject()
@@ -52,4 +86,9 @@ void Controller::rectangleTEST()
 WorldModel* Controller::getActiveModel() const
 {
     return viewMap_.value(mainWindow_->ui->tabWidget->currentWidget());
+}
+
+QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *engine)
+{
+    return engine->newQObject(instance_->getActiveModel());
 }

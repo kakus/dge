@@ -5,14 +5,17 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <QLinkedList>
+#include <QScriptValue>
 #include "qfixturedef.h"
+
 
 class QBodyDef : public QObject
 {
 
     Q_OBJECT
 
-    Q_PROPERTY(b2BodyType type READ getType WRITE setType )
+    // TODO
+    //Q_PROPERTY(b2BodyType type READ getType WRITE setType )
     // TODO
     //Q_PROPERTY(b2Vec2 position READ getPosition WRITE setPosition )
     Q_PROPERTY(qreal angle READ getAngle WRITE setAngle )
@@ -80,10 +83,13 @@ public:
 
     qreal getGravityScale() const { return bodyDef_.gravityScale; }
     void setGravityScale( qreal value ) { bodyDef_.gravityScale = value; }
+    // end auto generated code
 
 signals:
     
 public slots:
+    void addFixtureDef(const QFixtureDef&);
+    void addFixtureDef(const QScriptValue&);
 
 private:
     b2BodyDef bodyDef_;

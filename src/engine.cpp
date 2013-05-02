@@ -41,10 +41,25 @@ QScriptValue Engine::getNewQObject(QObject* object)
     return v;
 }
 
+QScriptValue Engine::getNewFunction(QScriptEngine::FunctionSignature fun, int length)
+{
+    mutex_.lock();
+        QScriptValue v =  engine_.newFunction(fun, length);
+    mutex_.unlock();
+    return v;
+}
+
+QScriptValue Engine::getNewQMetaObject(const QMetaObject *meta, const QScriptValue ctor)
+{
+    mutex_.lock();
+        QScriptValue v =  engine_.newQMetaObject(meta, ctor);
+    mutex_.unlock();
+    return v;
+}
+
 void Engine::evaluate(const QString &code)
 {
     QScriptValue result = engine_.evaluate(code);
-    emit evaluateResult(result);
     emit evaluateResult(result.toString());
 }
 

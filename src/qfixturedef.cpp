@@ -36,3 +36,11 @@ void QFixtureDef::setShape(const b2Shape *value)
 
     fixtureDef_.shape = value;
 }
+
+void QFixtureDef::setAsBox(qreal width, qreal height)
+{
+    b2PolygonShape shape;
+    shape.SetAsBox(width, height);
+
+    setShape(&shape);
+}
