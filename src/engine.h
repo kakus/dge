@@ -35,7 +35,6 @@ public slots:
     void evaluate(const QString& code);
 
 signals:
-    //void evaluateResult(const QScriptValue& code);
     void evaluateResult(const QString& value);
 
 private:
@@ -50,7 +49,7 @@ private:
     Engine();
     Engine(const Engine&);
 
-    //friend class Loader;
+    friend class Loader;
 };
 
 #endif // ENGINE_H

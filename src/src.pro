@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     qfixturedef.cpp \
     worldmodel.cpp \
     controller.cpp \
-    engine.cpp
+    engine.cpp \
+    jsmethods.cpp \
+    loader.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -32,7 +34,9 @@ HEADERS  += mainwindow.h \
     controller.h \
     worldview.h \
     engine.h \
-    engine.h
+    engine.h \
+    jsmethods.h \
+    loader.h
 
 FORMS    += mainwindow.ui \
     console.ui \
