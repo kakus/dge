@@ -8,6 +8,12 @@ QFixtureDef::QFixtureDef(QObject *parent) :
 {
 }
 
+QFixtureDef::~QFixtureDef()
+{
+    if (fixtureDef_.shape)
+        delete fixtureDef_.shape;
+}
+
 void QFixtureDef::setShape(const b2Shape *value)
 {
     switch (value->GetType())
@@ -27,14 +33,14 @@ void QFixtureDef::setShape(const b2Shape *value)
         }
 
         graphicsItem_ = SpQGraphicsItem(new QGraphicsPolygonItem(qtPoly));
+        // colne shape
+        fixtureDef_.shape = new b2PolygonShape(*b2Poly);
+
     } break;
 
     case b2Shape::e_circle:
         break;
-
     }
-
-    fixtureDef_.shape = value;
 }
 
 void QFixtureDef::setAsBox(qreal width, qreal height)

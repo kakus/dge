@@ -8,7 +8,7 @@ QT       += core gui script
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = gui
+TARGET = dge
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++0x

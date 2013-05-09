@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMap>
+#include "loader.h"
 
 class MainWindow;
 class WorldModel;
@@ -20,7 +21,7 @@ signals:
     
 public slots:
     void createNewProject();
-    void rectangleTEST();
+    void runWorldSimultion();
 
 private:
     /*!
@@ -32,6 +33,7 @@ private:
      *  For example: QBodyDef constructor, Console.
      */
     void initEngine();
+    void loadScripts();
 
     WorldModel* getActiveModel() const;
     /*!
@@ -41,6 +43,7 @@ private:
 
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;
+    Loader loader_;
 
     static Controller *instance_;
     friend class MainWindow;

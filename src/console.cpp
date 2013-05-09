@@ -33,7 +33,7 @@ void Console::returnPressed()
         return;
 
     if (echo_)
-        write(ui->lineEdit->text());
+        write(":: " + ui->lineEdit->text());
 
     emit command(ui->lineEdit->text());
 

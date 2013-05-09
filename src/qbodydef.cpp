@@ -5,6 +5,11 @@ QBodyDef::QBodyDef(QObject *parent) :
 {
 }
 
+void QBodyDef::syncGraphics()
+{
+    updateFixtures();
+}
+
 void QBodyDef::addFixtureDef(const QFixtureDef *fixtureDef)
 {
     fixtureList_.append(SpQFixtureDef(fixtureDef));
@@ -16,16 +21,24 @@ const QLinkedList<QBodyDef::SpQFixtureDef>* QBodyDef::getFixtureList() const
 }
 
 // slot
-void QBodyDef::addFixtureDef(const QFixtureDef &fixtureDef) {
-    addFixtureDef(&fixtureDef);
-}
-
-// slot
-void QBodyDef::addFixtureDef(const QScriptValue &value)
+void QBodyDef::createFixture(const QScriptValue &fixtureDef)
 {
-    QObject *obj = value.toQObject();
+    QObject *obj = fixtureDef.toQObject();
     QFixtureDef *fix = dynamic_cast<QFixtureDef*>(obj);
 
-    if (fix)
-        addFixtureDef(fix);
+    if (fix == nullptr)
+        return;
+
+    QFixtureDef *copy = new QFixtureDef();
+    copy->fixtureDef_ = fix->fixtureDef_;
+    copy->setShape(fix->getShape());
+
+    addFixtureDef(copy);
+}
+
+void QBodyDef::updateFixtures()
+{
+    foreach(const SpQFixtureDef &fixture, fixtureList_ )
+        fixture->graphicsItem_->setPos(bodyDef_.position.x,
+                                       bodyDef_.position.y);
 }

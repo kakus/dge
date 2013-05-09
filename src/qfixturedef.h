@@ -24,10 +24,12 @@ class QFixtureDef : public QObject
 
 public:
     explicit QFixtureDef(QObject *parent = 0);
+    virtual ~QFixtureDef();
 
     QGraphicsItem* getGraphicsItem() const {
         return graphicsItem_.data();
     }
+    const b2FixtureDef* getFixtureDef() const { return &fixtureDef_; }
     
     const b2Shape*  getShape() const { return fixtureDef_.shape; }
     //void setShape( const b2Shape*  value ) { fixtureDef_.shape = value; }

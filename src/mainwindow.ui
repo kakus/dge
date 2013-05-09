@@ -59,6 +59,7 @@
    <addaction name="actionSave_project"/>
    <addaction name="actionNew_Project"/>
    <addaction name="actionRectangle"/>
+   <addaction name="actionRun_World_Simulation"/>
   </widget>
   <action name="actionOpen_project">
    <property name="icon">
@@ -92,6 +93,11 @@
   <action name="actionRectangle">
    <property name="text">
     <string>Rectangle</string>
+   </property>
+  </action>
+  <action name="actionRun_World_Simulation">
+   <property name="text">
+    <string>Run World Simulation</string>
    </property>
   </action>
  </widget>

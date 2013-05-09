@@ -21,14 +21,8 @@ Controller::Controller(MainWindow *mainWindow) :
 {
     instance_ = this;
 
+    loadScripts();
     initEngine();
-
-    // Connect console to the script engine
-    connect(mainWindow->console_, SIGNAL(command(QString)),
-            Engine::getInstance(), SLOT(evaluate(QString)));
-
-    connect(Engine::getInstance(), SIGNAL(evaluateResult(QString)),
-            mainWindow->console_,  SLOT(write(QString)));
 }
 
 void Controller::initEngine()
@@ -54,6 +48,18 @@ void Controller::initEngine()
             .setProperty("world",
                          Engine::getInstance()->getNewFunction(&Controller::getActiveModel),
                          QScriptValue::PropertyGetter);
+
+    // Connect console to the script engine
+    connect(mainWindow_->console_, SIGNAL(command(QString)),
+            Engine::getInstance(), SLOT(evaluate(QString)));
+
+    connect(Engine::getInstance(), SIGNAL(evaluateResult(QString)),
+            mainWindow_->console_,  SLOT(write(QString)));
+}
+
+void Controller::loadScripts()
+{
+    loader_.loadOtherScripts();
 }
 
 void Controller::createNewProject()
@@ -67,20 +73,9 @@ void Controller::createNewProject()
     viewMap_.insert(stage, model);
 }
 
-void Controller::rectangleTEST()
+void Controller::runWorldSimultion()
 {
-    QBodyDef *body = new QBodyDef;
-    QFixtureDef *fix = new QFixtureDef;
-
-    b2PolygonShape shape;
-    shape.SetAsBox(20, 20);
-    fix->setShape(&shape);
-
-    body->addFixtureDef(fix);
-
-    WorldModel* model = getActiveModel();
-    if (model)
-        model->addBody(body);
+    getActiveModel()->run();
 }
 
 WorldModel* Controller::getActiveModel() const
