@@ -10,6 +10,13 @@ WorldModel::WorldModel(QObject *parent)
     , world_(nullptr)
 {
    simulation_.moveToThread(&simulationThread_);
+   simulationThread_.start();
+}
+
+WorldModel::~WorldModel()
+{
+    if (world_)
+        delete world_;
 }
 
 QLinkedList<WorldModel::SpQBodyDef> WorldModel::getBodyList() const
@@ -35,14 +42,14 @@ void WorldModel::addBody(const QScriptValue &value)
 void WorldModel::run(qint32 fps, qreal worldStep)
 {
    createWorld();
-   simulationThread_.start();
    simulation_.setSimulation(world_, fps, worldStep);
    QMetaObject::invokeMethod(&simulation_, "run", Qt::QueuedConnection);
 }
 
 void WorldModel::stop()
 {
-    simulationThread_.exit();
+    //simulationThread_.exit();
+    QMetaObject::invokeMethod(&simulation_, "stop", Qt::QueuedConnection);
     syncGraphicsWithModel();
 }
 
@@ -92,10 +99,15 @@ void WorldSimulation::run()
         timer_->start(1000.0/fps_);
 }
 
+void WorldSimulation::stop()
+{
+    timer_->stop();
+}
+
 void WorldSimulation::step()
 {
     static int i = 0;
-    qDebug() << ++i << "world step";
+    //qDebug() << ++i << "world step";
 
     if (world_)
     {
@@ -106,15 +118,17 @@ void WorldSimulation::step()
             b2Fixture *f = b->GetFixtureList();
             while (f != nullptr)
             {
-                // update position
                 QGraphicsItem* g = static_cast<QGraphicsItem*>(f->GetUserData());
                 if (g)
                 {
+                    static const qreal PI = 3.1415926535;
+                    // update position
                     g->setPos(b->GetWorldCenter().x, b->GetWorldCenter().y);
+                    // update rotation
+                    g->setRotation((b->GetAngle() * 180)/PI);
                 }
                 f = f->GetNext();
             }
-
             b = b->GetNext();
         }
     }

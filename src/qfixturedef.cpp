@@ -3,8 +3,9 @@
 #include <QPolygonF>
 #include <QGraphicsPolygonItem>
 
-QFixtureDef::QFixtureDef(QObject *parent) :
-    QObject(parent)
+QFixtureDef::QFixtureDef(QObject *parent)
+    : QObject(parent)
+    , graphicsItem_(nullptr)
 {
 }
 
@@ -12,6 +13,8 @@ QFixtureDef::~QFixtureDef()
 {
     if (fixtureDef_.shape)
         delete fixtureDef_.shape;
+    //if (graphicsItem_)
+        //delete graphicsItem_;
 }
 
 void QFixtureDef::setShape(const b2Shape *value)
@@ -32,7 +35,7 @@ void QFixtureDef::setShape(const b2Shape *value)
 
         }
 
-        graphicsItem_ = SpQGraphicsItem(new QGraphicsPolygonItem(qtPoly));
+        graphicsItem_ = new QGraphicsPolygonItem(qtPoly);
         // colne shape
         fixtureDef_.shape = new b2PolygonShape(*b2Poly);
 

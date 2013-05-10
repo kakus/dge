@@ -38,7 +38,11 @@ void QBodyDef::createFixture(const QScriptValue &fixtureDef)
 
 void QBodyDef::updateFixtures()
 {
+    static const qreal PI = 3.1415926535;
     foreach(const SpQFixtureDef &fixture, fixtureList_ )
+    {
         fixture->graphicsItem_->setPos(bodyDef_.position.x,
                                        bodyDef_.position.y);
+        fixture->graphicsItem_->setRotation(bodyDef_.angle*180/PI);
+    }
 }

@@ -8,8 +8,6 @@
 
 class QFixtureDef : public QObject
 {
-    typedef QSharedPointer<QGraphicsItem> SpQGraphicsItem;
-
     Q_OBJECT
 
     // TODO high priority
@@ -26,9 +24,7 @@ public:
     explicit QFixtureDef(QObject *parent = 0);
     virtual ~QFixtureDef();
 
-    QGraphicsItem* getGraphicsItem() const {
-        return graphicsItem_.data();
-    }
+    QGraphicsItem* getGraphicsItem() const { return graphicsItem_; }
     const b2FixtureDef* getFixtureDef() const { return &fixtureDef_; }
     
     const b2Shape*  getShape() const { return fixtureDef_.shape; }
@@ -60,7 +56,7 @@ public slots:
 
 private:
     b2FixtureDef fixtureDef_;
-    SpQGraphicsItem graphicsItem_;
+    QGraphicsItem *graphicsItem_;
 
     friend class QBodyDef;
 };

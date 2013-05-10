@@ -29,6 +29,7 @@ public:
 
 public slots:
     void run();
+    void stop();
 
 private slots:
     void step();
@@ -51,6 +52,7 @@ public:
     typedef QSharedPointer<QBodyDef> SpQBodyDef;
 
     explicit WorldModel(QObject *parent = 0);
+    virtual ~WorldModel();
 
     void addBody(QBodyDef*);
     QLinkedList<SpQBodyDef> getBodyList() const;
@@ -73,10 +75,9 @@ public slots:
     void stop();
 
 private:
-    /*!
-     * Create b2World from body list
-     */
+    /// Create b2World from body list
     void createWorld();
+
     /// after simulation graphics items are synchronized with b2World rather
     /// than with model, so this function change it.
     void syncGraphicsWithModel();

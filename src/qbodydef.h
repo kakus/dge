@@ -12,7 +12,7 @@
 /*!
  * \brief The QBodyDef class
  *        This class is a wrapper around box2d b2BodyDef class, so it can
- *        be use able in qscript engine.
+ *        be used in qscript engine.
  */
 class QBodyDef : public QObject
 {
