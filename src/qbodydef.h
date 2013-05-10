@@ -66,14 +66,20 @@ public:
     b2BodyType getType() const { return bodyDef_.type; }
     void setType( b2BodyType value ) { bodyDef_.type = value; }
 
-    inline bool getStatic() const { return bodyDef_.type == b2BodyType::b2_staticBody; }
-    inline void setStatic( bool value ) { if (value) bodyDef_.type = b2BodyType::b2_staticBody; }
+    inline bool getStatic() const
+    { return bodyDef_.type == b2BodyType::b2_staticBody; }
+    inline void setStatic( bool value )
+    { if (value) bodyDef_.type = b2BodyType::b2_staticBody; updateFixtures(); }
 
-    inline bool getDynamic() const { return bodyDef_.type == b2BodyType::b2_dynamicBody; }
-    inline void setDynamic( bool value ) { if (value) bodyDef_.type = b2BodyType::b2_dynamicBody; }
+    inline bool getDynamic() const
+    { return bodyDef_.type == b2BodyType::b2_dynamicBody; }
+    inline void setDynamic( bool value )
+    { if (value) bodyDef_.type = b2BodyType::b2_dynamicBody; updateFixtures();}
 
-    inline bool getKinematic() const { return bodyDef_.type == b2BodyType::b2_kinematicBody; }
-    inline void setKinematic( bool value ) { if (value) bodyDef_.type = b2BodyType::b2_kinematicBody; }
+    inline bool getKinematic() const
+    { return bodyDef_.type == b2BodyType::b2_kinematicBody; }
+    inline void setKinematic( bool value )
+    { if (value) bodyDef_.type = b2BodyType::b2_kinematicBody; updateFixtures();}
 
     b2Vec2 getPosition() const { return bodyDef_.position; }
     void setPosition( b2Vec2 value ) { bodyDef_.position = value; updateFixtures(); }

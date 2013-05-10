@@ -9,6 +9,7 @@ Stage::Stage(QWidget *parent) :
 {
     ui->setupUi(this);
     scene_ = new QGraphicsScene(ui->graphicsView);
+    scene_->setBackgroundBrush(QBrush(QColor(32, 32, 32)));
     ui->graphicsView->setScene(scene_);
 }
 

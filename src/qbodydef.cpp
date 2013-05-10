@@ -1,4 +1,6 @@
 #include "qbodydef.h"
+#include <QPen>
+#include <QBrush>
 
 QBodyDef::QBodyDef(QObject *parent) :
     QObject(parent)
@@ -44,5 +46,24 @@ void QBodyDef::updateFixtures()
         fixture->graphicsItem_->setPos(bodyDef_.position.x,
                                        bodyDef_.position.y);
         fixture->graphicsItem_->setRotation(bodyDef_.angle*180/PI);
+
+        switch (fixture->graphicsItem_->type())
+        {
+        case QGraphicsPolygonItem::Type: {
+            QGraphicsPolygonItem *item =
+                    static_cast<QGraphicsPolygonItem*>(fixture->graphicsItem_);
+
+            if (bodyDef_.type == b2BodyType::b2_staticBody)
+            {
+                item->setBrush(QBrush(QColor(0, 255, 0, 64)));
+                item->setPen(QPen(QColor(0, 255, 0)));
+            }
+            else if (bodyDef_.type == b2BodyType::b2_dynamicBody)
+            {
+                item->setBrush(QBrush(QColor(255, 255, 150, 64)));
+                item->setPen(QPen(QColor(255, 255, 150)));
+            }
+        } break;
+        }
     }
 }

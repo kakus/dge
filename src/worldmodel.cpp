@@ -37,6 +37,10 @@ void WorldModel::addBody(const QScriptValue &value)
 
     if (body)
         addBody(body);
+
+    // TODO this call is because we want to color fixture by its type, but
+    // this call shouldn't be here !
+    syncGraphicsWithModel();
 }
 
 void WorldModel::run(qint32 fps, qreal worldStep)
