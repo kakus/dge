@@ -75,7 +75,8 @@ void Controller::createNewProject()
 
 void Controller::runWorldSimultion()
 {
-    getActiveModel()->run();
+    if (getActiveModel() != nullptr)
+        getActiveModel()->run();
 }
 
 WorldModel* Controller::getActiveModel() const

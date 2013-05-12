@@ -41,3 +41,10 @@ var box = function(size)
     b.createFixture(f);
     return b;
 }
+
+var box2 = function()
+{
+    var b = box();
+    world.addBody(b);
+    return b;
+}

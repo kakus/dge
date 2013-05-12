@@ -13,8 +13,8 @@ QFixtureDef::~QFixtureDef()
 {
     if (fixtureDef_.shape)
         delete fixtureDef_.shape;
-    //if (graphicsItem_)
-        //delete graphicsItem_;
+    if (graphicsItem_)
+        delete graphicsItem_;
 }
 
 void QFixtureDef::setShape(const b2Shape *value)
