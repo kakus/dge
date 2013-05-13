@@ -71,6 +71,10 @@ void Controller::createNewProject()
     stage->connectToModel(stage, model);
 
     viewMap_.insert(stage, model);
+
+    // redirects mouse events from new stage
+    // connect(stage, &Stage::mouseEvent,
+    //         this,  &Controller::mouseEvt);
 }
 
 void Controller::runWorldSimultion()

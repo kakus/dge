@@ -26,10 +26,16 @@ public:
     explicit Stage(QWidget *parent = 0);
     ~Stage();
 
+signals:
+    void mouseEvent(QGraphicsSceneMouseEvent*);
+
 public slots:
     void bodyAdded(const QBodyDef *);
     void bodyRemoved(const QBodyDef *);
     void bodyChanged(const QBodyDef *);
+
+protected:
+    bool eventFilter(QObject *, QEvent *);
 
 private:
     Ui::Stage *ui;
