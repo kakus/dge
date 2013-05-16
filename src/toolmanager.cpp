@@ -3,7 +3,7 @@
 ToolManager* ToolManager::instance_;
 std::mutex ToolManager::mutex_;
 
-ToolManager::ToolManager()
+ToolManager::ToolManager() : activeTool_(nullptr)
 {
 }
 
