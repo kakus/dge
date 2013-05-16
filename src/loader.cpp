@@ -5,21 +5,12 @@ Loader::Loader()
 
 }
 
-
-/*!
- * \brief Loader::loadScripts
- *  Load scripts from "scripts" and "tools" directories
-*/
 void Loader::loadScripts()
 {
     loadToolsScripts();
     loadOtherScripts();
 }
 
-/*!
- * \brief Loader::loadOtherScripts
- *  Load scripts from "scripts" directory -> add them to Engine global object
- */
 void Loader::loadOtherScripts()
 {
     QDir fromWhichDir ("scripts");
@@ -28,10 +19,8 @@ void Loader::loadOtherScripts()
 
     QFileInfoList scriptsList = findScripts( fromWhichDir );
 
-    foreach ( QFileInfo x, scriptsList){
-
-        // qDebug() << "Other: File" << x.filePath() << endl;
-
+    foreach ( QFileInfo x, scriptsList)
+    {
         scriptContent = getFileContent(x.absoluteFilePath());
         result = Engine::getInstance()->engine_.evaluate(scriptContent);
 
@@ -41,12 +30,6 @@ void Loader::loadOtherScripts()
 
 }
 
-/*!
- * \brief Loader::loadToolsScripts
- *  Load scripts describing tools from "tools" directory
- *  Add them to Engine global object
- *  Access to tools in global object -> tools.fileName
- */
 void Loader::loadToolsScripts()
 {
     QDir fromWhichDir ("tools");
@@ -60,13 +43,12 @@ void Loader::loadToolsScripts()
 
     foreach (QFileInfo x, scriptsList)
     {
-        //qDebug() << "Tools: File" << x.filePath() << endl;
-
         scriptContent = getFileContent(x.absoluteFilePath());
         result = engine.evaluate(scriptContent);
 
         tools.setProperty(x.fileName(), copyJSObject(engine.globalObject()));
 
+        // check if file has correct javascript content
         if(result.isError())
             qDebug() << "Error in "<< x.fileName() << " script." << x.fileName() << endl;
     }
@@ -75,11 +57,6 @@ void Loader::loadToolsScripts()
 
 }
 
-/*!
- * \brief findScripts
- * \param directory
- * \return list of all scripts in directory directory (and all of its subdirectories)
- */
 QFileInfoList findScripts(const QDir& directory)
 {
     QStringList nameFilter("*.js");

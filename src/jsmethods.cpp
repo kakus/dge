@@ -1,10 +1,5 @@
 #include "jsmethods.h"
 
-/*!
- * \brief copyJSObject
- * \param obj
- * \return deep copy of obj
- */
 QScriptValue copyJSObject( const QScriptValue& obj)
 {
     if( (obj.isObject() || obj.isArray()) && !obj.isFunction() )
@@ -25,11 +20,6 @@ QScriptValue copyJSObject( const QScriptValue& obj)
     return obj;
 }
 
-/*!
- * \brief getFileContent
- * \param fileName
- * \return file's content
- */
 QString getFileContent(QString fileName)
 {
     QFile scriptFile(fileName);

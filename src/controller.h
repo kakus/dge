@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMap>
 #include "loader.h"
+#include "toolmanager.h"
 
 class MainWindow;
 class WorldModel;
@@ -34,6 +35,7 @@ private:
      */
     void initEngine();
     void loadScripts();
+    void createTools();
 
     WorldModel* getActiveModel() const;
     /*!

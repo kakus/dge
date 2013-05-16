@@ -31,9 +31,9 @@ void Stage::bodyAdded(const QBodyDef *bodyDef)
     }
 }
 
-void Stage::bodyRemoved(const QBodyDef *)
+void Stage::bodyRemoved(const QBodyDef *b)
 {
-
+    scene_->removeItem(bodyMap_[b]);
 }
 
 void Stage::bodyChanged(const QBodyDef *)

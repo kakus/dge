@@ -22,6 +22,7 @@ Controller::Controller(MainWindow *mainWindow) :
     instance_ = this;
 
     loadScripts();
+    createTools();
     initEngine();
 }
 
@@ -59,7 +60,7 @@ void Controller::initEngine()
 
 void Controller::loadScripts()
 {
-    loader_.loadOtherScripts();
+    loader_.loadScripts();
 }
 
 void Controller::createNewProject()
@@ -73,8 +74,8 @@ void Controller::createNewProject()
     viewMap_.insert(stage, model);
 
     // redirects mouse events from new stage
-    // connect(stage, &Stage::mouseEvent,
-    //         this,  &Controller::mouseEvt);
+     connect(stage, SIGNAL(mouseEvent(QGraphicsSceneMouseEvent*)),
+             ToolManager::getInstance(),  SLOT(redirectEvent(QGraphicsSceneMouseEvent*)));
 }
 
 void Controller::runWorldSimultion()
@@ -91,4 +92,10 @@ WorldModel* Controller::getActiveModel() const
 QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *engine)
 {
     return engine->newQObject(instance_->getActiveModel());
+}
+
+void Controller::createTools(){
+    ToolManager::getInstance()->createTools();
+    ToolManager::getInstance()->createToolbar(mainWindow_);
+
 }

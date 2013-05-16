@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     controller.cpp \
     engine.cpp \
     jsmethods.cpp \
-    loader.cpp
+    loader.cpp \
+    toolmanager.cpp \
+    tool.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -36,7 +38,9 @@ HEADERS  += mainwindow.h \
     engine.h \
     engine.h \
     jsmethods.h \
-    loader.h
+    loader.h \
+    toolmanager.h \
+    tool.h
 
 FORMS    += mainwindow.ui \
     console.ui \

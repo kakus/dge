@@ -51,7 +51,7 @@ void WorldModel::removeBody(QBodyDef *body)
     if (bodyList_.removeOne(body))
     {
         emit bodyRemoved(body);
-        body->deleteLater();
+        //body->deleteLater();
     }
 }
 

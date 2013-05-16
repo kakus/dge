@@ -9,7 +9,18 @@
 #include <QFile>
 #include <QDir>
 
+/*!
+ * \brief copyJSObject
+ * \param obj
+ * \return deep copy of obj
+ */
 QScriptValue copyJSObject(const QScriptValue& obj);
+
+/*!
+ * \brief getFileContent
+ * \param fileName
+ * \return file's content
+ */
 QString getFileContent(QString fileName);
 
 #endif// JSMETHODS_H
