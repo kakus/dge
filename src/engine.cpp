@@ -63,15 +63,3 @@ void Engine::evaluate(const QString &code)
     emit evaluateResult(result.toString());
 }
 
-void Engine::testTools(const QString& fileName, const QString& functionName) const
-{
-    QScriptValue function;
-
-    function = engine_.globalObject().property("tools").property(fileName).property(functionName);
-
-    if(!function.isFunction())
-        qDebug() << functionName << " is unknown for " << fileName << " script" << endl;
-    else
-        qDebug() << function.call().toString()<< endl;
-
-}

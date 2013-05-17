@@ -44,6 +44,9 @@ void ToolManager::createTool(const QScriptValue& object, QString name)
     tools_.push_back(new Tool(name.remove(name.length()-3,3),this));
     newTool = tools_.back();
 
+    // set icon
+    newTool->setIcon(QIcon("tools/" + object.property("icon").toString()));
+
     qScriptConnect(newTool,SIGNAL(mouseButtonPress(int,int)),
                    object,object.property("mouseButtonPress"));
     qScriptConnect(newTool,SIGNAL(mouseButtonRelease(int,int)),
