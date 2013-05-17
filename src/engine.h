@@ -20,10 +20,12 @@
 
 class Engine : public QObject
 {
+    Q_OBJECT
+
 public:
-    static Engine* getInstance();
-    void testTools(const QString& fileName, const QString& functionName) const;
     ~Engine();
+
+    static Engine* getInstance();
 
     QScriptValue getGlobalObject() const;
     QScriptValue getNewQObject(QObject*);
@@ -39,15 +41,13 @@ signals:
 
 private:
 
-    Q_OBJECT
-
-    QScriptEngine engine_;
+    Engine();
+    Engine(const Engine&);
 
     static Engine* pInstance_;
     static std::mutex mutex_;
 
-    Engine();
-    Engine(const Engine&);
+    QScriptEngine engine_;
 
     friend class Loader;
 };
