@@ -38,9 +38,15 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
 private:
+    /// updates fixtures that are in body, that means their creation, position,
+    /// rotation
+    void updateFixtures(const QBodyDef*);
+
     Ui::Stage *ui;
     QGraphicsScene *scene_;
-    QMap<const QBodyDef*, QGraphicsItem*> bodyMap_;
+    // QMap<const QBodyDef*, QGraphicsItem*> bodyMap_;
+    QMap<const QFixtureDef*, QGraphicsItem*> qGraphicsItemsMap_;
+    QMap<b2BodyType, QColor> bodyColor_;
 };
 
 #endif // STAGE_H

@@ -1,50 +1,50 @@
 var createSampleWorld = function()
 {
-    var f = new FixtureDef,
-        f2 = new FixtureDef,
-        f3 = new FixtureDef,
-        b  = new BodyDef,
-        b2 = new BodyDef,
-        ground = new BodyDef;
+    var boxfix = new FixtureDef
+      , groundFix = new FixtureDef
+      , box;
 
-    f.setAsBox(25, 25);
-    f.density = 1;
-    f2.setAsBox(200, 25);
-    f3.setAsBox(15, 15);
-    f3.density = 1;
+    boxfix.setAsBox(20, 20);
+    boxfix.density = 1;
 
-    b.dynamic = true;
-    b.createFixture(f);
-    b2.dynamic = true;
-    b2.createFixture(f3);
-    b2.x = 35;
-    b2.y = -120;
+    groundFix.setAsBox(100, 10);
 
-    ground.createFixture(f2);
-    ground.y = 100;
+    box = world.createBody(boxfix);
+    box.y -= 100;
+    box.dynamic = true;
 
-    world.addBody(ground);
-    world.addBody(b);
-    world.addBody(b2);
+    box = world.createBody(boxfix);
+    box.y -= 150;
+    box.x = 30
+    box.dynamic = true;
+
+    world.createBody(groundFix);
 }
 
-var box = function(size)
+var box = function(width, height)
 {
-    var b = new BodyDef,
-        f = new FixtureDef;
+    var f = new FixtureDef;
 
-    size = size || 10;
+    width = width || 10;
 
-    f.setAsBox(size, size);
+    if (height === null || height === undefined)
+        f.setAsBox(width, width);
+    else
+        f.setAsBox(width, height);
+
     f.density = 1;
 
-    b.createFixture(f);
-    return b;
+    return world.createBody(f);
 }
 
-var box2 = function()
+var cir = function(size)
 {
-    var b = box();
-    world.addBody(b);
-    return b;
+    var f = new FixtureDef;
+
+    size = size || 30;
+
+    f.setAsCircle(size);
+    f.density = 1;
+
+    return world.createBody(f);
 }

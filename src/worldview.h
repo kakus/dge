@@ -11,13 +11,13 @@ Q_DECLARE_INTERFACE(WorldView, "dge.WorldView/1.0")
 
 /*!
  * \brief Interface for classes that want observe WorldModel.
+ *        Look at stage class for example.
  */
 class WorldView
 {
 public slots:
     virtual void bodyAdded(const QBodyDef*) = 0;
     virtual void bodyRemoved(const QBodyDef*) = 0;
-    virtual void bodyChanged(const QBodyDef*) = 0;
 
 public:
     static void connectToModel(QObject *view, const WorldModel *model)

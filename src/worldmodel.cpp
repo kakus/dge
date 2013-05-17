@@ -6,14 +6,11 @@
 
 WorldModel::WorldModel(QObject *parent)
     : QObject(parent)
-    , simulationThread_(this)
     , world_(nullptr)
+    , simulationThread_(this)
 {
-   simulation_.moveToThread(&simulationThread_);
-   simulationThread_.start();
-
-   connect(&simulation_, &WorldSimulation::updateGraphics,
-           this,         &WorldModel::updateGraphics);
+    simulation_.moveToThread(&simulationThread_);
+    simulationThread_.start();
 }
 
 WorldModel::~WorldModel()
@@ -22,28 +19,15 @@ WorldModel::~WorldModel()
         delete world_;
 }
 
-QLinkedList<QBodyDef*> WorldModel::getBodyList() const
+QBodyDef* WorldModel::createBody(const QFixtureDef *fixtureDef)
 {
-    return bodyList_;
-}
+    QBodyDef *body = new QBodyDef();
+    if (fixtureDef) body->createFixture(fixtureDef);
 
-void WorldModel::addBody(QBodyDef *bodyDef)
-{
-    bodyList_.append(bodyDef);
-    emit bodyAdded(bodyDef);
-}
+    bodyList_.append(body);
+    emit bodyAdded(body);
 
-void WorldModel::addBody(const QScriptValue &value)
-{
-    QObject *obj = value.toQObject();
-    QBodyDef *body = dynamic_cast<QBodyDef*>(obj);
-
-    if (body)
-        addBody(body);
-
-    // TODO this call is because we want to color fixture by its type, but
-    // this call shouldn't be here !
-    syncGraphicsWithModel();
+    return body;
 }
 
 void WorldModel::removeBody(QBodyDef *body)
@@ -51,7 +35,7 @@ void WorldModel::removeBody(QBodyDef *body)
     if (bodyList_.removeOne(body))
     {
         emit bodyRemoved(body);
-        //body->deleteLater();
+        body->deleteLater();
     }
 }
 
@@ -78,18 +62,12 @@ void WorldModel::run(qint32 fps, qreal worldStep)
 void WorldModel::stop()
 {
     //simulationThread_.exit();
-    QMetaObject::invokeMethod(&simulation_, "stop", Qt::QueuedConnection);
-    syncGraphicsWithModel();
-}
 
-// private slot
-void WorldModel::updateGraphics(const b2Body *body, QGraphicsItem *graphics)
-{
-    static const qreal PI = 3.1415926535;
-    // update position
-    graphics->setPos(body->GetWorldCenter().x, body->GetWorldCenter().y);
-    // update rotation
-    graphics->setRotation((body->GetAngle() * 180)/PI);
+    QMetaObject::invokeMethod(&simulation_, "stop", Qt::QueuedConnection);
+
+    // restore all bodies to the state before simulation was started
+    foreach (QBodyDef *bodyDef, bodyList_)
+        bodyDef->restore();
 
 }
 
@@ -98,21 +76,18 @@ void WorldModel::createWorld()
     if (world_) delete world_;
     world_ = new b2World(b2Vec2(0, 10));
 
-    foreach (const QBodyDef *bodyDef, bodyList_)
-    {
-        b2Body *body = world_->CreateBody(bodyDef->getBodyDef());
-        foreach (const QBodyDef::SpQFixtureDef &fixtureDef, *bodyDef->getFixtureList())
-        {
-            b2Fixture *fix = body->CreateFixture(fixtureDef->getFixtureDef());
-            fix->SetUserData(fixtureDef->getGraphicsItem());
-        }
-    }
-}
-
-void WorldModel::syncGraphicsWithModel()
-{
     foreach (QBodyDef *bodyDef, bodyList_)
-        bodyDef->syncGraphics();
+    {
+        // save the current state of object
+        bodyDef->save();
+        // create body
+        b2Body *body = world_->CreateBody(bodyDef->getBodyDef());
+        // save pointer to the object that can be displayed
+        body->SetUserData(bodyDef);
+        // create all fixtures that belong to this body
+        foreach (const QFixtureDef *fixtureDef, *bodyDef->getFixtureList())
+            body->CreateFixture(fixtureDef->getb2FixtureDef());
+    }
 }
 
 //------ WorldSimulation methods ------
@@ -146,25 +121,17 @@ void WorldSimulation::stop()
 
 void WorldSimulation::step()
 {
-    // static int i = 0;
-    //qDebug() << ++i << "world step";
+    if (world_ == nullptr) return;
 
-    if (world_)
+    world_->Step(worldStep_, 10, 10);
+    b2Body *b = world_->GetBodyList();
+    for (; b != nullptr; b = b->GetNext())
     {
-        world_->Step(worldStep_, 10, 10);
-        b2Body *b = world_->GetBodyList();
-        while (b != nullptr)
-        {
-            b2Fixture *f = b->GetFixtureList();
-            while (f != nullptr)
-            {
-                QGraphicsItem* g = static_cast<QGraphicsItem*>(f->GetUserData());
-                if (g)
-                    emit updateGraphics(b, g);
+        QBodyDef* qbody = static_cast<QBodyDef*>(b->GetUserData());
+        if (qbody == nullptr)
+            continue;
 
-                f = f->GetNext();
-            }
-            b = b->GetNext();
-        }
+        qbody->setPosition(b->GetWorldCenter());
+        qbody->setAngle(b->GetAngle());
     }
 }

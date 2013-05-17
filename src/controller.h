@@ -29,6 +29,7 @@ private:
      * It can only be constructed by MainWindow class
      */
     explicit Controller(MainWindow *mainWindow);
+
     /*!
      * \brief Setup engine with all object that are needed to work.
      *  For example: QBodyDef constructor, Console.
@@ -38,10 +39,16 @@ private:
     void createTools();
 
     WorldModel* getActiveModel() const;
+
     /*!
-     * this method is exported to the script engine
+     * return model that is currently being displayed/focused
      */
     static QScriptValue getActiveModel(QScriptContext *context, QScriptEngine *engine);
+
+    /*!
+     * create new body in model
+     */
+    static QScriptValue createBody(QScriptContext *context, QScriptEngine *engine);
 
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;

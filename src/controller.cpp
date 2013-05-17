@@ -10,7 +10,7 @@ QScriptValue scriptConstructor(QScriptContext *context, QScriptEngine *engine)
 {
     QObject *parent = context->argument(0).toQObject();
     T *object = new T(parent);
-    return engine->newQObject(object, QScriptEngine::ScriptOwnership);
+    return engine->newQObject(object, QScriptEngine::QtOwnership);
 }
 
 Controller *Controller::instance_ = nullptr;
@@ -33,13 +33,13 @@ void Controller::initEngine()
     Engine::getInstance()->getGlobalObject().setProperty("console", console);
 
     // Add QBodyDef constructor
-    QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QBodyDef>);
-    QScriptValue qBodyMeta = Engine::getInstance()->
-            getNewQMetaObject(&QObject::staticMetaObject, ctor);
-    Engine::getInstance()->getGlobalObject().setProperty("BodyDef", qBodyMeta);
+    // QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QBodyDef>);
+    // QScriptValue qBodyMeta = Engine::getInstance()->
+    //         getNewQMetaObject(&QObject::staticMetaObject, ctor);
+    // Engine::getInstance()->getGlobalObject().setProperty("BodyDef", qBodyMeta);
 
     // Add QFixtureDef constructor
-    ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QFixtureDef>);
+    QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QFixtureDef>);
     QScriptValue qFixtureMeta = Engine::getInstance()->
             getNewQMetaObject(&QObject::staticMetaObject, ctor);
     Engine::getInstance()->getGlobalObject().setProperty("FixtureDef", qFixtureMeta);
@@ -91,7 +91,32 @@ WorldModel* Controller::getActiveModel() const
 
 QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *engine)
 {
-    return engine->newQObject(instance_->getActiveModel());
+    Q_UNUSED(context);
+
+    if (instance_->getActiveModel() == nullptr)
+        return QScriptValue("Err: There are no active models/projects");
+
+    QScriptValue model = engine->newQObject(instance_->getActiveModel());
+    // add method for creating bodies
+    model.setProperty("createBody", engine->newFunction(&Controller::createBody));
+    return model;
+}
+
+QScriptValue Controller::createBody(QScriptContext *context, QScriptEngine *engine)
+{
+    if (context->argument(0).isUndefined())
+        return QScriptValue('Err: world.createBody take 1 argument ( QFixtureDef )');
+
+    QObject *arg = context->argument(0).toQObject();
+    QFixtureDef *fix = static_cast<QFixtureDef*>(arg);
+
+    if (fix == nullptr)
+        return QScriptValue("Err: world.createBody type of argument isn't QFixtureDef");
+
+    if (instance_->getActiveModel() != nullptr)
+        return engine->newQObject(instance_->getActiveModel()->createBody(fix));
+    else
+        return QScriptValue("Err: There are no active models/projects");
 }
 
 void Controller::createTools(){

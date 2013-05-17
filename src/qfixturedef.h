@@ -4,7 +4,6 @@
 #include <QObject>
 #include <Box2D/Box2D.h>
 #include <QGraphicsItem>
-#include <QSharedPointer>
 
 class QFixtureDef : public QObject
 {
@@ -24,8 +23,7 @@ public:
     explicit QFixtureDef(QObject *parent = 0);
     virtual ~QFixtureDef();
 
-    QGraphicsItem* getGraphicsItem() const { return graphicsItem_; }
-    const b2FixtureDef* getFixtureDef() const { return &fixtureDef_; }
+    const b2FixtureDef* getb2FixtureDef() const { return &fixtureDef_; }
     
     const b2Shape*  getShape() const { return fixtureDef_.shape; }
     //void setShape( const b2Shape*  value ) { fixtureDef_.shape = value; }
@@ -36,27 +34,30 @@ public:
     // void* getUserData() const { return fixtureDef_.userData; }
     // void setUserData( void* value ) { fixtureDef_.userData = value; }
 
-    qreal getFriction() const { return fixtureDef_.friction; }
-    void setFriction( qreal value ) { fixtureDef_.friction = value; }
+    float32 getFriction() const { return fixtureDef_.friction; }
+    void setFriction( float32 value ) { fixtureDef_.friction = value; emit fixtureChanged(this); }
 
-    qreal getRestitution() const { return fixtureDef_.restitution; }
-    void setRestitution( qreal value ) { fixtureDef_.restitution = value; }
+    float32 getRestitution() const { return fixtureDef_.restitution; }
+    void setRestitution( float32 value ) { fixtureDef_.restitution = value; emit fixtureChanged(this); }
 
-    qreal getDensity() const { return fixtureDef_.density; }
-    void setDensity( qreal value ) { fixtureDef_.density = value; }
+    float32 getDensity() const { return fixtureDef_.density; }
+    void setDensity( float32 value ) { fixtureDef_.density = value; emit fixtureChanged(this); }
 
     bool getIsSensor() const { return fixtureDef_.isSensor; }
-    void setIsSensor( bool value ) { fixtureDef_.isSensor = value; }
+    void setIsSensor( bool value ) { fixtureDef_.isSensor = value; emit fixtureChanged(this); }
 
     // b2Filter getFilter() const { return fixtureDef_.filter; }
     // void setFilter( b2Filter value ) { fixtureDef_.filter = value; }
 
+signals:
+    void fixtureChanged(const QFixtureDef*);
+
 public slots:
     void setAsBox(qreal width, qreal height);
+    void setAsCircle(qreal radious);
 
 private:
     b2FixtureDef fixtureDef_;
-    QGraphicsItem *graphicsItem_;
 
     friend class QBodyDef;
 };

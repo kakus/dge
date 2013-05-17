@@ -28,7 +28,7 @@ public:
     );
 
 signals:
-    void updateGraphics(const b2Body*, QGraphicsItem*);
+    void updateBody(QBodyDef*, b2Body*);
 
 public slots:
     void run();
@@ -55,20 +55,20 @@ public:
     explicit WorldModel(QObject *parent = 0);
     virtual ~WorldModel();
 
-    void addBody(QBodyDef*);
     void removeBody(QBodyDef*);
-    QLinkedList<QBodyDef*> getBodyList() const;
+    // QLinkedList<QBodyDef*> getBodyList() const;
 
 signals:
     void bodyAdded(const QBodyDef*);
     void bodyRemoved(const QBodyDef*);
     
 public slots:
+
     /*!
-     * \brief addBody
-     * \param body
+     * \brief createBody
+     * \return
      */
-    void addBody(const QScriptValue& body);
+    QBodyDef* createBody(const QFixtureDef*);
 
     /*!
      * \brief removeBody
@@ -82,32 +82,21 @@ public slots:
      * \param worldStep the time between world step
      */
 
-    void run(qint32 fps = 30, qreal worldStep = 1.0/60.0f);
+    void run(qint32 fps = 30, qreal worldStep = 1.0/30.0f);
 
     /*!
      * \brief stop simulation
      */
     void stop();
 
-private slots:
-    /// update graphics item related to the body, this operation must be in
-    /// main thread, so this object must be running in main thread !!!
-    void updateGraphics(const b2Body*, QGraphicsItem*);
-
 private:
     /// Create b2World from body list
     void createWorld();
-
-    /// after simulation graphics items are synchronized with b2World rather
-    /// than with model, so this function change it.
-    void syncGraphicsWithModel();
 
     b2World *world_;
     QLinkedList<QBodyDef*> bodyList_;
     QThread simulationThread_;
     WorldSimulation simulation_;
-
-    friend class WorldSimulation;
 };
 
 
