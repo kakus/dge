@@ -1,8 +1,13 @@
-var temp, startX, startY;
+(function(tool) {
 
-var icon = "ex_tool.gif";
+// kiedy nie bylo samowykonującej się funkcji to zmienna box przeslaniala mi
+// moja funkcje box, wiec chyba dobra praktyka bylo by branie narzedzi w
+// te samo... funkcje :)
+var box, startX, startY;
 
-function mouseButtonPress(x,y)
+tool.icon = "ex_tool.gif";
+
+tool.mouseButtonPress = function (x,y)
 {
     print("mouseButtonPress1\t" + "x: " + x.toString() + "\ty: "+y.toString());
     var fix = new FixtureDef;
@@ -13,36 +18,35 @@ function mouseButtonPress(x,y)
     fix.setAsBox(0, 0);
     fix.density = 1;
 
-    temp = world.createBody(fix);
-    temp.dynamic = true;
+    box = world.createBody();
+    box.dynamic = true;
 
-    temp.x = x;
-    temp.y = y;
+    box.x = x;
+    box.y = y;
+
+    box.createFixture(fix);
 
     print("created\n");
 }
 
-function mouseButtonRelease(x,y)
+tool.mouseButtonRelease = function(x,y)
 {
     print("mouseButtonRelease1\t" + "x: " + x.toString() + "\ty: "+y.toString());
 }
 
-function mouseMove(x,y)
+tool.mouseMove = function(x,y)
 {
     print("mouseButtonMove1\t" + "x: " + x + "\ty: "+y);
 
-    world.removeBody(temp);
 
-    var fix = new FixtureDef;
+    var fix = box.fixtureList[0];
 
     fix.setAsBox( (Math.abs(startX-x))/2, (Math.abs(startY-y))/2);
     fix.density = 1;
 
-    body = world.createBody(fix);
-    body.dynamic = true;
 
-    body.x = x > startX ? (x-startX)/2 + startX : (startX-x)/2 + startX;
-    body.y = y > startY ? (y-startY)/2 + startY : (startY-y)/2 + startY;
-
-    temp = body;
+    box.x = x > startX ? (x-startX)/2 + startX : (startX-x)/2 + startX;
+    box.y = y > startY ? (y-startY)/2 + startY : (startY-y)/2 + startY;
 }
+
+})(this);

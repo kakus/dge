@@ -5,6 +5,8 @@
 #include <Box2D/Box2D.h>
 #include <QGraphicsItem>
 
+class QBodyDef;
+
 class QFixtureDef : public QObject
 {
     Q_OBJECT
@@ -24,6 +26,12 @@ public:
     virtual ~QFixtureDef();
 
     const b2FixtureDef* getb2FixtureDef() const { return &fixtureDef_; }
+
+    /*!
+     * \brief getOwner
+     * \return return qbodydef which this fixture is attached to.
+     */
+    const QBodyDef* getOwner() const { return owner_; }
     
     const b2Shape*  getShape() const { return fixtureDef_.shape; }
     //void setShape( const b2Shape*  value ) { fixtureDef_.shape = value; }
@@ -58,6 +66,7 @@ public slots:
 
 private:
     b2FixtureDef fixtureDef_;
+    const QBodyDef *owner_;
 
     friend class QBodyDef;
 };

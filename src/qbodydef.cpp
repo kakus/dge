@@ -13,9 +13,16 @@ void QBodyDef::createFixture(const QFixtureDef *fix)
     QFixtureDef *copy = new QFixtureDef();
     copy->fixtureDef_ = fix->fixtureDef_;
     copy->setShape(fix->getShape());
+    copy->owner_ = this;
 
     fixtureList_.append(copy);
     qObjectFixtureList_.append(copy);
+
+    // signal propagation
+    connect(copy, &QFixtureDef::fixtureChanged, this, &QBodyDef::fixtureChanged,
+            Qt::QueuedConnection);
+
+    emit bodyChanged(this);
 }
 
 const QLinkedList<QFixtureDef*>* QBodyDef::getFixtureList() const

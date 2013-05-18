@@ -141,14 +141,12 @@ public:
 
 signals:
     void bodyChanged(const QBodyDef*);
+    void fixtureChanged(const QFixtureDef*);
 
 public slots:
     /*!
      * \brief   Create fixture form given definition. The fixture definition
      *          will be cloned.
-     *
-     * \todo    change world.createbody, so it will be possible to create body
-     *          without fixtureDef
      *
      * \example var f = new FixtureDef; f.setAsBox(10, 10);
      *          var b = world.createBody();

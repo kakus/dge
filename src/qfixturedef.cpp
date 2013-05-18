@@ -2,6 +2,7 @@
 
 QFixtureDef::QFixtureDef(QObject *parent)
     : QObject(parent)
+    , owner_(nullptr)
 {
 }
 

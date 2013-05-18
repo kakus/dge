@@ -105,18 +105,26 @@ QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *
 QScriptValue Controller::createBody(QScriptContext *context, QScriptEngine *engine)
 {
     if (context->argument(0).isUndefined())
-        return QScriptValue('Err: world.createBody take 1 argument ( QFixtureDef )');
+    {
+        return engine->newQObject(instance_->getActiveModel()->createBody());
+    }
 
     QObject *arg = context->argument(0).toQObject();
     QFixtureDef *fix = static_cast<QFixtureDef*>(arg);
 
     if (fix == nullptr)
-        return QScriptValue("Err: world.createBody type of argument isn't QFixtureDef");
+    {
+        engine->evaluate("Err: world.createBody type of argument isn't QFixtureDef");
+        return QScriptValue(QScriptValue::UndefinedValue);
+    }
 
     if (instance_->getActiveModel() != nullptr)
         return engine->newQObject(instance_->getActiveModel()->createBody(fix));
     else
-        return QScriptValue("Err: There are no active models/projects");
+    {
+        engine->evaluate("Err: There are no active models/projects");
+        return QScriptValue(QScriptValue::UndefinedValue);
+    }
 }
 
 void Controller::createTools(){

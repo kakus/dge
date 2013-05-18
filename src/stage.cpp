@@ -13,10 +13,13 @@ Stage::Stage(QWidget *parent) :
     ui->setupUi(this);
     scene_ = new QGraphicsScene(ui->graphicsView);
     scene_->setBackgroundBrush(QBrush(QColor(32, 32, 32)));
+    // todo remove magick numbers and add control of stage size
+    scene_->setSceneRect(-400, -400, 800, 800);
     ui->graphicsView->setScene(scene_);
 
     scene_->installEventFilter(this);
 
+    // here are mappings : object_type -> color
     bodyColor_[b2BodyType::b2_staticBody] = QColor(0, 255, 0);
     bodyColor_[b2BodyType::b2_kinematicBody] = QColor(0, 0, 255);
     bodyColor_[b2BodyType::b2_dynamicBody] = QColor(255, 255, 160);
@@ -30,15 +33,21 @@ Stage::~Stage()
 void Stage::bodyAdded(const QBodyDef *qbody)
 {
     updateFixtures(qbody);
-    connect(qbody, &QBodyDef::bodyChanged,
-            this, &Stage::bodyChanged,
+
+    connect(qbody, &QBodyDef::bodyChanged, this, &Stage::bodyChanged,
+            Qt::QueuedConnection);
+
+    connect(qbody, &QBodyDef::fixtureChanged, this, &Stage::fixtureChanged,
             Qt::QueuedConnection);
 }
 
 void Stage::bodyRemoved(const QBodyDef *qbody)
 {
     foreach (const QFixtureDef *fixture, *qbody->getFixtureList())
+    {
+        disconnect(qbody, &QBodyDef::fixtureChanged, this, &Stage::fixtureChanged);
         scene_->removeItem(qGraphicsItemsMap_[fixture]);
+    }
 
     disconnect(qbody, &QBodyDef::bodyChanged, this, &Stage::bodyChanged);
 }
@@ -46,6 +55,19 @@ void Stage::bodyRemoved(const QBodyDef *qbody)
 void Stage::bodyChanged(const QBodyDef *qbody)
 {
     updateFixtures(qbody);
+}
+
+void Stage::fixtureChanged(const QFixtureDef *qfixture)
+{
+    // we need to remove old fixture from stage and call updateFixtures
+    if (qGraphicsItemsMap_.find(qfixture) != qGraphicsItemsMap_.end())
+    {
+           scene_->removeItem(qGraphicsItemsMap_[qfixture]);
+           // we also delete fixture from map, because if updateFixtures doesn't
+           // find it, it will create new graphics which is what we want.:
+           qGraphicsItemsMap_.remove(qfixture);
+           updateFixtures(qfixture->getOwner());
+    }
 }
 
 bool Stage::eventFilter(QObject *obj, QEvent *evt)
@@ -89,6 +111,7 @@ QGraphicsItem* createQGraphicsItemFromb2Shape(const b2Shape *shape)
         graphicsItem = new QGraphicsPolygonItem(qtPoly);
     } break;
 
+    // todo this do not WORK !
     case b2Shape::e_circle:
     {
         const b2CircleShape *b2Circle = static_cast<const b2CircleShape*>(shape);

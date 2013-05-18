@@ -30,6 +30,11 @@ QBodyDef* WorldModel::createBody(const QFixtureDef *fixtureDef)
     return body;
 }
 
+QBodyDef* WorldModel::createBody()
+{
+    return createBody(nullptr);
+}
+
 void WorldModel::removeBody(QBodyDef *body)
 {
     if (bodyList_.removeOne(body))

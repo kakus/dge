@@ -32,7 +32,9 @@ signals:
 public slots:
     void bodyAdded(const QBodyDef *);
     void bodyRemoved(const QBodyDef *);
+
     void bodyChanged(const QBodyDef *);
+    void fixtureChanged(const QFixtureDef*);
 
 protected:
     bool eventFilter(QObject *, QEvent *);

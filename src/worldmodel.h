@@ -69,6 +69,7 @@ public slots:
      * \return
      */
     QBodyDef* createBody(const QFixtureDef*);
+    QBodyDef* createBody();
 
     /*!
      * \brief removeBody
