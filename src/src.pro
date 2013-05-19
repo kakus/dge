@@ -48,3 +48,4 @@ FORMS    += mainwindow.ui \
     stage.ui
 
 include(../box2d.pri)
+

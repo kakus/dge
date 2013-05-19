@@ -4,7 +4,8 @@ SUBDIRS += \
     src \
     # test
 
-OTHER_FILES += box2d.pri
+OTHER_FILES += box2d.pri \
+    tools/rectangle.js
 
 scripts.path = $$OUT_PWD/src
 scripts.files = scripts
