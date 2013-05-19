@@ -2,6 +2,7 @@
 #define CONSOLE_H
 
 #include <QDockWidget>
+#include <QLinkedList>
 
 namespace Ui {
 class Console;
@@ -39,10 +40,15 @@ signals:
 
 private slots:
     void returnPressed(void);
+
+protected:
+    void keyPressEvent(QKeyEvent *);
     
 private:
     Ui::Console *ui;
     bool echo_;
+    QLinkedList<const QString> commandHistory_;
+    QLinkedList<const QString>::iterator historyIt_;
 };
 
 #endif // CONSOLE_H
