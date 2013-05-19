@@ -7,6 +7,7 @@
 #include <QMainWindow>
 #include <QToolBar>
 #include <QGraphicsSceneMouseEvent>
+#include <QEvent>
 #include <vector>
 #include <mutex>
 #include "tool.h"

@@ -46,7 +46,7 @@ void ToolManager::createTool(const QScriptValue& object, QString name)
 
     // set icon
     newTool->setIcon(QIcon("tools/" + object.property("icon").toString()));
-    newTool->setCheckable(true);
+    newTool->setCheckable(object.property("checkable").toBool());
 
     qScriptConnect(newTool,SIGNAL(mouseButtonPress(int,int)),
                    object,object.property("mouseButtonPress"));
@@ -54,9 +54,13 @@ void ToolManager::createTool(const QScriptValue& object, QString name)
                    object,object.property("mouseButtonRelease"));
     qScriptConnect(newTool,SIGNAL(mouseMove(int,int)),
                    object,object.property("mouseMove"));
+    qScriptConnect(newTool, SIGNAL(triggered()),
+                   object, object.property("buttonClicked"));
 
     QObject::connect(newTool, SIGNAL(triggered()),
                      ToolManager::getInstance(),SLOT(setActiveTool()));
+
+
 }
 
 void ToolManager::redirectEvent(QGraphicsSceneMouseEvent *event)

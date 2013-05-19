@@ -1,10 +1,11 @@
-(function(tool) {
+(function(global) {
 
 var box, startX, startY;
 
-tool.icon = "static_rectangle.jpg";
+global.icon = "static_rectangle.jpg";
+    global.checkable = true;
 
-tool.mouseButtonPress = function (x,y)
+global.mouseButtonPress = function (x,y)
 {
     var fix = new FixtureDef;
 
@@ -21,12 +22,12 @@ tool.mouseButtonPress = function (x,y)
     box.createFixture(fix);
 }
 
-tool.mouseButtonRelease = function(x,y)
+global.mouseButtonRelease = function(x,y)
 {
 
 }
 
-tool.mouseMove = function(x,y)
+global.mouseMove = function(x,y)
 {
     var fix = box.fixtureList[0];
 
