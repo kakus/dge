@@ -26,6 +26,12 @@ public:
     explicit Stage(QWidget *parent = 0);
     ~Stage();
 
+    /*!
+     * \brief  Returns the topmost visible body at the specified position,
+     *         or null if there are no bodies at this position.
+     */
+    const QBodyDef* bodyAt(qreal x, qreal y) const;
+
 signals:
     void mouseEvent(QGraphicsSceneMouseEvent*);
 
@@ -46,7 +52,6 @@ private:
 
     Ui::Stage *ui;
     QGraphicsScene *scene_;
-    // QMap<const QBodyDef*, QGraphicsItem*> bodyMap_;
     QMap<const QFixtureDef*, QGraphicsItem*> qGraphicsItemsMap_;
     QMap<b2BodyType, QColor> bodyColor_;
 };

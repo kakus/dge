@@ -30,6 +30,20 @@ Stage::~Stage()
     delete ui;
 }
 
+const QBodyDef* Stage::bodyAt(qreal x, qreal y) const
+{
+    QGraphicsItem* item = scene_->itemAt(x, y, ui->graphicsView->transform());
+
+    if (item == nullptr)
+        return nullptr;
+
+    const QFixtureDef* fixture = qGraphicsItemsMap_.key(item);
+    if (fixture)
+        return fixture->getOwner();
+    else
+        return nullptr;
+}
+
 void Stage::bodyAdded(const QBodyDef *qbody)
 {
     updateFixtures(qbody);
@@ -60,7 +74,7 @@ void Stage::bodyChanged(const QBodyDef *qbody)
 void Stage::fixtureChanged(const QFixtureDef *qfixture)
 {
     // we need to remove old fixture from stage and call updateFixtures
-    if (qGraphicsItemsMap_.find(qfixture) != qGraphicsItemsMap_.end())
+    if (qGraphicsItemsMap_.contains(qfixture))
     {
            scene_->removeItem(qGraphicsItemsMap_[qfixture]);
            // we also delete fixture from map, because if updateFixtures doesn't
@@ -111,14 +125,13 @@ QGraphicsItem* createQGraphicsItemFromb2Shape(const b2Shape *shape)
         graphicsItem = new QGraphicsPolygonItem(qtPoly);
     } break;
 
-    // todo this do not WORK !
     case b2Shape::e_circle:
     {
         const b2CircleShape *b2Circle = static_cast<const b2CircleShape*>(shape);
-        graphicsItem = new QGraphicsEllipseItem(b2Circle->m_p.x,
-                                                 b2Circle->m_p.y,
-                                                 b2Circle->m_radius,
-                                                 b2Circle->m_radius);
+        graphicsItem = new QGraphicsEllipseItem(b2Circle->m_p.x - b2Circle->m_radius,
+                                                 b2Circle->m_p.y - b2Circle->m_radius,
+                                                 b2Circle->m_radius * 2,
+                                                 b2Circle->m_radius * 2);
     } break;
 
     default:
@@ -137,7 +150,7 @@ void Stage::updateFixtures(const QBodyDef *qbody)
         QGraphicsItem* graphics = nullptr;
         // if fixture doesn't have corespondig graphics item we need to create it
         // and add to the stage
-        if (qGraphicsItemsMap_.find(fixture) == qGraphicsItemsMap_.end())
+        if (qGraphicsItemsMap_.contains(fixture) == false)
         {
             QGraphicsItem* graphics = createQGraphicsItemFromb2Shape(fixture->getShape());
             qGraphicsItemsMap_[fixture] = graphics;
@@ -145,6 +158,9 @@ void Stage::updateFixtures(const QBodyDef *qbody)
         }
 
         // now we can update posiotion and rotation
+        // todo in future we should repace this with a transform matrix
+        // because this is only will be working when just one fixture is attached
+        // to the body
         if (graphics == nullptr) graphics = qGraphicsItemsMap_[fixture];
         // update position
         graphics->setPos(qbody->getPosition().x, qbody->getPosition().y);
