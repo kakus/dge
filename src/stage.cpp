@@ -5,6 +5,8 @@
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QResizeEvent>
+#include <QPen>
+#include <QBrush>
 
 Stage::Stage(QWidget *parent) :
     QWidget(parent),
@@ -158,7 +160,7 @@ void Stage::updateFixtures(const QBodyDef *qbody)
         }
 
         // now we can update posiotion and rotation
-        // todo in future we should repace this with a transform matrix
+        // todo in future we should replace this with a transform matrix
         // because this is only will be working when just one fixture is attached
         // to the body
         if (graphics == nullptr) graphics = qGraphicsItemsMap_[fixture];
@@ -172,13 +174,17 @@ void Stage::updateFixtures(const QBodyDef *qbody)
         QAbstractGraphicsShapeItem *shape =
                 dynamic_cast<QAbstractGraphicsShapeItem*>(graphics);
 
-        if (shape->pen().color() != bodyColor_[qbody->getType()])
-        {
-            QColor brushColor = bodyColor_[qbody->getType()];
-            brushColor.setAlphaF(0.5);
+        QColor color = bodyColor_[qbody->getType()];
+        QPen pen = color;
+        color.setAlphaF(0.5);
+        QBrush brush = color;
 
-            shape->setPen(bodyColor_[qbody->getType()]);
-            shape->setBrush(brushColor);
-        }
+        if (qbody->isSelected())
+            brush.setStyle(Qt::Dense5Pattern);
+        else
+            brush.setStyle(Qt::SolidPattern);
+
+        shape->setBrush(brush);
+        shape->setPen(pen);
     }
 }

@@ -12,6 +12,8 @@ class WorldView;
 class QScriptContext;
 class QScriptValue;
 class QScriptEngine;
+class Stage;
+class QBodyDef;
 
 class Controller : public QObject
 {
@@ -39,6 +41,7 @@ private:
     void createTools();
 
     WorldModel* getActiveModel() const;
+    Stage*      getActiveStage() const;
 
     /*!
      * return model that is currently being displayed/focused
@@ -50,8 +53,14 @@ private:
      */
     static QScriptValue createBody(QScriptContext *context, QScriptEngine *engine);
 
+    /*!
+     * get body under cursor
+     */
+    static QScriptValue getBodyUnderPoint(QScriptContext *context, QScriptEngine *engine);
+
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;
+    QMap<const QBodyDef*, QScriptValue> engineQBodyMap_;
     Loader loader_;
 
     static Controller *instance_;
