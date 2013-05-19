@@ -32,12 +32,6 @@ void Controller::initEngine()
     QScriptValue console = Engine::getInstance()->getNewQObject(mainWindow_->console_);
     Engine::getInstance()->getGlobalObject().setProperty("console", console);
 
-    // Add QBodyDef constructor
-    // QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QBodyDef>);
-    // QScriptValue qBodyMeta = Engine::getInstance()->
-    //         getNewQMetaObject(&QObject::staticMetaObject, ctor);
-    // Engine::getInstance()->getGlobalObject().setProperty("BodyDef", qBodyMeta);
-
     // Add QFixtureDef constructor
     QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QFixtureDef>);
     QScriptValue qFixtureMeta = Engine::getInstance()->
@@ -50,6 +44,8 @@ void Controller::initEngine()
                          Engine::getInstance()->getNewFunction(&Controller::getActiveModel),
                          QScriptValue::PropertyGetter);
 
+
+
     // Connect console to the script engine
     connect(mainWindow_->console_, SIGNAL(command(QString)),
             Engine::getInstance(), SLOT(evaluate(QString)));
@@ -61,6 +57,12 @@ void Controller::initEngine()
 void Controller::loadScripts()
 {
     loader_.loadScripts();
+}
+
+void Controller::createTools()
+{
+    ToolManager::getInstance()->createTools();
+    ToolManager::getInstance()->createToolbar(mainWindow_);
 }
 
 void Controller::createNewProject()
@@ -89,6 +91,13 @@ WorldModel* Controller::getActiveModel() const
     return viewMap_.value(mainWindow_->ui->tabWidget->currentWidget());
 }
 
+Stage* Controller::getActiveStage() const
+{
+    return dynamic_cast<Stage*>(mainWindow_->ui->tabWidget->currentWidget());
+}
+
+// -------- static mehtods --------
+
 QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *engine)
 {
     Q_UNUSED(context);
@@ -99,36 +108,63 @@ QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *
     QScriptValue model = engine->newQObject(instance_->getActiveModel());
     // add method for creating bodies
     model.setProperty("createBody", engine->newFunction(&Controller::createBody));
+    // add method for getting bodies at given point
+    model.setProperty("bodyAt", engine->newFunction(&Controller::getBodyUnderPoint));
     return model;
 }
 
 QScriptValue Controller::createBody(QScriptContext *context, QScriptEngine *engine)
 {
-    if (context->argument(0).isUndefined())
-    {
-        return engine->newQObject(instance_->getActiveModel()->createBody());
-    }
-
-    QObject *arg = context->argument(0).toQObject();
-    QFixtureDef *fix = static_cast<QFixtureDef*>(arg);
-
-    if (fix == nullptr)
-    {
-        engine->evaluate("Err: world.createBody type of argument isn't QFixtureDef");
-        return QScriptValue(QScriptValue::UndefinedValue);
-    }
-
     if (instance_->getActiveModel() != nullptr)
-        return engine->newQObject(instance_->getActiveModel()->createBody(fix));
+    {
+        QBodyDef* qbody =  nullptr;
+
+        if (context->argument(0).isUndefined())
+        {
+            qbody = instance_->getActiveModel()->createBody();
+        }
+        else
+        {
+            QObject *arg = context->argument(0).toQObject();
+            QFixtureDef *fix = dynamic_cast<QFixtureDef*>(arg);
+
+            if (fix == nullptr)
+            {
+                engine->evaluate("console.write('Err: world.createBody type of argument isn't QFixtureDef')");
+                return QScriptValue(QScriptValue::UndefinedValue);
+            }
+
+            qbody = instance_->getActiveModel()->createBody(fix);
+        }
+
+
+        instance_->engineQBodyMap_[qbody] = engine->newQObject(qbody);
+        return instance_->engineQBodyMap_[qbody];
+    }
     else
     {
-        engine->evaluate("Err: There are no active models/projects");
+        engine->evaluate("console.write('Err: There are no active models/projects')");
         return QScriptValue(QScriptValue::UndefinedValue);
     }
 }
 
-void Controller::createTools(){
-    ToolManager::getInstance()->createTools();
-    ToolManager::getInstance()->createToolbar(mainWindow_);
+QScriptValue Controller::getBodyUnderPoint(QScriptContext *context, QScriptEngine *engine)
+{
+    const Stage* stage = instance_->getActiveStage();
+    if (stage == nullptr)
+    {
+        engine->evaluate("console.write('Err: There are no active models/projects')");
+        return QScriptValue(QScriptValue::UndefinedValue);
+    }
 
+    qreal x = context->argument(0).toNumber();
+    qreal y = context->argument(1).toNumber();
+
+    const QBodyDef* qbody = stage->bodyAt(x, y);
+
+    if (qbody != nullptr)
+        return instance_->engineQBodyMap_[qbody];
+    else
+        return QScriptValue(QScriptValue::UndefinedValue);
 }
+

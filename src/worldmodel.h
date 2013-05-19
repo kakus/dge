@@ -58,18 +58,18 @@ public:
     void removeBody(QBodyDef*);
     // QLinkedList<QBodyDef*> getBodyList() const;
 
-signals:
-    void bodyAdded(const QBodyDef*);
-    void bodyRemoved(const QBodyDef*);
-    
-public slots:
-
     /*!
      * \brief createBody
      * \return
      */
     QBodyDef* createBody(const QFixtureDef*);
     QBodyDef* createBody();
+
+signals:
+    void bodyAdded(const QBodyDef*);
+    void bodyRemoved(const QBodyDef*);
+    
+public slots:
 
     /*!
      * \brief removeBody

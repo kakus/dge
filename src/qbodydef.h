@@ -46,6 +46,9 @@ class QBodyDef : public QObject
     Q_PROPERTY(qreal gravityScale READ getGravityScale WRITE setGravityScale )
     Q_PROPERTY(QObjectList fixtureList READ getQObjectFixtureList)
 
+    // Custom property
+    Q_PROPERTY(bool isSelected READ isSelected WRITE setSelected)
+
 public:
     explicit QBodyDef(QObject *parent = 0);
 
@@ -74,9 +77,8 @@ public:
 
     const QLinkedList<QFixtureDef*>* getFixtureList() const;
 
-    // #
     // auto generated code
-    // #
+
     b2BodyType getType() const;
     void setType( b2BodyType value );
 
@@ -134,10 +136,14 @@ public:
     float32 getGravityScale() const;
     void setGravityScale( float32 value );
 
-    QObjectList getQObjectFixtureList() { return qObjectFixtureList_; }
-    // #
     // end auto generated code
-    // #
+
+    // custom properties
+    QObjectList getQObjectFixtureList() { return qObjectFixtureList_; }
+
+    bool isSelected() const;
+    void setSelected(bool value);
+
 
 signals:
     void bodyChanged(const QBodyDef*);
@@ -163,6 +169,7 @@ private:
     QObjectList qObjectFixtureList_;
     b2BodyDef saveState_;
     bool      wasSaved_;
+    bool      isSelected_;
 };
 
 
@@ -318,5 +325,17 @@ inline void QBodyDef::setGravityScale( float32 value ) {
     emit bodyChanged(this);
 }
 
+// custom properties
+
+inline bool QBodyDef::isSelected() const {
+    return isSelected_;
+}
+inline void QBodyDef::setSelected(bool value) {
+    if (value != isSelected_)
+    {
+        isSelected_ = value;
+        emit bodyChanged(this);
+    }
+}
 
 #endif // QBODYDEF_H

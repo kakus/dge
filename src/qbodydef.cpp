@@ -5,6 +5,7 @@
 QBodyDef::QBodyDef(QObject *parent)
     : QObject(parent)
     , wasSaved_(false)
+    , isSelected_(false)
 {
 }
 

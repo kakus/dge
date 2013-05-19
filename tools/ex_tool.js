@@ -31,7 +31,7 @@ tool.mouseButtonPress = function (x,y)
 
 tool.mouseButtonRelease = function(x,y)
 {
-    print("mouseButtonRelease1\t" + "x: " + x.toString() + "\ty: "+y.toString());
+    console.write("mouseButtonRelease1\t" + "x: " + x.toString() + "\ty: "+y.toString());
 }
 
 tool.mouseMove = function(x,y)
