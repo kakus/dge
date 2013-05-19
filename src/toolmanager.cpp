@@ -46,6 +46,7 @@ void ToolManager::createTool(const QScriptValue& object, QString name)
 
     // set icon
     newTool->setIcon(QIcon("tools/" + object.property("icon").toString()));
+    newTool->setCheckable(true);
 
     qScriptConnect(newTool,SIGNAL(mouseButtonPress(int,int)),
                    object,object.property("mouseButtonPress"));
@@ -77,7 +78,10 @@ void ToolManager::redirectEvent(QGraphicsSceneMouseEvent *event)
 
 void ToolManager::setActiveTool()
 {
+    if( activeTool_ != nullptr)
+        activeTool_->setChecked(false);
     activeTool_ = static_cast<Tool*>(QObject::sender());
+    activeTool_->setChecked(true);
     qDebug() << activeTool_->text() << "changed" << endl;
 }
 
