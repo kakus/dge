@@ -68,6 +68,16 @@ void Stage::bodyRemoved(const QBodyDef *qbody)
     disconnect(qbody, &QBodyDef::bodyChanged, this, &Stage::bodyChanged);
 }
 
+void Stage::simulationStart()
+{
+    ui->graphicsView->setEnabled(false);
+}
+
+void Stage::simulationStop()
+{
+    ui->graphicsView->setEnabled(true);
+}
+
 void Stage::bodyChanged(const QBodyDef *qbody)
 {
     updateFixtures(qbody);

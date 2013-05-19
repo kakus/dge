@@ -19,6 +19,9 @@ public slots:
     virtual void bodyAdded(const QBodyDef*) = 0;
     virtual void bodyRemoved(const QBodyDef*) = 0;
 
+    virtual void simulationStart() = 0;
+    virtual void simulationStop() = 0;
+
 public:
     static void connectToModel(QObject *view, const WorldModel *model)
     {
@@ -30,6 +33,12 @@ public:
 
             QObject::connect(model, SIGNAL(bodyRemoved(const QBodyDef*)),
                              view,  SLOT(bodyRemoved(const QBodyDef*)));
+
+            QObject::connect(model, SIGNAL(simulationStart()),
+                             view,  SLOT(simulationStart()));
+
+            QObject::connect(model, SIGNAL(simulationStop()),
+                             view,  SLOT(simulationStop()));
         }
     }
 

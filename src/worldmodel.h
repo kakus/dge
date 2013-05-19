@@ -27,6 +27,8 @@ public:
             qreal worldStep = 1.0/60.0
     );
 
+    bool isRunning() const;
+
 signals:
     void updateBody(QBodyDef*, b2Body*);
 
@@ -65,9 +67,17 @@ public:
     QBodyDef* createBody(const QFixtureDef*);
     QBodyDef* createBody();
 
+    /*!
+     * \brief true if physic simulation is running
+     */
+    bool isSimulationRunning() const;
+
 signals:
     void bodyAdded(const QBodyDef*);
     void bodyRemoved(const QBodyDef*);
+
+    void simulationStart();
+    void simulationStop();
     
 public slots:
 

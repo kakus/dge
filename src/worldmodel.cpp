@@ -15,12 +15,17 @@ WorldModel::WorldModel(QObject *parent)
 
 WorldModel::~WorldModel()
 {
+    simulationThread_.exit();
+
     if (world_)
         delete world_;
 }
 
 QBodyDef* WorldModel::createBody(const QFixtureDef *fixtureDef)
 {
+    if (isSimulationRunning())
+        return nullptr;
+
     QBodyDef *body = new QBodyDef();
     if (fixtureDef) body->createFixture(fixtureDef);
 
@@ -35,8 +40,18 @@ QBodyDef* WorldModel::createBody()
     return createBody(nullptr);
 }
 
+bool WorldModel::isSimulationRunning() const
+{
+    return simulation_.isRunning();
+}
+
+// -------- slots --------
+
 void WorldModel::removeBody(QBodyDef *body)
 {
+    if (isSimulationRunning())
+        return;
+
     if (bodyList_.removeOne(body))
     {
         emit bodyRemoved(body);
@@ -62,18 +77,18 @@ void WorldModel::run(qint32 fps, qreal worldStep)
     createWorld();
     simulation_.setSimulation(world_, fps, worldStep);
     QMetaObject::invokeMethod(&simulation_, "run", Qt::QueuedConnection);
+    emit simulationStart();
 }
 
 void WorldModel::stop()
 {
-    //simulationThread_.exit();
-
     QMetaObject::invokeMethod(&simulation_, "stop", Qt::QueuedConnection);
 
     // restore all bodies to the state before simulation was started
     foreach (QBodyDef *bodyDef, bodyList_)
         bodyDef->restore();
 
+    emit simulationStop();
 }
 
 void WorldModel::createWorld()
@@ -104,6 +119,11 @@ WorldSimulation::WorldSimulation()
 {
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &WorldSimulation::step);
+}
+
+inline bool WorldSimulation::isRunning() const
+{
+    return timer_->isActive();
 }
 
 void WorldSimulation::setSimulation(b2World *world, qint32 fps, qreal worldStep)
