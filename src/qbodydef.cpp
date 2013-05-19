@@ -26,9 +26,9 @@ void QBodyDef::createFixture(const QFixtureDef *fix)
     emit bodyChanged(this);
 }
 
-const QLinkedList<QFixtureDef*>* QBodyDef::getFixtureList() const
+const QLinkedList<QFixtureDef*>& QBodyDef::getFixtureList() const
 {
-    return &fixtureList_;
+    return fixtureList_;
 }
 
 void QBodyDef::save()

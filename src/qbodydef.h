@@ -75,7 +75,7 @@ public:
      */
     void restore();
 
-    const QLinkedList<QFixtureDef*>* getFixtureList() const;
+    const QLinkedList<QFixtureDef*>& getFixtureList() const;
 
     // auto generated code
 
@@ -170,6 +170,8 @@ private:
     b2BodyDef saveState_;
     bool      wasSaved_;
     bool      isSelected_;
+
+    friend class WorldModel;
 };
 
 

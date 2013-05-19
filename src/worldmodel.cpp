@@ -37,7 +37,18 @@ QBodyDef* WorldModel::createBody(const QFixtureDef *fixtureDef)
 
 QBodyDef* WorldModel::createBody()
 {
-    return createBody(nullptr);
+    return createBody(static_cast<QFixtureDef*>(nullptr));
+}
+
+QBodyDef* WorldModel::createBody(const QBodyDef *qbody)
+{
+    QBodyDef* clone = createBody();
+    clone->bodyDef_ = qbody->bodyDef_;
+
+    foreach (const QFixtureDef* fix, qbody->getFixtureList())
+        clone->createFixture(fix);
+
+    return clone;
 }
 
 bool WorldModel::isSimulationRunning() const
@@ -105,7 +116,7 @@ void WorldModel::createWorld()
         // save pointer to the object that can be displayed
         body->SetUserData(bodyDef);
         // create all fixtures that belong to this body
-        foreach (const QFixtureDef *fixtureDef, *bodyDef->getFixtureList())
+        foreach (const QFixtureDef *fixtureDef, bodyDef->getFixtureList())
             body->CreateFixture(fixtureDef->getb2FixtureDef());
     }
 }

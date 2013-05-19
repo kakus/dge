@@ -68,6 +68,11 @@ public:
     QBodyDef* createBody();
 
     /*!
+     * \brief clone body given
+     */
+    QBodyDef* createBody(const QBodyDef*);
+
+    /*!
      * \brief true if physic simulation is running
      */
     bool isSimulationRunning() const;

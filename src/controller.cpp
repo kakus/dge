@@ -115,35 +115,46 @@ QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *
 
 QScriptValue Controller::createBody(QScriptContext *context, QScriptEngine *engine)
 {
-    if (instance_->getActiveModel() != nullptr)
+    if (instance_->getActiveModel() == nullptr)
     {
-        QBodyDef* qbody =  nullptr;
+        engine->evaluate("console.write('Err: There are no active models/projects')");
+        return QScriptValue(QScriptValue::UndefinedValue);
+    }
 
-        if (context->argument(0).isUndefined())
-        {
-            qbody = instance_->getActiveModel()->createBody();
-        }
-        else
-        {
-            QObject *arg = context->argument(0).toQObject();
-            QFixtureDef *fix = dynamic_cast<QFixtureDef*>(arg);
-
-            if (fix == nullptr)
-            {
-                engine->evaluate("console.write('Err: world.createBody type of argument isn't QFixtureDef')");
-                return QScriptValue(QScriptValue::UndefinedValue);
-            }
-
-            qbody = instance_->getActiveModel()->createBody(fix);
-        }
+    QBodyDef* qbody =  nullptr;
+    // if no argument is given, we create body with no fixtures
+    if (context->argument(0).isUndefined())
+        qbody = instance_->getActiveModel()->createBody();
 
 
+    // argument could be qfixtredef or qbodydef
+    QObject *arg = context->argument(0).toQObject();
+    // first we try qfixture, it should be more common cause
+    QFixtureDef *qfixture = dynamic_cast<QFixtureDef*>(arg);
+
+    if (qfixture != nullptr)
+        // argument was a type of qfixturedef
+        qbody = instance_->getActiveModel()->createBody(qfixture);
+    else
+        // else maybe we have a qbodydef as a argument.
+    {
+        QBodyDef *qbodyToClone = dynamic_cast<QBodyDef*>(arg);
+        // if yes then we can clone it
+        if (qbodyToClone != nullptr)
+            qbody = instance_->getActiveModel()->createBody(qbodyToClone);
+    }
+
+    if (qbody != nullptr)
+    {
+        // add to the map, so when we want return this body to the script
+        // engine we don't need to create new qobject
         instance_->engineQBodyMap_[qbody] = engine->newQObject(qbody);
         return instance_->engineQBodyMap_[qbody];
     }
     else
+        // we didn't create qbody so there were errors
     {
-        engine->evaluate("console.write('Err: There are no active models/projects')");
+        engine->evaluate("console.write('Err: world.createBody type of argument isn't QFixtureDef')");
         return QScriptValue(QScriptValue::UndefinedValue);
     }
 }

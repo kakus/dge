@@ -59,7 +59,7 @@ void Stage::bodyAdded(const QBodyDef *qbody)
 
 void Stage::bodyRemoved(const QBodyDef *qbody)
 {
-    foreach (const QFixtureDef *fixture, *qbody->getFixtureList())
+    foreach (const QFixtureDef *fixture, qbody->getFixtureList())
     {
         disconnect(qbody, &QBodyDef::fixtureChanged, this, &Stage::fixtureChanged);
         scene_->removeItem(qGraphicsItemsMap_[fixture]);
@@ -157,7 +157,7 @@ void Stage::updateFixtures(const QBodyDef *qbody)
 {
     static const qreal PI = 3.1415926535;
 
-    foreach (const QFixtureDef *fixture, *qbody->getFixtureList())
+    foreach (const QFixtureDef *fixture, qbody->getFixtureList())
     {
         QGraphicsItem* graphics = nullptr;
         // if fixture doesn't have corespondig graphics item we need to create it
