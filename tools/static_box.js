@@ -1,41 +1,47 @@
-(function(global) {
-
-var box, startX, startY;
-
-global.icon = "static_rectangle.jpg";
-    global.checkable = true;
-
-global.mouseButtonPress = function (x,y)
+(function()
 {
-    var fix = new FixtureDef;
+    var tool = {},
+        body = 0,
+        startX = 0,
+        startY = 0;
 
-    startX = x;
-    startY = y;
+    tool.icon = "static_rectangle.jpg";
+    tool.checkable = true;
 
-    fix.setAsBox(0, 0);
-    fix.density = 1;
+    tool.mouseButtonPress = function (x,y)
+    {
+        var fix = new FixtureDef;
 
-    box = world.createBody();
-    box.static = true;
-    box.x = x;
-    box.y = y;
-    box.createFixture(fix);
-}
+        startX = x;
+        startY = y;
 
-global.mouseButtonRelease = function(x,y)
-{
+        fix.setAsBox(0, 0);
+        fix.density = 1;
 
-}
+        body = world.createBody();
+        body.static = true;
+        body.x = x;
+        body.y = y;
+        body.createFixture(fix);
 
-global.mouseMove = function(x,y)
-{
-    var fix = box.fixtureList[0];
+    }
 
-    fix.setAsBox( ( Math.abs(startX-x) )/2, ( Math.abs(startY-y) )/2);
-    fix.density = 1;
+    tool.mouseMove = function(x,y)
+    {
+        var fix = body.fixtureList[0];
 
-    box.x = x > startX ? (x-startX)/2 + startX : (startX-x)/2 + x;
-    box.y = y > startY ? (y-startY)/2 + startY : (startY-y)/2 + y;
-}
+        fix.setAsBox( ( Math.abs(startX-x) )/2, ( Math.abs(startY-y) )/2);
+        fix.density = 1;
 
-})(this);
+        body.x = x > startX ? (x-startX)/2 + startX : (startX-x)/2 + x;
+        body.y = y > startY ? (y-startY)/2 + startY : (startY-y)/2 + y;
+    }
+
+    tool.mouseButtonRelease = function(x,y)
+    {
+        cmdManager.pushCmd(world, world.removeBody , [body] , undefined , print, ["here should be redo"]);
+    }
+
+    return tool;
+
+})();
