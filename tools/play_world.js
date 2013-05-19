@@ -1,9 +1,15 @@
-(function(global){
-    global.icon = "play_world.jpg"
-    global.checkable = false;
+(function()
+{
+    var tool = {};
 
-    global.buttonClicked = function(){
-        global.world.run();
+    tool.icon = "play_world.jpg"
+    tool.checkable = false;
+
+    tool.buttonClicked = function()
+    {
+        world.run();
     }
 
-})(this);
+    return tool;
+
+})();
