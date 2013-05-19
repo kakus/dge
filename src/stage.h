@@ -48,9 +48,12 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
 private:
+    typedef QPair<QPen, QBrush> BodyColor;
+
     /// updates fixtures that are in body, that means their creation, position,
     /// rotation
     void updateFixtures(const QBodyDef*);
+    BodyColor getBodyColor(const QBodyDef*);
 
     Ui::Stage *ui;
     QGraphicsScene *scene_;
