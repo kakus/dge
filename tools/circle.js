@@ -3,6 +3,7 @@
     var body, startX, startY;
 
     global.icon = "circle.jpg";
+    global.checkable = true;
 
     global.mouseButtonPress = function (x,y)
     {
