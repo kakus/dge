@@ -1,11 +1,11 @@
-(function(tool) {
+(function()
+{
 
-    var body = null
+    var tool = {}
+    , body = null
     , offsetx = 0
     , offsety = 0
     ;
-
-    tool.icon = undefined;
 
     tool.checkable = true;
 
@@ -31,8 +31,6 @@
         }
     }
 
-    tool.buttonClicked = function(){
+    return tool;
 
-    }
-
-})(this);
+})();

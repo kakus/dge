@@ -7,8 +7,9 @@ Loader::Loader()
 
 void Loader::loadScripts()
 {
-    loadToolsScripts();
+
     loadOtherScripts();
+    loadToolsScripts();
 }
 
 void Loader::loadOtherScripts()
@@ -46,7 +47,7 @@ void Loader::loadToolsScripts()
         scriptContent = getFileContent(x.absoluteFilePath());
         result = engine.evaluate(scriptContent);
 
-        tools.setProperty(x.fileName(), copyJSObject(engine.globalObject()));
+        tools.setProperty(x.fileName(), result);
 
         // check if file has correct javascript content
         if(result.isError())
