@@ -25,18 +25,22 @@ void Controller::initEngine()
     Engine::getInstance()->getGlobalObject().setProperty("console", console);
 
     // Add QFixtureDef constructor
-    QScriptValue ctor = Engine::getInstance()->getNewFunction(&Controller::qFixtureDefConstructor);
-    QScriptValue qFixtureMeta = Engine::getInstance()->
-            getNewQMetaObject(&QObject::staticMetaObject, ctor);
-    Engine::getInstance()->getGlobalObject().setProperty("FixtureDef", qFixtureMeta);
+    QScriptValue ctor = Engine::getInstance()->newFunction(&Controller::qFixtureDefConstructor);
+    QScriptValue qMeta = Engine::getInstance()->
+            newQMetaObject(&QObject::staticMetaObject, ctor);
+    Engine::getInstance()->getGlobalObject().setProperty("FixtureDef", qMeta);
+
+    // Add QBodyDef constructor
+    ctor = Engine::getInstance()->newFunction(&Controller::qBodyDefConstructor);
+    qMeta = Engine::getInstance()->
+            newQMetaObject(&QObject::staticMetaObject, ctor);
+    Engine::getInstance()->getGlobalObject().setProperty("BodyDef", qMeta);
 
     // Add active world to the engine
     Engine::getInstance()->getGlobalObject()
             .setProperty("world",
-                         Engine::getInstance()->getNewFunction(&Controller::getActiveModel),
+                         Engine::getInstance()->newFunction(&Controller::getActiveModel),
                          QScriptValue::PropertyGetter);
-
-
 
     // Connect console to the script engine
     connect(mainWindow_->console_, SIGNAL(command(QString)),
@@ -173,7 +177,6 @@ QScriptValue Controller::getBodyUnderPoint(QScriptContext *context, QScriptEngin
 
 QScriptValue Controller::qFixtureDefConstructor(QScriptContext *context, QScriptEngine *engine)
 {
-    // QObject *parent = context->thisObject().toQObject();
     QFixtureDef *qfixture = new QFixtureDef();
 
     if (!context->argument(0).isUndefined())
@@ -186,5 +189,18 @@ QScriptValue Controller::qFixtureDefConstructor(QScriptContext *context, QScript
         }
     }
 
-    return engine->newQObject(qfixture, QScriptEngine::QtOwnership);
- }
+    return engine->newQObject(qfixture, QScriptEngine::ScriptOwnership);
+}
+
+QScriptValue Controller::qBodyDefConstructor(QScriptContext *context, QScriptEngine *engine)
+{
+    QBodyDef* prototype = dynamic_cast<QBodyDef*>(context->argument(0).toQObject());
+    QBodyDef* qbody = nullptr;
+
+    if (prototype != nullptr)
+        qbody = prototype->clone();
+    else
+        qbody = new QBodyDef;
+
+    return engine->newQObject(qbody, QScriptEngine::ScriptOwnership);
+}

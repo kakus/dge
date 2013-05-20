@@ -45,6 +45,16 @@ void QBodyDef::restore()
     emit bodyChanged(this);
 }
 
+QBodyDef* QBodyDef::clone() const
+{
+    QBodyDef *clone = new QBodyDef;
+    clone->bodyDef_ = this->bodyDef_;
+    foreach (const QFixtureDef *fix, fixtureList_)
+        clone->createFixture(fix);
+
+    return clone;
+}
+
 // slot
 void QBodyDef::createFixture(const QScriptValue &fixtureDef)
 {
@@ -54,3 +64,4 @@ void QBodyDef::createFixture(const QScriptValue &fixtureDef)
     if (fix != nullptr)
         createFixture(fix);
 }
+

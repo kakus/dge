@@ -74,6 +74,11 @@ public:
      */
     void restore();
 
+    /*!
+     * \brief clone this object and returning new one
+     */
+    QBodyDef* clone() const;
+
     const QLinkedList<QFixtureDef*>& getFixtureList() const;
 
     // auto generated code

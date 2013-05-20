@@ -63,6 +63,9 @@ private:
      */
     static QScriptValue qFixtureDefConstructor(QScriptContext *context, QScriptEngine *engine);
 
+    /// QBodyDef constructor
+    static QScriptValue qBodyDefConstructor(QScriptContext *context, QScriptEngine *engine);
+
 
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;
