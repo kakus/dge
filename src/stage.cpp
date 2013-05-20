@@ -140,10 +140,17 @@ QGraphicsItem* createQGraphicsItemFromb2Shape(const b2Shape *shape)
     case b2Shape::e_circle:
     {
         const b2CircleShape *b2Circle = static_cast<const b2CircleShape*>(shape);
-        graphicsItem = new QGraphicsEllipseItem(b2Circle->m_p.x - b2Circle->m_radius,
+        QGraphicsItem* elipse = new QGraphicsEllipseItem(b2Circle->m_p.x - b2Circle->m_radius,
                                                  b2Circle->m_p.y - b2Circle->m_radius,
                                                  b2Circle->m_radius * 2,
                                                  b2Circle->m_radius * 2);
+        QGraphicsItem* radious = new QGraphicsLineItem(
+                    b2Circle->m_p.x, b2Circle->m_p.y,
+                    b2Circle->m_p.x + b2Circle->m_radius, b2Circle->m_p.y
+        );
+
+        radious->setParentItem(elipse);
+        graphicsItem = elipse;
     } break;
 
     default:
@@ -180,21 +187,34 @@ void Stage::updateFixtures(const QBodyDef *qbody)
         graphics->setRotation(qbody->getAngle()*180/PI);
 
         // the last thing to update is the colors of the fixtures
-        // we must check if body type was changed and if update color
-        QAbstractGraphicsShapeItem *shape =
-                dynamic_cast<QAbstractGraphicsShapeItem*>(graphics);
+        QAbstractGraphicsShapeItem *shape = dynamic_cast<QAbstractGraphicsShapeItem*>(graphics);
+        if (shape)
+        {
+            BodyColor color = getBodyColor(qbody);
+            shape->setPen(color.first);
+            shape->setBrush(color.second);
 
-        QColor color = bodyColor_[qbody->getType()];
-        QPen pen = color;
-        color.setAlphaF(0.5);
-        QBrush brush = color;
-
-        if (qbody->isSelected())
-            brush.setStyle(Qt::Dense5Pattern);
-        else
-            brush.setStyle(Qt::SolidPattern);
-
-        shape->setBrush(brush);
-        shape->setPen(pen);
+            foreach (QGraphicsItem *item, graphics->childItems())
+            {
+                QGraphicsLineItem *line = dynamic_cast<QGraphicsLineItem*>(item);
+                if (line != nullptr)
+                    line->setPen(color.first);
+            }
+        }
     }
+}
+
+Stage::BodyColor Stage::getBodyColor(const QBodyDef *qbody)
+{
+    QColor color = bodyColor_[qbody->getType()];
+    QPen pen = color;
+    color.setAlphaF(0.5);
+    QBrush brush = color;
+
+    if (qbody->isSelected())
+        brush.setStyle(Qt::Dense5Pattern);
+    else
+        brush.setStyle(Qt::SolidPattern);
+
+    return BodyColor(pen, brush);
 }
