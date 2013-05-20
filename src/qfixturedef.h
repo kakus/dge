@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <Box2D/Box2D.h>
-#include <QGraphicsItem>
 
 class QBodyDef;
 
@@ -25,7 +24,8 @@ public:
     explicit QFixtureDef(QObject *parent = 0);
     virtual ~QFixtureDef();
 
-    const b2FixtureDef* getb2FixtureDef() const { return &fixtureDef_; }
+    // const b2FixtureDef* getb2FixtureDef() const { return &fixtureDef_; }
+    // void setb2FixtureDef(const b2FixtureDef *fixtureDef);
 
     /*!
      * \brief getOwner
@@ -33,29 +33,29 @@ public:
      */
     const QBodyDef* getOwner() const { return owner_; }
     
-    const b2Shape*  getShape() const { return fixtureDef_.shape; }
-    //void setShape( const b2Shape*  value ) { fixtureDef_.shape = value; }
+    const b2Shape*  getShape() const;
     // TODO: for now we handle only polygon and circle
     void setShape( const b2Shape*  value );
 
-    // for now is unused property maybe in future ;)
-    // void* getUserData() const { return fixtureDef_.userData; }
-    // void setUserData( void* value ) { fixtureDef_.userData = value; }
+    void* getUserData() const;
+    void setUserData( void* value );
 
-    float32 getFriction() const { return fixtureDef_.friction; }
-    void setFriction( float32 value ) { fixtureDef_.friction = value; emit fixtureChanged(this); }
+    float32 getFriction() const;
+    void setFriction( float32 value );
 
-    float32 getRestitution() const { return fixtureDef_.restitution; }
-    void setRestitution( float32 value ) { fixtureDef_.restitution = value; emit fixtureChanged(this); }
+    float32 getRestitution() const;
+    void setRestitution( float32 value );
 
-    float32 getDensity() const { return fixtureDef_.density; }
-    void setDensity( float32 value ) { fixtureDef_.density = value; emit fixtureChanged(this); }
+    float32 getDensity() const;
+    void setDensity( float32 value );
 
-    bool getIsSensor() const { return fixtureDef_.isSensor; }
-    void setIsSensor( bool value ) { fixtureDef_.isSensor = value; emit fixtureChanged(this); }
+    bool getIsSensor() const;
+    void setIsSensor( bool value );
 
-    // b2Filter getFilter() const { return fixtureDef_.filter; }
-    // void setFilter( b2Filter value ) { fixtureDef_.filter = value; }
+    // TODO b2Filter
+    // b2Filter getFilter() const;
+    // void setFilter( b2Filter value );
+
 
 signals:
     void fixtureChanged(const QFixtureDef*);
@@ -69,6 +69,64 @@ private:
     const QBodyDef *owner_;
 
     friend class QBodyDef;
+    // for building b2World
+    friend class WorldModel;
+    // for copy constructor
+    friend class Controller;
 };
+
+inline const b2Shape*  QFixtureDef::getShape() const {
+    return fixtureDef_.shape;
+}
+// set shape in cpp file
+
+inline void* QFixtureDef::getUserData() const {
+    return fixtureDef_.userData;
+}
+inline void QFixtureDef::setUserData( void* value ) {
+    fixtureDef_.userData = value;
+    emit fixtureChanged(this);
+}
+
+inline float32 QFixtureDef::getFriction() const {
+    return fixtureDef_.friction;
+}
+inline void QFixtureDef::setFriction( float32 value ) {
+    fixtureDef_.friction = value;
+    emit fixtureChanged(this);
+}
+
+inline float32 QFixtureDef::getRestitution() const {
+    return fixtureDef_.restitution;
+}
+inline void QFixtureDef::setRestitution( float32 value ) {
+    fixtureDef_.restitution = value;
+    emit fixtureChanged(this);
+}
+
+inline float32 QFixtureDef::getDensity() const {
+    return fixtureDef_.density;
+}
+inline void QFixtureDef::setDensity( float32 value ) {
+    fixtureDef_.density = value;
+    emit fixtureChanged(this);
+}
+
+inline bool QFixtureDef::getIsSensor() const {
+    return fixtureDef_.isSensor;
+}
+inline void QFixtureDef::setIsSensor( bool value ) {
+    fixtureDef_.isSensor = value;
+    emit fixtureChanged(this);
+}
+
+// inline b2Filter QFixtureDef::getFilter() const {
+//     return fixtureDef_.filter;
+// }
+// inline void QFixtureDef::setFilter( b2Filter value ) {
+//     fixtureDef_.filter = value;
+//     emit fixtureChanged(this);
+// }
+
 
 #endif // QFIXTUREDEF_H

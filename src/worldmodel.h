@@ -6,7 +6,7 @@
 #include <QSharedPointer>
 #include <QScriptValue>
 #include <QThread>
-
+#include <QTimer>
 #include "qbodydef.h"
 
 class WorldModel;

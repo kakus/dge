@@ -5,14 +5,6 @@
 #include "worldmodel.h"
 #include "engine.h"
 
-template<class T>
-QScriptValue scriptConstructor(QScriptContext *context, QScriptEngine *engine)
-{
-    QObject *parent = context->argument(0).toQObject();
-    T *object = new T(parent);
-    return engine->newQObject(object, QScriptEngine::QtOwnership);
-}
-
 Controller *Controller::instance_ = nullptr;
 
 Controller::Controller(MainWindow *mainWindow) :
@@ -33,7 +25,7 @@ void Controller::initEngine()
     Engine::getInstance()->getGlobalObject().setProperty("console", console);
 
     // Add QFixtureDef constructor
-    QScriptValue ctor = Engine::getInstance()->getNewFunction(scriptConstructor<QFixtureDef>);
+    QScriptValue ctor = Engine::getInstance()->getNewFunction(&Controller::qFixtureDefConstructor);
     QScriptValue qFixtureMeta = Engine::getInstance()->
             getNewQMetaObject(&QObject::staticMetaObject, ctor);
     Engine::getInstance()->getGlobalObject().setProperty("FixtureDef", qFixtureMeta);
@@ -179,3 +171,20 @@ QScriptValue Controller::getBodyUnderPoint(QScriptContext *context, QScriptEngin
         return QScriptValue(QScriptValue::UndefinedValue);
 }
 
+QScriptValue Controller::qFixtureDefConstructor(QScriptContext *context, QScriptEngine *engine)
+{
+    // QObject *parent = context->thisObject().toQObject();
+    QFixtureDef *qfixture = new QFixtureDef();
+
+    if (!context->argument(0).isUndefined())
+    {
+        QFixtureDef *prototype = dynamic_cast<QFixtureDef*>(context->argument(0).toQObject());
+        if (prototype != nullptr)
+        {
+            qfixture->fixtureDef_ = prototype->fixtureDef_;
+            qfixture->setShape(prototype->getShape());
+        }
+    }
+
+    return engine->newQObject(qfixture, QScriptEngine::QtOwnership);
+ }

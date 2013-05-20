@@ -58,6 +58,12 @@ private:
      */
     static QScriptValue getBodyUnderPoint(QScriptContext *context, QScriptEngine *engine);
 
+    /*!
+     * QFixtureDef constructor
+     */
+    static QScriptValue qFixtureDefConstructor(QScriptContext *context, QScriptEngine *engine);
+
+
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;
     QMap<const QBodyDef*, QScriptValue> engineQBodyMap_;

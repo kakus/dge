@@ -16,7 +16,6 @@
  */
 class QBodyDef : public QObject
 {
-
     Q_OBJECT
 
     //Q_PROPERTY(b2BodyType type READ getType WRITE setType )
@@ -44,9 +43,9 @@ class QBodyDef : public QObject
     // currently not avaliable through script engine
     //Q_PROPERTY(void* userData READ getUserData WRITE setUserData )
     Q_PROPERTY(qreal gravityScale READ getGravityScale WRITE setGravityScale )
-    Q_PROPERTY(QObjectList fixtureList READ getQObjectFixtureList)
 
     // Custom property
+    Q_PROPERTY(QObjectList fixtureList READ getQObjectFixtureList)
     Q_PROPERTY(bool isSelected READ isSelected WRITE setSelected)
 
 public:

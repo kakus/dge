@@ -117,7 +117,7 @@ void WorldModel::createWorld()
         body->SetUserData(bodyDef);
         // create all fixtures that belong to this body
         foreach (const QFixtureDef *fixtureDef, bodyDef->getFixtureList())
-            body->CreateFixture(fixtureDef->getb2FixtureDef());
+            body->CreateFixture(&fixtureDef->fixtureDef_);
     }
 }
 
