@@ -27,7 +27,7 @@ ToolManager* ToolManager::getInstance()
 
 void ToolManager::createTools()
 {
-    QScriptValue tools = Engine::getInstance()->getGlobalObject().property("tools");
+    QScriptValue tools = Engine::getInstance()->globalObject().property("tools");
 
     for(QScriptValueIterator it(tools); it.hasNext();)
     {

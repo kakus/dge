@@ -109,6 +109,7 @@ void Stage::fixtureChanged(const QFixtureDef *qfixture)
     if (qGraphicsItemsMap_.contains(qfixture))
     {
            scene_->removeItem(qGraphicsItemsMap_[qfixture]);
+           delete qGraphicsItemsMap_[qfixture];
            // we also delete fixture from map, because if updateFixtures doesn't
            // find it, it will create new graphics which is what we want.:
            qGraphicsItemsMap_.remove(qfixture);
@@ -216,8 +217,10 @@ QGraphicsItem* createQGraphicsItemFromb2Shape(const b2Shape *shape)
 QRectF getAABB(const QGraphicsItem* item)
 {
     QRectF aabb(item->sceneBoundingRect());
-    aabb.setWidth(aabb.width() + 1);
-    aabb.setHeight(aabb.height() + 1);
+    aabb.setWidth(aabb.width() + 2);
+    aabb.setHeight(aabb.height() + 2);
+    aabb.setLeft(aabb.left()-1);
+    aabb.setTop(aabb.top()-1);
     return aabb;
 }
 

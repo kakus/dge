@@ -32,6 +32,7 @@ public:
     const QBodyDef* getOwner() const { return owner_; }
 
     /// function that can be accesed from qscript
+    /// and are well defined in script api doc.
     Q_INVOKABLE int getShapeType() const;
     Q_INVOKABLE QVariantList getShapeData() const;
     

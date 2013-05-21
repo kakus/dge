@@ -21,23 +21,23 @@ Controller::Controller(MainWindow *mainWindow) :
 void Controller::initEngine()
 {
     // Add console to script engine, so user can write on console
-    QScriptValue console = Engine::getInstance()->getNewQObject(mainWindow_->console_);
-    Engine::getInstance()->getGlobalObject().setProperty("console", console);
+    QScriptValue console = Engine::getInstance()->newQObject(mainWindow_->console_);
+    Engine::getInstance()->globalObject().setProperty("console", console);
 
     // Add QFixtureDef constructor
     QScriptValue ctor = Engine::getInstance()->newFunction(&Controller::qFixtureDefConstructor);
     QScriptValue qMeta = Engine::getInstance()->
             newQMetaObject(&QObject::staticMetaObject, ctor);
-    Engine::getInstance()->getGlobalObject().setProperty("FixtureDef", qMeta);
+    Engine::getInstance()->globalObject().setProperty("FixtureDef", qMeta);
 
     // Add QBodyDef constructor
     ctor = Engine::getInstance()->newFunction(&Controller::qBodyDefConstructor);
     qMeta = Engine::getInstance()->
             newQMetaObject(&QObject::staticMetaObject, ctor);
-    Engine::getInstance()->getGlobalObject().setProperty("BodyDef", qMeta);
+    Engine::getInstance()->globalObject().setProperty("BodyDef", qMeta);
 
     // Add active world to the engine
-    Engine::getInstance()->getGlobalObject()
+    Engine::getInstance()->globalObject()
             .setProperty("world",
                          Engine::getInstance()->newFunction(&Controller::getActiveModel),
                          QScriptValue::PropertyGetter);

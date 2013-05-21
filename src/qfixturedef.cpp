@@ -58,7 +58,12 @@ void QFixtureDef::setShape(const b2Shape *value)
         case b2Shape::e_polygon:
         {
             const b2PolygonShape *b2Poly = static_cast<const b2PolygonShape*>(value);
-            if (b2Poly) fixtureDef_.shape = new b2PolygonShape(*b2Poly);
+            if (b2Poly)
+            {
+                if (fixtureDef_.shape)
+                    delete fixtureDef_.shape;
+                fixtureDef_.shape = new b2PolygonShape(*b2Poly);
+            }
             emit fixtureChanged(this);
 
         } break;
@@ -66,7 +71,12 @@ void QFixtureDef::setShape(const b2Shape *value)
         case b2Shape::e_circle:
         {
             const b2CircleShape *b2Circle = static_cast<const b2CircleShape*>(value);
-            if (b2Circle) fixtureDef_.shape = new b2CircleShape(*b2Circle);
+            if (b2Circle)
+            {
+                if (fixtureDef_.shape)
+                    delete fixtureDef_.shape;
+                fixtureDef_.shape = new b2CircleShape(*b2Circle);
+            }
             emit fixtureChanged(this);
 
         } break;
