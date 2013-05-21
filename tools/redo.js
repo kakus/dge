@@ -5,7 +5,7 @@
             startX = 0,
             startY = 0;
 
-    tool.icon = "undo.jpg";
+    tool.icon = "redo.png";
     tool.checkable = false;
 
     tool.buttonClicked = function()

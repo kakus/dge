@@ -8,6 +8,7 @@
     ;
 
     tool.checkable = true;
+    tool.icon = "select_tool.jpg";
 
     tool.mouseButtonPress = function (x,y)
     {

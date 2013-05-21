@@ -2,7 +2,7 @@
 {
     var tool = {};
 
-    tool.icon = "play_world.jpg"
+    tool.icon = "play_world.png"
     tool.checkable = false;
 
     tool.buttonClicked = function()

@@ -8,6 +8,7 @@
 #include <QToolBar>
 #include <QGraphicsSceneMouseEvent>
 #include <QEvent>
+#include <QKeySequence>
 #include <vector>
 #include <mutex>
 #include "tool.h"

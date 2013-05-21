@@ -5,7 +5,7 @@
         startX = 0,
         startY = 0;
 
-    tool.icon = "static_rectangle.jpg";
+    tool.icon = "static_rectangle.png";
     tool.checkable = true;
 
     tool.mouseButtonPress = function (x,y)
@@ -37,9 +37,30 @@
         body.y = y > startY ? (y-startY)/2 + startY : (startY-y)/2 + y;
     }
 
-    tool.mouseButtonRelease = function(x,y)
+    tool.mouseButtonRelease = function(x, y)
     {
-        cmdManager.pushCmd(world, world.removeBody , [body] , undefined , print, ["here should be redo"]);
+        var bodyCopy = new BodyDef(body);
+        world.removeBody(body);
+
+        cmdManager.pushCmd(
+                        (function(){
+                            var currentBody = null;
+                            var bodyTemplate = new BodyDef(bodyCopy);
+
+                            return{
+                                exec: function()
+                                {
+                                   currentBody = world.createBody(bodyTemplate);
+                                },
+
+                                undo: function()
+                                {
+                                    world.removeBody(currentBody);
+                                }
+                            }
+                        })()
+
+        );
     }
 
     return tool;
