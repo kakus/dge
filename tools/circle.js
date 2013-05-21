@@ -7,6 +7,7 @@
 
     tool.icon = "circle.png";
     tool.checkable = true;
+    tool.positionOnToolbar = 2;
 
     tool.mouseButtonPress = function (x,y)
     {
@@ -27,13 +28,10 @@
 
     tool.mouseButtonRelease = function(x, y)
     {
-        var bodyCopy = new BodyDef(body);
-        world.removeBody(body);
-
         cmdManager.pushCmd(
                         (function(){
                             var currentBody = null;
-                            var bodyTemplate = new BodyDef(bodyCopy);
+                            var bodyTemplate = new BodyDef(body);
 
                             return{
                                 exec: function()
@@ -47,6 +45,8 @@
                                 }
                             }
         })());
+
+        world.removeBody(body);
     }
 
     tool.mouseMove = function(x,y)

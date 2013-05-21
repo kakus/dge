@@ -7,6 +7,7 @@
 
     tool.icon = "undo.jpg";
     tool.checkable = false;
+     tool.positionOnToolbar = 0;
 
     tool.buttonClicked = function()
     {

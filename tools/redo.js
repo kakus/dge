@@ -7,6 +7,7 @@
 
     tool.icon = "redo.png";
     tool.checkable = false;
+     tool.positionOnToolbar = 1;
 
     tool.buttonClicked = function()
     {

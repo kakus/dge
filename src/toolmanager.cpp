@@ -40,15 +40,18 @@ void ToolManager::createTools()
 void ToolManager::createTool(const QScriptValue& object, QString name)
 {
     Tool* newTool;
+    QScriptValue val;
 
     tools_.push_back(new Tool(name.remove(name.length()-3,3),this));
     newTool = tools_.back();
-
 
     // set icon
     newTool->setIcon(QIcon::fromTheme(object.property("icon").toString(),
                                       QIcon("tools/" + object.property("icon").toString())));
     newTool->setCheckable(object.property("checkable").toBool());
+    val = (object.property("positionOnToolbar"));
+    if(val.isNumber())
+        newTool->setPosition(val.toInt32());
 
     qScriptConnect(newTool,SIGNAL(mouseButtonPress(int,int)),
                    object,object.property("mouseButtonPress"));
@@ -86,16 +89,17 @@ void ToolManager::setActiveTool()
 {
     if( activeTool_ != nullptr)
         activeTool_->setChecked(false);
+
     activeTool_ = static_cast<Tool*>(QObject::sender());
     activeTool_->setChecked(true);
-    qDebug() << activeTool_->text() << "changed" << endl;
 }
 
 void ToolManager::createToolbar(QMainWindow *window){
 
     QToolBar* toolbar = window->addToolBar("Toolbar");
 
+    qSort(tools_.begin(),tools_.end(),isLessThen);
+
     foreach(Tool* x, tools_)
         toolbar->addAction(x);
-
 }

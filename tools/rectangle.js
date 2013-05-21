@@ -7,6 +7,7 @@
 
     tool.icon = "rectangle.png";
     tool.checkable = true;
+     tool.positionOnToolbar = 3;
 
     tool.mouseButtonPress = function (x,y)
     {
@@ -39,13 +40,10 @@
 
     tool.mouseButtonRelease = function(x, y)
     {
-        var bodyCopy = new BodyDef(body);
-        world.removeBody(body);
-
         cmdManager.pushCmd(
                         (function(){
                             var currentBody = null;
-                            var bodyTemplate = new BodyDef(bodyCopy);
+                            var bodyTemplate = new BodyDef(body);
 
                             return{
                                 exec: function()
@@ -58,9 +56,9 @@
                                     world.removeBody(currentBody);
                                 }
                             }
-                        })()
+        })());
 
-        );
+        world.removeBody(body);
     }
 
     return tool;
