@@ -1,0 +1,112 @@
+{
+    "project": {},
+    "files": {
+        "scripts/FixtureDef.api": {
+            "name": "scripts/FixtureDef.api",
+            "modules": {
+                "core": 1
+            },
+            "classes": {
+                "FixtureDef": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "core": {
+            "name": "core",
+            "submodules": {},
+            "classes": {
+                "FixtureDef": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "scripts/FixtureDef.api",
+            "line": 5
+        }
+    },
+    "classes": {
+        "FixtureDef": {
+            "name": "FixtureDef",
+            "shortname": "FixtureDef",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "scripts/FixtureDef.api",
+            "line": 5,
+            "description": "A fixture is used to attach a shape to a body for collision detection. A\nfixture inherits its transform from its parent (BodyDef). Fixtures hold additional\nnon-geometric data / such as friction, collision filters, etc. Fixtures are\nattached to BodyDef by calling BodyDef::createFixture(fixtureDef).",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 16,
+            "description": "This method return shape id. Which means what kind of data we are supouse to\nget from getShapeData method. Here is id map:\n\n    0 : circle\n    1 : edge       #currently not supported\n    2 : polygon\n    3 : chain      #currently not supported",
+            "example": [
+                "\n    var f = new FixtureDef;\n    f.setAsBox(100, 100);\n    f.getShapeType() # should return 2\n\nFor more information see getShapeData"
+            ],
+            "itemtype": "method",
+            "name": "getShapeType",
+            "return": {
+                "description": "shape id",
+                "type": "Int"
+            },
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 37,
+            "description": "This method return array of doubles. You can find out what this numbers\nrepresent by calling function getShapeType. Here are documentation what you\nwill get in array according to shape id.\n\n`Remember all the coordinates are relavtie to the body position !`\n\n    0 : circle\n    [ center.x, center.y, radious ]\n\n    2 : polygon\n    [ vertex1.x, vertex1.y, vertex2.x, vertex2.y , .... ]\n\n    # currently more types are not supported",
+            "example": [
+                "\n    \n    var f = new FixtureDef;\n    f.setAsCircle(30);\n    f.getShapeType() # should return 0\n    var data = f.getShapeData();\n    var circle = {\n      pos: {\n         x: data[0],\n         y: data[1]\n      },\n      radious: data[3]\n    };"
+            ],
+            "itemtype": "method",
+            "name": "getShapeData",
+            "return": {
+                "description": "return array of data",
+                "type": "Array"
+            },
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 71,
+            "description": "The friction coefficient, usually in the range [0,1].",
+            "itemtype": "property",
+            "name": "friction",
+            "type": "Number",
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 77,
+            "description": "The density, usually in kg/m^2.",
+            "itemtype": "property",
+            "name": "density",
+            "type": "Number",
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 83,
+            "description": "The restitution (elasticity) usually in the range [0,1].",
+            "itemtype": "property",
+            "name": "restitution",
+            "type": "Number",
+            "class": "FixtureDef",
+            "module": "core"
+        }
+    ],
+    "warnings": []
+}

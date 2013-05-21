@@ -2,6 +2,7 @@
 #define QFIXTUREDEF_H
 
 #include <QObject>
+#include <QVariant>
 #include <Box2D/Box2D.h>
 
 class QBodyDef;
@@ -24,14 +25,15 @@ public:
     explicit QFixtureDef(QObject *parent = 0);
     virtual ~QFixtureDef();
 
-    // const b2FixtureDef* getb2FixtureDef() const { return &fixtureDef_; }
-    // void setb2FixtureDef(const b2FixtureDef *fixtureDef);
-
     /*!
      * \brief getOwner
      * \return return qbodydef which this fixture is attached to.
      */
     const QBodyDef* getOwner() const { return owner_; }
+
+    /// function that can be accesed from qscript
+    Q_INVOKABLE int getShapeType() const;
+    Q_INVOKABLE QVariantList getShapeData() const;
     
     const b2Shape*  getShape() const;
     // TODO: for now we handle only polygon and circle
