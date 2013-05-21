@@ -32,6 +32,13 @@ public:
      */
     const QBodyDef* bodyAt(qreal x, qreal y) const;
 
+    /*!
+     * \brief getBodiesAt
+     * \param area
+     * \return
+     */
+    QList<const QBodyDef*> getBodiesAt(QRectF area) const;
+
 signals:
     void mouseEvent(QGraphicsSceneMouseEvent*);
 
@@ -43,6 +50,14 @@ public slots:
 
     void bodyChanged(const QBodyDef *);
     void fixtureChanged(const QFixtureDef*);
+
+    void setSelection(QRectF area);
+    void setSelection(qreal x1, qreal y1, qreal width, qreal height);
+    void clearSelection();
+
+    void zoomIn();
+    void zoomOut();
+    void resetZoom();
 
 protected:
     bool eventFilter(QObject *, QEvent *);
@@ -59,6 +74,8 @@ private:
     QGraphicsScene *scene_;
     QMap<const QFixtureDef*, QGraphicsItem*> qGraphicsItemsMap_;
     QMap<b2BodyType, QColor> bodyColor_;
+    QMap<const QBodyDef*, QGraphicsRectItem*> aabb_;
+    QGraphicsRectItem selectionArea_;
 };
 
 #endif // STAGE_H

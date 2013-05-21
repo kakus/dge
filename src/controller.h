@@ -59,6 +59,11 @@ private:
     static QScriptValue getBodyUnderPoint(QScriptContext *context, QScriptEngine *engine);
 
     /*!
+     * get bodies in given area
+     */
+    static QScriptValue getBodiesInArea(QScriptContext *context, QScriptEngine *engine);
+
+    /*!
      * QFixtureDef constructor
      */
     static QScriptValue qFixtureDefConstructor(QScriptContext *context, QScriptEngine *engine);

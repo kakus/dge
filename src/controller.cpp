@@ -106,6 +106,8 @@ QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *
     model.setProperty("createBody", engine->newFunction(&Controller::createBody));
     // add method for getting bodies at given point
     model.setProperty("bodyAt", engine->newFunction(&Controller::getBodyUnderPoint));
+    model.setProperty("bodiesAt", engine->newFunction(&Controller::getBodiesInArea));
+    model.setProperty("stage", engine->newQObject(instance_->getActiveStage()));
     return model;
 }
 
@@ -173,6 +175,23 @@ QScriptValue Controller::getBodyUnderPoint(QScriptContext *context, QScriptEngin
         return instance_->engineQBodyMap_[qbody];
     else
         return QScriptValue(QScriptValue::UndefinedValue);
+}
+
+QScriptValue Controller::getBodiesInArea(QScriptContext *context, QScriptEngine *engine)
+{
+    const Stage* stage = instance_->getActiveStage();
+    if (stage == nullptr) return QScriptValue(QScriptValue::UndefinedValue);
+
+    qreal x1 = context->argument(0).toNumber(),
+          y1 = context->argument(1).toNumber(),
+          x2 = context->argument(2).toNumber(),
+          y2 = context->argument(3).toNumber();
+
+    QObjectList bodies;
+    foreach (const QBodyDef* qbody, stage->getBodiesAt(QRectF(x1, y1, x2, y2)))
+        bodies.push_back(instance_->engineQBodyMap_[qbody].toQObject());
+
+    return qScriptValueFromSequence(engine, bodies);
 }
 
 QScriptValue Controller::qFixtureDefConstructor(QScriptContext *context, QScriptEngine *engine)

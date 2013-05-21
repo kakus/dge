@@ -21,6 +21,15 @@ Stage::Stage(QWidget *parent) :
 
     scene_->installEventFilter(this);
 
+    // area selection
+    selectionArea_.setVisible(false);
+    QColor highlight = QApplication::palette().highlight().color();
+    QPen pen(QBrush(highlight), 2, Qt::DotLine);
+    selectionArea_.setPen(pen);
+    highlight.setAlphaF(0.3);
+    selectionArea_.setBrush(highlight);
+    scene_->addItem(&selectionArea_);
+
     // here are mappings : object_type -> color
     bodyColor_[b2BodyType::b2_staticBody] = QColor(0, 255, 0);
     bodyColor_[b2BodyType::b2_kinematicBody] = QColor(0, 0, 255);
@@ -44,6 +53,17 @@ const QBodyDef* Stage::bodyAt(qreal x, qreal y) const
         return fixture->getOwner();
     else
         return nullptr;
+}
+
+QList<const QBodyDef*> Stage::getBodiesAt(QRectF area) const
+{
+    QList<const QBodyDef*> bodies;
+    foreach (QGraphicsItem* item, scene_->items(area))
+    {
+        if (qGraphicsItemsMap_.key(item) != nullptr)
+            bodies.push_back(qGraphicsItemsMap_.key(item)->getOwner());
+    }
+    return bodies;
 }
 
 void Stage::bodyAdded(const QBodyDef *qbody)
@@ -94,6 +114,38 @@ void Stage::fixtureChanged(const QFixtureDef *qfixture)
            qGraphicsItemsMap_.remove(qfixture);
            updateFixtures(qfixture->getOwner());
     }
+}
+
+void Stage::setSelection(QRectF area)
+{
+    selectionArea_.setRect(area);
+    selectionArea_.setVisible(true);
+}
+
+void Stage::setSelection(qreal x1, qreal y1, qreal width, qreal height)
+{
+    setSelection(QRectF(x1, y1, width, height));
+}
+
+void Stage::clearSelection()
+{
+    selectionArea_.setVisible(false);
+}
+
+
+void Stage::zoomIn()
+{
+    ui->graphicsView->scale(2, 2);
+}
+
+void Stage::zoomOut()
+{
+    ui->graphicsView->scale(0.5, 0.5);
+}
+
+void Stage::resetZoom()
+{
+    ui->graphicsView->setTransform(QTransform());
 }
 
 bool Stage::eventFilter(QObject *obj, QEvent *evt)
@@ -160,6 +212,15 @@ QGraphicsItem* createQGraphicsItemFromb2Shape(const b2Shape *shape)
     return graphicsItem;
 }
 
+// resizes the item aabb so there will be no overlapping
+QRectF getAABB(const QGraphicsItem* item)
+{
+    QRectF aabb(item->sceneBoundingRect());
+    aabb.setWidth(aabb.width() + 1);
+    aabb.setHeight(aabb.height() + 1);
+    return aabb;
+}
+
 void Stage::updateFixtures(const QBodyDef *qbody)
 {
     static const qreal PI = 3.1415926535;
@@ -200,6 +261,26 @@ void Stage::updateFixtures(const QBodyDef *qbody)
                 if (line != nullptr)
                     line->setPen(color.first);
             }
+
+            // update aabb of selected items
+            if (qbody->isSelected() && !aabb_.contains(qbody))
+            {
+                QGraphicsRectItem *aabb = new QGraphicsRectItem(getAABB(shape));
+                aabb->setPen(QPen(QApplication::palette().midlight(), 1, Qt::DashLine));
+                aabb->setZValue(-100);
+                scene_->addItem(aabb);
+                aabb_[qbody] = aabb;
+            }
+            else if(qbody->isSelected() && aabb_.contains(qbody))
+            {
+                aabb_[qbody]->setRect(getAABB(shape));
+            }
+            else if (!qbody->isSelected() && aabb_.contains(qbody))
+            {
+                scene_->removeItem(aabb_[qbody]);
+                delete aabb_[qbody];
+                aabb_.remove(qbody);
+            }
         }
     }
 }
@@ -212,7 +293,7 @@ Stage::BodyColor Stage::getBodyColor(const QBodyDef *qbody)
     QBrush brush = color;
 
     if (qbody->isSelected())
-        brush.setStyle(Qt::Dense5Pattern);
+        brush.setStyle(Qt::FDiagPattern);
     else
         brush.setStyle(Qt::SolidPattern);
 
