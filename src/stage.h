@@ -55,6 +55,10 @@ public slots:
     void setSelection(qreal x1, qreal y1, qreal width, qreal height);
     void clearSelection();
 
+    void zoomIn();
+    void zoomOut();
+    void resetZoom();
+
 protected:
     bool eventFilter(QObject *, QEvent *);
 

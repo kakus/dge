@@ -14,6 +14,7 @@
     , SELECTION_MODE = false
     ;
 
+    tool.icon = "input-mouse";
     tool.checkable = true;
 
     tool.mouseButtonPress = function (x,y)

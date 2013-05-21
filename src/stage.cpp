@@ -132,6 +132,22 @@ void Stage::clearSelection()
     selectionArea_.setVisible(false);
 }
 
+
+void Stage::zoomIn()
+{
+    ui->graphicsView->scale(2, 2);
+}
+
+void Stage::zoomOut()
+{
+    ui->graphicsView->scale(0.5, 0.5);
+}
+
+void Stage::resetZoom()
+{
+    ui->graphicsView->setTransform(QTransform());
+}
+
 bool Stage::eventFilter(QObject *obj, QEvent *evt)
 {
     if (obj != scene_) return false;
@@ -250,7 +266,7 @@ void Stage::updateFixtures(const QBodyDef *qbody)
             if (qbody->isSelected() && !aabb_.contains(qbody))
             {
                 QGraphicsRectItem *aabb = new QGraphicsRectItem(getAABB(shape));
-                aabb->setPen(QPen(QBrush(Qt::red), 1, Qt::DashLine));
+                aabb->setPen(QPen(QApplication::palette().midlight(), 1, Qt::DashLine));
                 aabb->setZValue(-100);
                 scene_->addItem(aabb);
                 aabb_[qbody] = aabb;
@@ -277,7 +293,7 @@ Stage::BodyColor Stage::getBodyColor(const QBodyDef *qbody)
     QBrush brush = color;
 
     if (qbody->isSelected())
-        brush.setStyle(Qt::Dense5Pattern);
+        brush.setStyle(Qt::FDiagPattern);
     else
         brush.setStyle(Qt::SolidPattern);
 
