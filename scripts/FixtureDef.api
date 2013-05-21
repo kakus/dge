@@ -1,0 +1,87 @@
+/**
+ * @module core
+ */
+
+/**
+ * A fixture is used to attach a shape to a body for collision detection. A
+ * fixture inherits its transform from its parent (BodyDef). Fixtures hold additional
+ * non-geometric data / such as friction, collision filters, etc. Fixtures are
+ * attached to BodyDef by calling BodyDef::createFixture(fixtureDef).
+ *
+ * @class FixtureDef
+ * @constructor
+ */
+function FixtureDef( fixtureDef ) {}
+
+/**
+ * This method return shape id. Which means what kind of data we are supouse to
+ * get from getShapeData method. Here is id map:
+ *
+ *     0 : circle
+ *     1 : edge       #currently not supported
+ *     2 : polygon
+ *     3 : chain      #currently not supported
+ *
+ * @example
+ *     var f = new FixtureDef;
+ *     f.setAsBox(100, 100);
+ *     f.getShapeType() # should return 2
+ *
+ * For more information see getShapeData
+ *
+ * @method getShapeType
+ * @return {int} shape id
+ */
+FixtureDef.prototype.getShapeType = function() {};
+
+/**
+ * This method return array of doubles. You can find out what this numbers
+ * represent by calling function getShapeType. Here are documentation what you
+ * will get in array according to shape id.
+ *
+ * `Remember all the coordinates are relavtie to the body position !`
+ *
+ *     0 : circle
+ *     [ center.x, center.y, radious ]
+ *
+ *     2 : polygon
+ *     [ vertex1.x, vertex1.y, vertex2.x, vertex2.y , .... ]
+ *
+ *     # currently more types are not supported
+ *
+ * @example
+ *     
+ *     var f = new FixtureDef;
+ *     f.setAsCircle(30);
+ *     f.getShapeType() # should return 0
+ *     var data = f.getShapeData();
+ *     var circle = {
+ *       pos: {
+ *          x: data[0],
+ *          y: data[1]
+ *       },
+ *       radious: data[3]
+ *     };
+ *
+ * @method getShapeData
+ * @return {Array} return array of data
+ */
+FixtureDef.prototype.getShapeData = function() {};
+
+/**
+ * The friction coefficient, usually in the range [0,1].
+ * @property friction
+ * @type Number
+ */
+
+/**
+ * The density, usually in kg/m^2.
+ * @property density
+ * @type Number
+ */
+
+/**
+ * The restitution (elasticity) usually in the range [0,1].
+ * @property restitution
+ * @type Number
+ */
