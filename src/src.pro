@@ -48,3 +48,8 @@ FORMS    += mainwindow.ui \
     stage.ui
 
 include(../box2d.pri)
+
+OTHER_FILES += \
+    ../tools/stop_world.js \
+    ../tools/static_circle.js
+

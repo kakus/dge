@@ -5,9 +5,9 @@
         startX = 0,
         startY = 0;
 
-    tool.icon = "static_rectangle.png";
+    tool.icon = "static_box.png";
     tool.checkable = true;
-     tool.positionOnToolbar = 4;
+     tool.positionOnToolbar = 5;
 
     tool.mouseButtonPress = function (x,y)
     {

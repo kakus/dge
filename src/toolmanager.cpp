@@ -16,10 +16,8 @@ ToolManager* ToolManager::getInstance()
 {
     if(!ToolManager::instance_)
     {
-        mutex_.lock();
         if(!instance_)
             instance_ = new ToolManager;
-        mutex_.unlock();
     }
 
     return instance_;
@@ -50,6 +48,7 @@ void ToolManager::createTool(const QScriptValue& object, QString name)
                                       QIcon("tools/" + object.property("icon").toString())));
     newTool->setCheckable(object.property("checkable").toBool());
     val = (object.property("positionOnToolbar"));
+
     if(val.isNumber())
         newTool->setPosition(val.toInt32());
 
@@ -97,7 +96,7 @@ void ToolManager::setActiveTool()
 void ToolManager::createToolbar(QMainWindow *window){
 
     QToolBar* toolbar = window->addToolBar("Toolbar");
-
+    toolbar->setIconSize(QSize(24,24));
     qSort(tools_.begin(),tools_.end(),isLessThen);
 
     foreach(Tool* x, tools_)
