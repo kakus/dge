@@ -235,7 +235,7 @@ void Stage::updateFixtures(const QBodyDef *qbody)
         // and add to the stage
         if (qGraphicsItemsMap_.contains(fixture) == false)
         {
-            QGraphicsItem* graphics = createQGraphicsItemFromb2Shape(fixture->getShape());
+            graphics = createQGraphicsItemFromb2Shape(fixture->getShape());
             qGraphicsItemsMap_[fixture] = graphics;
             scene_->addItem(graphics);
         }

@@ -76,12 +76,6 @@ void Controller::createNewProject()
              ToolManager::getInstance(),  SLOT(redirectEvent(QGraphicsSceneMouseEvent*)));
 }
 
-void Controller::runWorldSimultion()
-{
-    if (getActiveModel() != nullptr)
-        getActiveModel()->run();
-}
-
 WorldModel* Controller::getActiveModel() const
 {
     return viewMap_.value(mainWindow_->ui->tabWidget->currentWidget());

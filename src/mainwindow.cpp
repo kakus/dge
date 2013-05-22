@@ -29,9 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionNew_Project, SIGNAL(triggered()),
             controller_,           SLOT(createNewProject()));
 
-    connect(ui->actionRun_World_Simulation, SIGNAL(triggered()),
-            controller_,                    SLOT(runWorldSimultion()));
-
 }
 
 MainWindow::~MainWindow()

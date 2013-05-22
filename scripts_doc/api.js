@@ -1,7 +1,8 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "FixtureDef"
+        "FixtureDef",
+        "world"
     ],
     "modules": [
         "core"

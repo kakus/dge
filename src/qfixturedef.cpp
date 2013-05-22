@@ -60,7 +60,7 @@ void QFixtureDef::setShape(const b2Shape *value)
             const b2PolygonShape *b2Poly = static_cast<const b2PolygonShape*>(value);
             if (b2Poly)
             {
-                if (fixtureDef_.shape)
+                if (fixtureDef_.shape != nullptr)
                     delete fixtureDef_.shape;
                 fixtureDef_.shape = new b2PolygonShape(*b2Poly);
             }
