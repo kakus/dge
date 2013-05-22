@@ -13,6 +13,7 @@ void QBodyDef::createFixture(const QFixtureDef *fix)
 {
     QFixtureDef *copy = new QFixtureDef();
     copy->fixtureDef_ = fix->fixtureDef_;
+    copy->fixtureDef_.shape = nullptr;
     copy->setShape(fix->getShape());
     copy->owner_ = this;
 

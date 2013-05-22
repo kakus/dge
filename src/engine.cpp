@@ -25,7 +25,7 @@ Engine* Engine::getInstance()
     return pInstance_;
 }
 
-QScriptValue Engine::getGlobalObject() const
+QScriptValue Engine::globalObject() const
 {
     mutex_.lock();
         QScriptValue v = engine_.globalObject();
@@ -33,7 +33,7 @@ QScriptValue Engine::getGlobalObject() const
     return v;
 }
 
-QScriptValue Engine::getNewQObject(QObject* object)
+QScriptValue Engine::newQObject(QObject* object)
 {
     mutex_.lock();
         QScriptValue v =  engine_.newQObject(object);

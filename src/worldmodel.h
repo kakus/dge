@@ -77,6 +77,12 @@ public:
      */
     bool isSimulationRunning() const;
 
+    /*!
+     * This function is available through script engine
+     * \return bodies in world
+     */
+    Q_INVOKABLE QObjectList getBodies() const;
+
 signals:
     void bodyAdded(const QBodyDef*);
     void bodyRemoved(const QBodyDef*);

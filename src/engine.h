@@ -27,8 +27,8 @@ public:
 
     static Engine* getInstance();
 
-    QScriptValue getGlobalObject() const;
-    QScriptValue getNewQObject(QObject*);
+    QScriptValue globalObject() const;
+    QScriptValue newQObject(QObject*);
     QScriptValue newFunction(QScriptEngine::FunctionSignature fun, int length = 0);
     QScriptValue newQMetaObject(const QMetaObject * meta,
                                    const QScriptValue ctor = QScriptValue());

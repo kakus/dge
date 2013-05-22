@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Damn Good Editor !</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -33,6 +33,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew_Project"/>
     <addaction name="actionOpen_project"/>
     <addaction name="actionSave_project"/>
    </widget>
@@ -43,23 +44,6 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionOpen_project"/>
-   <addaction name="actionSave_project"/>
-   <addaction name="actionNew_Project"/>
-   <addaction name="actionRectangle"/>
-   <addaction name="actionRun_World_Simulation"/>
   </widget>
   <action name="actionOpen_project">
    <property name="icon">
@@ -83,21 +67,17 @@
    </property>
   </action>
   <action name="actionNew_Project">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
    <property name="text">
     <string>New Project</string>
    </property>
    <property name="toolTip">
     <string>Create new project</string>
    </property>
-  </action>
-  <action name="actionRectangle">
-   <property name="text">
-    <string>Rectangle</string>
-   </property>
-  </action>
-  <action name="actionRun_World_Simulation">
-   <property name="text">
-    <string>Run World Simulation</string>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
  </widget>

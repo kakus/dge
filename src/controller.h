@@ -24,7 +24,6 @@ signals:
     
 public slots:
     void createNewProject();
-    void runWorldSimultion();
 
 private:
     /*!

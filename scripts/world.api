@@ -1,0 +1,36 @@
+/**
+ * @module core
+ */
+
+/**
+ * This object represents your active world (currently displayed tab/window).
+ * The main role of this object is creating and removing bodies. Also you can
+ * query this object about bodies that are in the world or get acces to the
+ * stage that displaying them.
+ *
+ * @class world
+ * @final
+ */
+
+/**
+ * @method createBody
+ * @param [body_or_fixture=null] {BodyDef|FixtureDef}
+ * @return {BodyDef} reference to newly created body
+ */
+
+/**
+ * @method removeBody
+ * @param {BodyDef} bodyDef
+ */
+
+/**
+ * This method return all bodies that are in the world.
+ * @method getBodies
+ * @return {Array} array of bodies
+ */
+
+/**
+ * The stage that displays bodies
+ * @property stage
+ * @readonly
+ */

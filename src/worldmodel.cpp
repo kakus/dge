@@ -42,11 +42,10 @@ QBodyDef* WorldModel::createBody()
 
 QBodyDef* WorldModel::createBody(const QBodyDef *qbody)
 {
-    QBodyDef* clone = createBody();
-    clone->bodyDef_ = qbody->bodyDef_;
+    QBodyDef* clone = qbody->clone();
 
-    foreach (const QFixtureDef* fix, qbody->getFixtureList())
-        clone->createFixture(fix);
+    bodyList_.append(clone);
+    emit bodyAdded(clone);
 
     return clone;
 }
@@ -54,6 +53,16 @@ QBodyDef* WorldModel::createBody(const QBodyDef *qbody)
 bool WorldModel::isSimulationRunning() const
 {
     return simulation_.isRunning();
+}
+
+QObjectList WorldModel::getBodies() const
+{
+    QObjectList bodies;
+
+    foreach (QBodyDef* qbody, bodyList_)
+        bodies.push_back(qbody);
+
+    return bodies;
 }
 
 // -------- slots --------
