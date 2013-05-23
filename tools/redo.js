@@ -11,7 +11,7 @@
 
     tool.buttonClicked = function()
     {
-        cmdManager.redo();
+        getCmdManager().redo();
     }
 
     return tool;

@@ -40,7 +40,7 @@
 
     tool.mouseButtonRelease = function(x, y)
     {
-        cmdManager.pushCmd(
+        getCmdManager().pushCmd(
                         (function(){
                             var currentBody = null;
                             var bodyTemplate = new BodyDef(body);

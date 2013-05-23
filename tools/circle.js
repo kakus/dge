@@ -28,7 +28,7 @@
 
     tool.mouseButtonRelease = function(x, y)
     {
-        cmdManager.pushCmd(
+        getCmdManager().pushCmd(
                         (function(){
                             var currentBody = null;
                             var bodyTemplate = new BodyDef(body);
@@ -47,6 +47,7 @@
         })());
 
         world.removeBody(body);
+
     }
 
     tool.mouseMove = function(x,y)
