@@ -15,6 +15,7 @@
     , posBeforeDrag = []
     ;
 
+    tool.keyboardManager = new KeyboardManager;
     tool.checkable = true;
     tool.icon = "select.png";
     tool.positionOnToolbar = 8;
@@ -22,8 +23,8 @@
     tool.mouseButtonPress = function (x,y)
     {
         var body = world.bodyAt(x, y)
-          , i
-          ;
+        , i
+        ;
 
         startX = moveX = x;
         startY = moveY = y;
@@ -169,8 +170,8 @@
         else
         {
             var dx = x - moveX
-              , dy = y - moveY
-              ;
+            , dy = y - moveY
+            ;
 
             for (var i in selectedBodies)
             {
@@ -183,6 +184,39 @@
         moveX = x;
         moveY = y;
     }
+
+    tool.keyboardManager.register("Delete", function()
+    {
+        if(selectedBodies !== null)
+        {
+            getCmdManager().pushCmd( (function(selectedBodies) {
+
+                var ids = [];
+                var bodies = [];
+                var i;
+
+                for (i in selectedBodies)
+                {
+                    ids.push(selectedBodies[i].id);
+                    bodies.push(new BodyDef(selectedBodies[i]));
+                }
+
+
+                return {
+                    exec: function() {
+                        for (i in ids)
+                            world.removeBody(world.getBodyById(ids[i]));
+                    },
+
+                    undo: function()
+                    {
+                        for (i in bodies)
+                            world.createBody(bodies[i]);
+                    }
+                };
+            })(selectedBodies) );
+        }
+    });
 
     return tool;
 

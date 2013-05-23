@@ -2,8 +2,10 @@
 {
     var tool = {},
         body = null,
-        startX = 0,
-        startY = 0;
+        start_x = 0,
+        start_y = 0;
+
+    tool.keyboardManager = new KeyboardManager;
 
     tool.icon = "box.png";
     tool.checkable = true;
@@ -22,8 +24,8 @@
         body.y = y;
         body.createFixture(fix);
 
-        startX = x;
-        startY = y;
+        start_x = x;
+        start_y = y;
 
     }
 
@@ -31,34 +33,36 @@
     {
         var fix = body.fixtureList[0];
 
-        fix.setAsBox( (Math.abs(startX-x))/2, (Math.abs(startY-y))/2);
+        fix.setAsBox( (Math.abs(start_x-x))/2, (Math.abs(start_y-y))/2);
         fix.density = 1;
 
-        body.x = x > startX ? (x-startX)/2 + startX : (startX-x)/2 + x;
-        body.y = y > startY ? (y-startY)/2 + startY : (startY-y)/2 + y;
+        body.x = x > start_x ? (x-start_x)/2 + start_x : (start_x-x)/2 + x;
+        body.y = y > start_y ? (y-start_y)/2 + start_y : (start_y-y)/2 + y;
     }
 
     tool.mouseButtonRelease = function(x, y)
     {
         getCmdManager().pushCmd(
-                        (function(){
-                            var currentBody = null;
-                            var bodyTemplate = new BodyDef(body);
+                        (function(body){
+
+                            var body_template = new BodyDef(body);
+                            var id = body.id;
 
                             return{
                                 exec: function()
                                 {
-                                   currentBody = world.createBody(bodyTemplate);
+                                   world.createBody(body_template);
                                 },
 
                                 undo: function()
                                 {
-                                    world.removeBody(currentBody);
+                                    world.removeBody( world.getBodyById(id) );
                                 }
                             }
-        })());
+        })(body));
 
         world.removeBody(body);
+
     }
 
     return tool;

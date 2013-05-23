@@ -32,7 +32,6 @@ void ToolManager::createTools()
         it.next();
         createTool(it.value(), it.name());
     }
-
 }
 
 void ToolManager::createTool(const QScriptValue& object, QString name)
@@ -60,6 +59,8 @@ void ToolManager::createTool(const QScriptValue& object, QString name)
                    object,object.property("mouseMove"));
     qScriptConnect(newTool, SIGNAL(triggered()),
                    object, object.property("buttonClicked"));
+    qScriptConnect(newTool,SIGNAL(keyPress(int,int)),
+                   object, object.property("keyboardManager").property("keyPress"));
 
     QObject::connect(newTool, SIGNAL(triggered()),
                      ToolManager::getInstance(),SLOT(setActiveTool()));
@@ -80,6 +81,18 @@ void ToolManager::redirectEvent(QGraphicsSceneMouseEvent *event)
         case QGraphicsSceneMouseEvent::GraphicsSceneMouseMove:
             emit activeTool_->mouseMove(event->scenePos().x(), event->scenePos().y()); break;
         default:    break;
+        }
+    }
+}
+
+void ToolManager::redirectEvent(QKeyEvent *event)
+{
+    if(activeTool_ != nullptr){
+        switch(event->type())
+        {
+        case QKeyEvent::KeyPress:
+            emit activeTool_->keyPress(event->key(), event->modifiers()); break;
+        default: break;
         }
     }
 }

@@ -1,15 +1,7 @@
 function CmdManager()
 {
     var stack = [],
-            index = 0;
-
-    var hasUndo = function(){
-        return index >= 0;
-    }
-
-    var hasRedo = function(){
-        return index < stack.length - 1;
-    }
+        index = 0;
 
     return {
 
@@ -24,7 +16,8 @@ function CmdManager()
 
         undo: function()
         {
-            if(hasUndo()){
+            if( index >= 0 )
+            {
                 stack[index].undo();
                 --index;
             }
@@ -33,13 +26,12 @@ function CmdManager()
 
         redo: function()
         {
-            if(hasRedo())
+            if( index < stack.length-1 )
             {
-                stack[index+1].exec();
                 ++index;
+                stack[index].exec();
                 cmd.exec();
             }
         }
     }
-
 };

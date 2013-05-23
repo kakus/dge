@@ -1,9 +1,9 @@
 (function()
 {
     var tool = {},
-    body = null,
-            startX = 0,
-            startY = 0;
+        body = null,
+        start_x = 0,
+        start_y = 0;
 
     tool.icon = "static_circle.png";
     tool.checkable = true;
@@ -22,43 +22,45 @@
         body.y = y;
         body.createFixture(fix);
 
-        startX = x;
-        startY = y;
+        start_x = x;
+        start_y = y;
     }
 
     tool.mouseButtonRelease = function(x, y)
     {
         getCmdManager().pushCmd(
-                        (function(){
-                            var currentBody = null;
-                            var bodyTemplate = new BodyDef(body);
+                        (function(body){
+
+                            var body_template = new BodyDef(body);
+                            var id = body.id;
 
                             return{
                                 exec: function()
                                 {
-                                   currentBody = world.createBody(bodyTemplate);
+                                   world.createBody(body_template);
                                 },
 
                                 undo: function()
                                 {
-                                    world.removeBody(currentBody);
+                                    world.removeBody( world.getBodyById(id) );
                                 }
                             }
-        })());
+        })(body));
 
         world.removeBody(body);
+
     }
 
     tool.mouseMove = function(x,y)
     {
         var fix = body.fixtureList[0];
-        var size = ( Math.abs(startX-x)) > (Math.abs(startY-y)) ? (Math.abs(startY-y))/2 : (Math.abs(startX-x))/2;
+        var size = ( Math.abs(start_x-x)) > (Math.abs(start_y-y)) ? (Math.abs(start_y-y))/2 : (Math.abs(start_x-x))/2;
 
         fix.setAsCircle(size);
         fix.density = 1;
 
-        body.x = x > startX ? startX + size : startX - size;
-        body.y = y > startY ? startY + size : startY - size;
+        body.x = x > start_x ? start_x + size : start_x - size;
+        body.y = y > start_y ? start_y + size : start_y - size;
     }
 
     return tool;
