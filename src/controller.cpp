@@ -16,38 +16,41 @@ Controller::Controller(MainWindow *mainWindow) :
     loadScripts();
     createTools();
     initEngine();
+
 }
 
 void Controller::initEngine()
 {
     // Add console to script engine, so user can write on console
-    QScriptValue console = Engine::getInstance()->newQObject(mainWindow_->console_);
-    Engine::getInstance()->globalObject().setProperty("console", console);
+    QScriptValue console = EngineProxy::getEngine()->newQObject(mainWindow_->console_);
+    EngineProxy::getEngine()->globalObject().setProperty("console", console);
 
     // Add QFixtureDef constructor
-    QScriptValue ctor = Engine::getInstance()->newFunction(&Controller::qFixtureDefConstructor);
-    QScriptValue qMeta = Engine::getInstance()->
+    QScriptValue ctor = EngineProxy::getEngine()->newFunction(&Controller::qFixtureDefConstructor);
+    QScriptValue qMeta = EngineProxy::getEngine()->
             newQMetaObject(&QObject::staticMetaObject, ctor);
-    Engine::getInstance()->globalObject().setProperty("FixtureDef", qMeta);
+    EngineProxy::getEngine()->globalObject().setProperty("FixtureDef", qMeta);
 
     // Add QBodyDef constructor
-    ctor = Engine::getInstance()->newFunction(&Controller::qBodyDefConstructor);
-    qMeta = Engine::getInstance()->
+    ctor = EngineProxy::getEngine()->newFunction(&Controller::qBodyDefConstructor);
+    qMeta = EngineProxy::getEngine()->
             newQMetaObject(&QObject::staticMetaObject, ctor);
-    Engine::getInstance()->globalObject().setProperty("BodyDef", qMeta);
+    EngineProxy::getEngine()->globalObject().setProperty("BodyDef", qMeta);
 
     // Add active world to the engine
-    Engine::getInstance()->globalObject()
+    EngineProxy::getEngine()->globalObject()
             .setProperty("world",
-                         Engine::getInstance()->newFunction(&Controller::getActiveModel),
+                         EngineProxy::getEngine()->newFunction(&Controller::getActiveModel),
                          QScriptValue::PropertyGetter);
 
     // Connect console to the script engine
     connect(mainWindow_->console_, SIGNAL(command(QString)),
-            Engine::getInstance(), SLOT(evaluate(QString)));
+            EngineProxy::getInstace(), SLOT(evaluate(QString)));
+            //Qt::QueuedConnection);
 
-    connect(Engine::getInstance(), SIGNAL(evaluateResult(QString)),
+    connect(EngineProxy::getInstace(), SIGNAL(evaluateResult(QString)),
             mainWindow_->console_,  SLOT(write(QString)));
+            //Qt::QueuedConnection);
 }
 
 void Controller::loadScripts()
@@ -66,7 +69,7 @@ void Controller::createNewProject()
     Stage *stage = new Stage(mainWindow_->ui->tabWidget);
     mainWindow_->ui->tabWidget->addTab(stage, "new project");
 
-    WorldModel *model = new WorldModel(this);
+    WorldModel *model = new WorldModel(stage);
     stage->connectToModel(stage, model);
 
     viewMap_.insert(stage, model);

@@ -5,6 +5,7 @@ QFixtureDef::QFixtureDef(QObject *parent)
     : QObject(parent)
     , owner_(nullptr)
 {
+    fixtureDef_.shape = nullptr;
 }
 
 QFixtureDef::~QFixtureDef()
@@ -99,5 +100,22 @@ void QFixtureDef::setAsCircle(qreal radious)
     b2CircleShape shape;
     shape.m_radius = radious;
 
+    setShape(&shape);
+}
+
+void QFixtureDef::setAsPolygon(const QVariantList &vertex)
+{
+    // if vertex number is odd return
+    if (vertex.length() & 1)
+        return;
+
+    uint points_num = vertex.length()/2;
+    b2PolygonShape shape;
+    b2Vec2 points[points_num];
+
+    for (int i = 0; i<points_num; ++i)
+       points[i] = b2Vec2(vertex[i*2].toDouble(), vertex[i*2+1].toDouble());
+
+    shape.Set(points, points_num);
     setShape(&shape);
 }

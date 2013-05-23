@@ -5,6 +5,7 @@
 #include <QMap>
 #include "loader.h"
 #include "toolmanager.h"
+#include <QThread>
 
 class MainWindow;
 class WorldModel;

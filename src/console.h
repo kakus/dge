@@ -28,7 +28,7 @@ public slots:
      * \brief Write message on the console
      * \param msg Message that will be displayed
      */
-    void write(const QString& msg);
+    void write(const QString &msg);
 
     /*!
      * \brief Clears the console window

@@ -69,6 +69,32 @@ FixtureDef.prototype.getShapeType = function() {};
 FixtureDef.prototype.getShapeData = function() {};
 
 /**
+ * @method setAsBox
+ * @param {Number} width
+ * @param {Number} height
+ */
+
+/**
+ * @method setAsCircle
+ * @param {Number} radious
+ */
+
+/**
+ * The lenght of array must be even. The are must consist of number which
+ * represents the vertex of polygon.
+ *
+ *     [ v1.x , v1.y , v2.x , v2.y , ....]
+ *
+ * @example
+ *     var f = new FixtureDef
+ *     f.setAsPolygon([ 100, 0, 0, 100, -100, 0 ]); # triangle
+ *     world.createBody(f) # now we should see our triangle on screen
+ *
+ * @method setAsPolygon
+ * @param {Array<Number>} Array of numbers
+ */
+
+/**
  * The friction coefficient, usually in the range [0,1].
  * @property friction
  * @type Number

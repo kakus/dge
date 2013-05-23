@@ -20,6 +20,9 @@ QBodyDef::~QBodyDef()
 
 void QBodyDef::createFixture(const QFixtureDef *fix)
 {
+    if (fix->getShape() == nullptr)
+        return;
+
     QFixtureDef *copy = new QFixtureDef();
     copy->fixtureDef_ = fix->fixtureDef_;
     copy->fixtureDef_.shape = nullptr;
