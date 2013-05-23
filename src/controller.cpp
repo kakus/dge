@@ -74,6 +74,8 @@ void Controller::createNewProject()
     // redirects mouse events from new stage
      connect(stage, SIGNAL(mouseEvent(QGraphicsSceneMouseEvent*)),
              ToolManager::getInstance(),  SLOT(redirectEvent(QGraphicsSceneMouseEvent*)));
+
+     mainWindow_->ui->tabWidget->setCurrentWidget(stage);
 }
 
 WorldModel* Controller::getActiveModel() const

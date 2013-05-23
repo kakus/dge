@@ -53,6 +53,9 @@ class WorldModel : public QObject
 {
 
     Q_OBJECT
+
+    Q_PROPERTY(uint id READ getId)
+
 public:
     explicit WorldModel(QObject *parent = 0);
     virtual ~WorldModel();
@@ -82,6 +85,11 @@ public:
      * \return bodies in world
      */
     Q_INVOKABLE QObjectList getBodies() const;
+
+    /*!
+     * Return model id, which is unique for each world model.
+     */
+    uint getId() const;
 
 signals:
     void bodyAdded(const QBodyDef*);
@@ -119,7 +127,15 @@ private:
     QLinkedList<QBodyDef*> bodyList_;
     QThread simulationThread_;
     WorldSimulation simulation_;
+
+    const uint model_id;
+    static uint model_count;
 };
 
+// --- inline definitions ---
+inline uint WorldModel::getId() const
+{
+    return model_id;
+}
 
 #endif // WORLDMODEL_H

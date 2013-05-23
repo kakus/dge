@@ -190,6 +190,17 @@
             "readonly": "",
             "class": "world",
             "module": "core"
+        },
+        {
+            "file": "scripts/world.api",
+            "line": 38,
+            "description": "Returns world id, which is unique for each world in program",
+            "itemtype": "property",
+            "name": "id",
+            "type": "{int}",
+            "readonly": "",
+            "class": "world",
+            "module": "core"
         }
     ],
     "warnings": []

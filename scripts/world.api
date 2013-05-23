@@ -32,5 +32,12 @@
 /**
  * The stage that displays bodies
  * @property stage
- * @readonly
+ * @readOnly
+ */
+
+/**
+ * Returns world id, which is unique for each world in program
+ * @property id
+ * @type {int}
+ * @readOnly
  */

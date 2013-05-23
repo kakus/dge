@@ -4,10 +4,13 @@
 #include <QDebug>
 #include <QGraphicsItem>
 
+unsigned int WorldModel::model_count = 0;
+
 WorldModel::WorldModel(QObject *parent)
     : QObject(parent)
     , world_(nullptr)
     , simulationThread_(this)
+    , model_id(model_count++)
 {
     simulation_.moveToThread(&simulationThread_);
     simulationThread_.start();
