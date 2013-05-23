@@ -11,7 +11,7 @@
 
     tool.buttonClicked = function()
     {
-        cmdManager.undo();
+        getCmdManager().undo();
     }
 
     return tool;

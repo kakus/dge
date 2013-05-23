@@ -5,11 +5,12 @@ SUBDIRS += \
     # test
 
 OTHER_FILES += box2d.pri \
-    tools/rectangle.js \
-    scripts/cmd_manager.js \
     tools/play_world.js \
     tools/static_rectangle.js \
-    tools/select.js
+    tools/select.js \
+    scripts/cmd_manager.js \
+    scripts/cmd_mapper.js \
+    tools/box.js
 
 scripts.path = $$OUT_PWD/src
 scripts.files = scripts
