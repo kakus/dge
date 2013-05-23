@@ -15,7 +15,6 @@
     , posBeforeDrag = []
     ;
 
-    tool.icon = "input-mouse";
     tool.checkable = true;
     tool.icon = "select.png";
     tool.positionOnToolbar = 8;
@@ -58,8 +57,10 @@
             // we are clicked on selected body, which means we can move it now
             else
             {
+                posBeforeDrag = []
                 for (i in selectedBodies)
                     posBeforeDrag.push({
+                                          id: selectedBodies[i].id,
                                           x: selectedBodies[i].x,
                                           y: selectedBodies[i].y
                                       });
@@ -69,6 +70,11 @@
 
         selectedBodies = [ body ];
         body.isSelected = true;
+        posBeforeDrag = [ {
+            id: body.id,
+            x: body.x,
+            y: body.y
+        } ];
     }
 
     tool.mouseButtonRelease = function(x,y)
@@ -93,45 +99,50 @@
             if (selectedBodies.length === 0)
                 return;
 
-            cmdManager.pushCmd( (function(selectedBodies) {
-                var bodies = selectedBodies
-                  , bodiesPos = []
+            getCmdManager().pushCmd( (function(selectedBodies, posBeforeDrag) {
+                var bodiesPos = []
                   , bodiesOldPos = []
                   , i
                   ;
 
                 for (i in selectedBodies)
+                {
                     bodiesPos.push({
-                                       x: selectedBodies[i].x,
-                                       y: selectedBodies[i].y
-                                   });
-
+                        id: selectedBodies[i].id,
+                        x: selectedBodies[i].x,
+                        y: selectedBodies[i].y
+                    });
+                }
 
                 for (i in posBeforeDrag)
+                {
                     bodiesOldPos.push({
-                                          x: posBeforeDrag[i].x,
-                                          y: posBeforeDrag[i].y
-                                      });
-
+                        id: posBeforeDrag[i].id,
+                        x: posBeforeDrag[i].x,
+                        y: posBeforeDrag[i].y
+                    });
+                }
 
                 return {
                     exec: function() {
-                        for (i in bodies)
+                        for (i in bodiesPos)
                         {
-                            bodies[i].x = bodiesPos[i].x;
-                            bodies[i].y = bodiesPos[i].y;
+                            var body = world.getBodyById(bodiesPos[i].id);
+                            body.x = bodiesPos[i].x;
+                            body.y = bodiesPos[i].y;
                         }
                     },
 
                     undo: function() {
-                        for (i in bodies)
+                        for (i in bodiesOldPos)
                         {
-                            bodies[i].x = bodiesOldPos[i].x;
-                            bodies[i].y = bodiesOldPos[i].y;
+                            var body = world.getBodyById(bodiesOldPos[i].id);
+                            body.x = bodiesOldPos[i].x;
+                            body.y = bodiesOldPos[i].y;
                         }
                     }
                 };
-            })(selectedBodies) );
+            })(selectedBodies, posBeforeDrag) );
         }
     }
 
