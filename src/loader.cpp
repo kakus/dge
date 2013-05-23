@@ -23,7 +23,7 @@ void Loader::loadOtherScripts()
     foreach ( QFileInfo x, scriptsList)
     {
         scriptContent = getFileContent(x.absoluteFilePath());
-        result = Engine::getInstance()->engine_.evaluate(scriptContent);
+        result = EngineProxy::getEngine()->evaluate(scriptContent);
 
         if(result.isError())
             qDebug() << "Error in "<< x.fileName() << " script." << x.fileName() << endl;
@@ -36,7 +36,7 @@ void Loader::loadToolsScripts()
     QDir fromWhichDir ("tools");
     QScriptValue result, tools;
     QString scriptContent;
-    QScriptEngine& engine = Engine::getInstance()->engine_;
+    QScriptEngine& engine = *EngineProxy::getEngine();
 
     QFileInfoList scriptsList = findScripts( fromWhichDir );
 

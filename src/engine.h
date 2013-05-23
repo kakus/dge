@@ -9,8 +9,7 @@
 #include <QScriptEngine>
 #include <QPushButton>
 #include <QDebug>
-
-//#include "loader.h"
+#include <QMutex>
 
 /*!
  * \brief The Engine class
@@ -18,20 +17,15 @@
  *  Friend class Loader add preloaded tools to engine's global object before app start
  */
 
-class Engine : public QObject
+class EngineProxy : public QObject
 {
     Q_OBJECT
 
 public:
-    ~Engine();
+    ~EngineProxy();
 
-    static Engine* getInstance();
-
-    QScriptValue globalObject() const;
-    QScriptValue newQObject(QObject*);
-    QScriptValue newFunction(QScriptEngine::FunctionSignature fun, int length = 0);
-    QScriptValue newQMetaObject(const QMetaObject * meta,
-                                   const QScriptValue ctor = QScriptValue());
+    static EngineProxy* getInstace();
+    static QScriptEngine* getEngine();
 
 public slots:
     void evaluate(const QString& code);
@@ -41,14 +35,12 @@ signals:
 
 private:
 
-    Engine();
-    Engine(const Engine&);
+    EngineProxy();
+    EngineProxy(const EngineProxy&);
 
-    static Engine* pInstance_;
-    static std::mutex mutex_;
+    static EngineProxy* pInstance_;
 
     QScriptEngine engine_;
-
     friend class Loader;
 };
 

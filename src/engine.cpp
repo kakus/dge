@@ -1,65 +1,36 @@
 #include "engine.h"
 
-Engine* Engine::pInstance_;
-std::mutex Engine::mutex_;
+EngineProxy* EngineProxy::pInstance_;
 
-Engine::Engine()
+EngineProxy::EngineProxy()
+    : engine_(this)
 {
 }
 
-Engine::~Engine()
+EngineProxy::~EngineProxy()
 {
     delete pInstance_;
 }
 
-Engine* Engine::getInstance()
+EngineProxy* EngineProxy::getInstace()
 {
-    if(!Engine::pInstance_)
+    if(!EngineProxy::pInstance_)
     {
-        mutex_.lock();
         if(!pInstance_)
-            pInstance_ = new Engine;
-        mutex_.unlock();
+            pInstance_ = new EngineProxy;
     }
 
     return pInstance_;
 }
 
-QScriptValue Engine::globalObject() const
+QScriptEngine* EngineProxy::getEngine()
 {
-    mutex_.lock();
-        QScriptValue v = engine_.globalObject();
-    mutex_.unlock();
-    return v;
+    return &getInstace()->engine_;
 }
 
-QScriptValue Engine::newQObject(QObject* object)
+void EngineProxy::evaluate(const QString &code)
 {
-    mutex_.lock();
-        QScriptValue v =  engine_.newQObject(object);
-    mutex_.unlock();
-    return v;
-}
-
-QScriptValue Engine::newFunction(QScriptEngine::FunctionSignature fun, int length)
-{
-    mutex_.lock();
-        QScriptValue v =  engine_.newFunction(fun, length);
-    mutex_.unlock();
-    return v;
-}
-
-QScriptValue Engine::newQMetaObject(const QMetaObject *meta, const QScriptValue ctor)
-{
-    mutex_.lock();
-        QScriptValue v =  engine_.newQMetaObject(meta, ctor);
-    mutex_.unlock();
-    return v;
-}
-
-void Engine::evaluate(const QString &code)
-{
-    QScriptValue result = engine_.evaluate(code);
+    QScriptValue result = getEngine()->evaluate(code);
     emit evaluateResult(result.toString());
 }
 
