@@ -189,6 +189,60 @@
         {
             "file": "scripts/FixtureDef.api",
             "line": 71,
+            "itemtype": "method",
+            "name": "setAsBox",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 77,
+            "itemtype": "method",
+            "name": "setAsCircle",
+            "params": [
+                {
+                    "name": "radious",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 82,
+            "description": "The lenght of array must be even. The are must consist of number which\nrepresents the vertex of polygon.\n\n    [ v1.x , v1.y , v2.x , v2.y , ....]",
+            "example": [
+                "\n    var f = new FixtureDef\n    f.setAsPolygon([ 100, 0, 0, 100, -100, 0 ]); # triangle\n    world.createBody(f) # now we should see our triangle on screen"
+            ],
+            "itemtype": "method",
+            "name": "setAsPolygon",
+            "params": [
+                {
+                    "name": "Array",
+                    "description": "of numbers",
+                    "type": "Array<Number>"
+                }
+            ],
+            "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/FixtureDef.api",
+            "line": 97,
             "description": "The friction coefficient, usually in the range [0,1].",
             "itemtype": "property",
             "name": "friction",
@@ -198,7 +252,7 @@
         },
         {
             "file": "scripts/FixtureDef.api",
-            "line": 77,
+            "line": 103,
             "description": "The density, usually in kg/m^2.",
             "itemtype": "property",
             "name": "density",
@@ -208,7 +262,7 @@
         },
         {
             "file": "scripts/FixtureDef.api",
-            "line": 83,
+            "line": 109,
             "description": "The restitution (elasticity) usually in the range [0,1].",
             "itemtype": "property",
             "name": "restitution",

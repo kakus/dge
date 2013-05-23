@@ -66,6 +66,7 @@ signals:
 public slots:
     void setAsBox(qreal width, qreal height);
     void setAsCircle(qreal radious);
+    void setAsPolygon(const QVariantList &vertex);
 
 private:
     b2FixtureDef fixtureDef_;
