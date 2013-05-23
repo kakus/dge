@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>FixtureDef</title>
+    <title>BodyDef</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -92,7 +92,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>FixtureDef Class</h1>
+                        <h1>BodyDef Class</h1>
 <div class="box meta">
     
 
@@ -112,65 +112,9 @@
 
 
 <div class="box intro">
-    <p>A fixture is used to attach a shape to a body for collision detection. A
-fixture inherits its transform from its parent (BodyDef). Fixtures hold additional
-non-geometric data / such as friction, collision filters, etc. Fixtures are
-attached to BodyDef by calling BodyDef::createFixture(fixtureDef).</p>
-</div>
-
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_FixtureDef" class="method item">
-    <h3 class="name"><code>FixtureDef</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-            
-        
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
     
 </div>
 
-    </div>
 
 
 <div id="classdocs" class="tabview">
@@ -198,14 +142,7 @@ attached to BodyDef by calling BodyDef::createFixture(fixtureDef).</p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_getShapeData">getShapeData</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getShapeType">getShapeType</a>
+                                <a href="#method_createFixture">createFixture</a>
 
                                 
                                 
@@ -222,21 +159,7 @@ attached to BodyDef by calling BodyDef::createFixture(fixtureDef).</p>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_density">density</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_friction">friction</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_restitution">restitution</a>
+                                <a href="#property_fixtureList">fixtureList</a>
 
                                 
                                 
@@ -256,17 +179,23 @@ attached to BodyDef by calling BodyDef::createFixture(fixtureDef).</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_getShapeData" class="method item">
-    <h3 class="name"><code>getShapeData</code></h3>
+                    <div id="method_createFixture" class="method item">
+    <h3 class="name"><code>createFixture</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>fixtureDef</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
     
 
     
@@ -299,145 +228,36 @@ attached to BodyDef by calling BodyDef::createFixture(fixtureDef).</p>
     </div>
 
     <div class="description">
-        <p>This method return array of doubles. You can find out what this numbers
-represent by calling function getShapeType. Here are documentation what you
-will get in array according to shape id.</p>
-
-<p><code>Remember all the coordinates are relavtie to the body position !</code></p>
-
-<pre class="code prettyprint"><code>0 : circle
-[ center.x, center.y, radious ]
-
-2 : polygon
-[ vertex1.x, vertex1.y, vertex2.x, vertex2.y , .... ]
-
-# currently more types are not supported
-</code></pre>
+        
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                    return array of data
-                
-            </div>
-        </div>
-    
-
-    
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <pre class="code prettyprint"><code>var f = new FixtureDef;
-f.setAsCircle(30);
-f.getShapeType() # should return 0
-var data = f.getShapeData();
-var circle = {
-  pos: {
-     x: data[0],
-     y: data[1]
-  },
-  radious: data[3]
-};
-</code></pre>
-            </div>
-        </div>
-    
-</div>
-
-                
-                    <div id="method_getShapeType" class="method item">
-    <h3 class="name"><code>getShapeType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Int</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
+            <ul class="params-list">
             
-                
-                <p>
-                
+                <li class="param">
+                    
+                        <code class="param-name">fixtureDef</code>
+                        <span class="type"><a href="../classes/FixtureDef.html" class="crosslink">FixtureDef</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
             
-        
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>This method return shape id. Which means what kind of data we are supouse to
-get from getShapeData method. Here is id map:</p>
-
-<pre class="code prettyprint"><code>0 : circle
-1 : edge       #currently not supported
-2 : polygon
-3 : chain      #currently not supported
-</code></pre>
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Int</span>:
-                    
-                    shape id
-                
-            </div>
+            </ul>
         </div>
     
 
     
-        <div class="example">
-            <h4>Example:</h4>
 
-            <div class="example-content">
-                <pre class="code prettyprint"><code>var f = new FixtureDef;
-f.setAsBox(100, 100);
-f.getShapeType() # should return 2
-</code></pre>
-
-<p>For more information see getShapeData</p>
-            </div>
-        </div>
     
 </div>
 
@@ -450,9 +270,9 @@ f.getShapeType() # should return 2
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_density" class="property item">
-    <h3 class="name"><code>density</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_fixtureList" class="property item">
+    <h3 class="name"><code>fixtureList</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -479,87 +299,7 @@ f.getShapeType() # should return 2
     </div>
 
     <div class="description">
-        <p>The density, usually in kg/m^2.</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_friction" class="property item">
-    <h3 class="name"><code>friction</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
         
-            
-                
-                <p>
-                
-            
-        
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The friction coefficient, usually in the range [0,1].</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_restitution" class="property item">
-    <h3 class="name"><code>restitution</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-            
-        
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The restitution (elasticity) usually in the range [0,1].</p>
     </div>
 
     

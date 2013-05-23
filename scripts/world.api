@@ -30,6 +30,14 @@
  */
 
 /**
+ * This method return body of given id, if body doesn't exist it will return
+ * undefined
+ * @method getBodyById
+ * @param {int} id
+ * @return {BodyDef}
+ */
+
+/**
  * The stage that displays bodies
  * @property stage
  * @readOnly

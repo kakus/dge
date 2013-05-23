@@ -1,0 +1,17 @@
+/**
+ * @module utils
+ */
+
+/**
+ * @class console
+ */
+
+/**
+ * @method write
+ * @param {String} message
+ */
+
+/**
+ * Clear the console output.
+ * @method clear
+ */

@@ -1,0 +1,18 @@
+/**
+ * @module core
+ */
+
+/**
+ * @class BodyDef
+ */
+
+/**
+ * @method createFixture
+ * @param {FixtureDef} fixtureDef
+ */
+
+/**
+ * @property fixtureList
+ * @readOnly
+ * @type {Array}
+ */

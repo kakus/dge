@@ -1,20 +1,40 @@
 {
     "project": {},
     "files": {
+        "scripts/BodyDef.api": {
+            "name": "scripts/BodyDef.api",
+            "modules": {},
+            "classes": {
+                "BodyDef": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "scripts/FixtureDef.api": {
             "name": "scripts/FixtureDef.api",
-            "modules": {
-                "core": 1
-            },
+            "modules": {},
             "classes": {
                 "FixtureDef": 1
             },
             "fors": {},
             "namespaces": {}
         },
+        "scripts/console.api": {
+            "name": "scripts/console.api",
+            "modules": {
+                "utils": 1
+            },
+            "classes": {
+                "console": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "scripts/world.api": {
             "name": "scripts/world.api",
-            "modules": {},
+            "modules": {
+                "core": 1
+            },
             "classes": {
                 "world": 1
             },
@@ -27,6 +47,7 @@
             "name": "core",
             "submodules": {},
             "classes": {
+                "BodyDef": 1,
                 "FixtureDef": 1,
                 "world": 1
             },
@@ -35,9 +56,34 @@
             "tag": "module",
             "file": "scripts/world.api",
             "line": 5
+        },
+        "utils": {
+            "name": "utils",
+            "submodules": {},
+            "classes": {
+                "console": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "scripts/console.api",
+            "line": 5
         }
     },
     "classes": {
+        "BodyDef": {
+            "name": "BodyDef",
+            "shortname": "BodyDef",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "scripts/BodyDef.api",
+            "line": 5
+        },
         "FixtureDef": {
             "name": "FixtureDef",
             "shortname": "FixtureDef",
@@ -52,6 +98,19 @@
             "line": 5,
             "description": "A fixture is used to attach a shape to a body for collision detection. A\nfixture inherits its transform from its parent (BodyDef). Fixtures hold additional\nnon-geometric data / such as friction, collision filters, etc. Fixtures are\nattached to BodyDef by calling BodyDef::createFixture(fixtureDef).",
             "is_constructor": 1
+        },
+        "console": {
+            "name": "console",
+            "shortname": "console",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils",
+            "namespace": "",
+            "file": "scripts/console.api",
+            "line": 5
         },
         "world": {
             "name": "world",
@@ -70,6 +129,31 @@
         }
     },
     "classitems": [
+        {
+            "file": "scripts/BodyDef.api",
+            "line": 9,
+            "itemtype": "method",
+            "name": "createFixture",
+            "params": [
+                {
+                    "name": "fixtureDef",
+                    "description": "",
+                    "type": "FixtureDef"
+                }
+            ],
+            "class": "BodyDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/BodyDef.api",
+            "line": 14,
+            "itemtype": "property",
+            "name": "fixtureList",
+            "readonly": "",
+            "type": "{Array}",
+            "class": "BodyDef",
+            "module": "core"
+        },
         {
             "file": "scripts/FixtureDef.api",
             "line": 16,
@@ -133,6 +217,30 @@
             "module": "core"
         },
         {
+            "file": "scripts/console.api",
+            "line": 9,
+            "itemtype": "method",
+            "name": "write",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "console",
+            "module": "utils"
+        },
+        {
+            "file": "scripts/console.api",
+            "line": 14,
+            "description": "Clear the console output.",
+            "itemtype": "method",
+            "name": "clear",
+            "class": "console",
+            "module": "utils"
+        },
+        {
             "file": "scripts/world.api",
             "line": 15,
             "itemtype": "method",
@@ -184,6 +292,26 @@
         {
             "file": "scripts/world.api",
             "line": 32,
+            "description": "This method return body of given id, if body doesn't exist it will return\nundefined",
+            "itemtype": "method",
+            "name": "getBodyById",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "BodyDef"
+            },
+            "class": "world",
+            "module": "core"
+        },
+        {
+            "file": "scripts/world.api",
+            "line": 40,
             "description": "The stage that displays bodies",
             "itemtype": "property",
             "name": "stage",
@@ -193,7 +321,7 @@
         },
         {
             "file": "scripts/world.api",
-            "line": 38,
+            "line": 46,
             "description": "Returns world id, which is unique for each world in program",
             "itemtype": "property",
             "name": "id",
