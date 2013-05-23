@@ -6,9 +6,12 @@
 #include <QScriptValueIterator>
 #include <QMainWindow>
 #include <QToolBar>
+#include <QActionGroup>
 #include <QGraphicsSceneMouseEvent>
 #include <QEvent>
-#include <vector>
+#include <QKeySequence>
+#include <QtAlgorithms>
+#include <QList>
 #include <mutex>
 #include "tool.h"
 #include "engine.h"
@@ -47,7 +50,7 @@ private:
 
     static std::mutex mutex_;
     static ToolManager* instance_;
-    std::vector<Tool*> tools_;
+    QList<Tool*> tools_;
     Tool* activeTool_;
 
 };

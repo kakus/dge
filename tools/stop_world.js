@@ -2,13 +2,13 @@
 {
     var tool = {};
 
-    tool.icon = "play_world.png"
+    tool.icon = "stop_world.png"
     tool.checkable = false;
-    tool.positionOnToolbar = 15;
+    tool.positionOnToolbar = 16;
 
     tool.buttonClicked = function()
     {
-        world.run();
+        world.stop();
     }
 
     return tool;

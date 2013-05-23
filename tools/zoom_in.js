@@ -4,18 +4,7 @@
 
     tool.icon = "zoom-in";
     tool.checkable = false;
-
-    tool.mouseButtonPress = function (x,y)
-    {
-    }
-
-    tool.mouseMove = function(x,y)
-    {
-    }
-
-    tool.mouseButtonRelease = function(x,y)
-    {
-    }
+    tool.positionOnToolbar = 21;
 
     tool.buttonClicked = function()
     {

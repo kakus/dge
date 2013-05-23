@@ -5,8 +5,9 @@
             startX = 0,
             startY = 0;
 
-    tool.icon = "undo.jpg";
+    tool.icon = "undo.png";
     tool.checkable = false;
+    tool.positionOnToolbar = 0;
 
     tool.buttonClicked = function()
     {

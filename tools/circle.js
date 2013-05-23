@@ -1,12 +1,13 @@
 (function()
 {
     var tool = {},
-        body = null,
-        startX = 0,
-        startY = 0;
+    body = null,
+            startX = 0,
+            startY = 0;
 
-    tool.icon = "circle.jpg";
+    tool.icon = "circle.png";
     tool.checkable = true;
+    tool.positionOnToolbar = 2;
 
     tool.mouseButtonPress = function (x,y)
     {
@@ -27,7 +28,25 @@
 
     tool.mouseButtonRelease = function(x, y)
     {
-        cmdManager.pushCmd(world, world.removeBody , [body] , undefined , print, ["here should be redo"]);
+        cmdManager.pushCmd(
+                        (function(){
+                            var currentBody = null;
+                            var bodyTemplate = new BodyDef(body);
+
+                            return{
+                                exec: function()
+                                {
+                                   currentBody = world.createBody(bodyTemplate);
+                                },
+
+                                undo: function()
+                                {
+                                    world.removeBody(currentBody);
+                                }
+                            }
+        })());
+
+        world.removeBody(body);
     }
 
     tool.mouseMove = function(x,y)

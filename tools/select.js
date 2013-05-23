@@ -16,6 +16,8 @@
 
     tool.icon = "input-mouse";
     tool.checkable = true;
+    tool.icon = "select.png";
+    tool.positionOnToolbar = 8;
 
     tool.mouseButtonPress = function (x,y)
     {
