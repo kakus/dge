@@ -4,7 +4,8 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include <QMap>
+#include <QHash>
+#include <QSet>
 #include "worldview.h"
 
 class QBodyDef;
@@ -73,10 +74,12 @@ private:
 
     Ui::Stage *ui;
     QGraphicsScene *scene_;
-    QMap<const QFixtureDef*, QGraphicsItem*> qGraphicsItemsMap_;
-    QMap<b2BodyType, QColor> bodyColor_;
-    QMap<const QBodyDef*, QGraphicsRectItem*> aabb_;
     QGraphicsRectItem selectionArea_;
+    QHash<const QFixtureDef*, QGraphicsItem*> qGraphicsItemsMap_;
+    QHash<b2BodyType, QColor> bodyColor_;
+    QHash<const QBodyDef*, QGraphicsRectItem*> aabb_;
+    QSet<const QBodyDef*> bodiesOnStage_;
+
 };
 
 #endif // STAGE_H

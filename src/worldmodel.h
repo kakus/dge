@@ -87,6 +87,11 @@ public:
     Q_INVOKABLE QObjectList getBodies() const;
 
     /*!
+     * \return body of given id or null if body doens't exist
+     */
+    Q_INVOKABLE QObject* getBodyById(uint id) const;
+
+    /*!
      * Return model id, which is unique for each world model.
      */
     uint getId() const;

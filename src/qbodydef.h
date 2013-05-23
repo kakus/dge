@@ -47,9 +47,18 @@ class QBodyDef : public QObject
     // Custom property
     Q_PROPERTY(QObjectList fixtureList READ getQObjectFixtureList)
     Q_PROPERTY(bool isSelected READ isSelected WRITE setSelected)
+    Q_PROPERTY(uint id READ getId)
 
 public:
-    explicit QBodyDef(QObject *parent = 0);
+
+    /*!
+     * \brief QBodyDef
+     * \param id the id of the body, if none is given the it will be generated
+     *        automaticaly
+     * \param parent check out qt parent
+     */
+    explicit QBodyDef(uint id = 0, QObject *parent = 0);
+    virtual ~QBodyDef();
 
     /*!
      * \brief Clone the fixture given and adds to the fixture list.
@@ -76,6 +85,7 @@ public:
 
     /*!
      * \brief clone this object and returning new one
+     * \warning CLONE HAVE THE SAME ID !!!
      */
     QBodyDef* clone() const;
 
@@ -148,6 +158,8 @@ public:
     bool isSelected() const;
     void setSelected(bool value);
 
+    uint getId() const;
+
 
 signals:
     void bodyChanged(const QBodyDef*);
@@ -174,6 +186,10 @@ private:
     b2BodyDef saveState_;
     bool      wasSaved_;
     bool      isSelected_;
+
+    const uint id_;
+    // number of qbodydef created - 1
+    static uint id_generator;
 
     friend class WorldModel;
 };
@@ -342,6 +358,11 @@ inline void QBodyDef::setSelected(bool value) {
         isSelected_ = value;
         emit bodyChanged(this);
     }
+}
+
+inline uint QBodyDef::getId() const
+{
+    return id_;
 }
 
 #endif // QBODYDEF_H

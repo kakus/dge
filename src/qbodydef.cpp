@@ -2,11 +2,20 @@
 #include <QPen>
 #include <QBrush>
 
-QBodyDef::QBodyDef(QObject *parent)
+uint QBodyDef::id_generator = 1;
+
+QBodyDef::QBodyDef(uint id, QObject *parent)
     : QObject(parent)
     , wasSaved_(false)
     , isSelected_(false)
+    , id_(id == 0?id_generator++:id)
 {
+}
+
+QBodyDef::~QBodyDef()
+{
+    // foreach (QFixtureDef *fix, fixtureList_)
+    //     delete fix;
 }
 
 void QBodyDef::createFixture(const QFixtureDef *fix)
@@ -48,7 +57,7 @@ void QBodyDef::restore()
 
 QBodyDef* QBodyDef::clone() const
 {
-    QBodyDef *clone = new QBodyDef;
+    QBodyDef *clone = new QBodyDef(id_);
     clone->bodyDef_ = this->bodyDef_;
     foreach (const QFixtureDef *fix, fixtureList_)
         clone->createFixture(fix);

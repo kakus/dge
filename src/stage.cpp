@@ -68,6 +68,8 @@ QList<const QBodyDef*> Stage::getBodiesAt(QRectF area) const
 
 void Stage::bodyAdded(const QBodyDef *qbody)
 {
+    bodiesOnStage_.insert(qbody);
+
     updateFixtures(qbody);
 
     connect(qbody, &QBodyDef::bodyChanged, this, &Stage::bodyChanged,
@@ -75,17 +77,33 @@ void Stage::bodyAdded(const QBodyDef *qbody)
 
     connect(qbody, &QBodyDef::fixtureChanged, this, &Stage::fixtureChanged,
             Qt::QueuedConnection);
+
+
 }
 
 void Stage::bodyRemoved(const QBodyDef *qbody)
 {
-    foreach (const QFixtureDef *fixture, qbody->getFixtureList())
-    {
-        disconnect(qbody, &QBodyDef::fixtureChanged, this, &Stage::fixtureChanged);
-        scene_->removeItem(qGraphicsItemsMap_[fixture]);
-    }
+    bodiesOnStage_.remove(qbody);
 
     disconnect(qbody, &QBodyDef::bodyChanged, this, &Stage::bodyChanged);
+    disconnect(qbody, &QBodyDef::fixtureChanged, this, &Stage::fixtureChanged);
+
+    foreach (const QFixtureDef *fixture, qbody->getFixtureList())
+    {
+        if (qGraphicsItemsMap_.contains(fixture))
+        {
+            // scene_->removeItem(qGraphicsItemsMap_[fixture]);
+            delete  qGraphicsItemsMap_[fixture];
+            qGraphicsItemsMap_.remove(fixture);
+        }
+    }
+
+    if (aabb_.contains(qbody))
+    {
+        scene_->removeItem(aabb_[qbody]);
+        aabb_.remove(qbody);
+    }
+
 }
 
 void Stage::simulationStart()
@@ -100,7 +118,8 @@ void Stage::simulationStop()
 
 void Stage::bodyChanged(const QBodyDef *qbody)
 {
-    updateFixtures(qbody);
+    if (bodiesOnStage_.contains(qbody))
+        updateFixtures(qbody);
 }
 
 void Stage::fixtureChanged(const QFixtureDef *qfixture)
@@ -108,13 +127,15 @@ void Stage::fixtureChanged(const QFixtureDef *qfixture)
     // we need to remove old fixture from stage and call updateFixtures
     if (qGraphicsItemsMap_.contains(qfixture))
     {
-           scene_->removeItem(qGraphicsItemsMap_[qfixture]);
-           delete qGraphicsItemsMap_[qfixture];
-           // we also delete fixture from map, because if updateFixtures doesn't
-           // find it, it will create new graphics which is what we want.:
-           qGraphicsItemsMap_.remove(qfixture);
-           updateFixtures(qfixture->getOwner());
+        scene_->removeItem(qGraphicsItemsMap_[qfixture]);
+        delete qGraphicsItemsMap_[qfixture];
+        // we also delete fixture from map, because if updateFixtures doesn't
+        // find it, it will create new graphics which is what we want.:
+        qGraphicsItemsMap_.remove(qfixture);
+        updateFixtures(qfixture->getOwner());
     }
+    else
+        updateFixtures(qfixture->getOwner());
 }
 
 void Stage::setSelection(QRectF area)
@@ -246,7 +267,7 @@ void Stage::updateFixtures(const QBodyDef *qbody)
 
         // now we can update posiotion and rotation
         // todo in future we should replace this with a transform matrix
-        // because this is only will be working when just one fixture is attached
+        // because now it is only working when just one fixture is attached
         // to the body
         if (graphics == nullptr) graphics = qGraphicsItemsMap_[fixture];
         // update position

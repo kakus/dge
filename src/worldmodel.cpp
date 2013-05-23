@@ -22,6 +22,9 @@ WorldModel::~WorldModel()
 
     if (world_)
         delete world_;
+
+    foreach (QBodyDef* qbody, bodyList_)
+        delete qbody;
 }
 
 QBodyDef* WorldModel::createBody(const QFixtureDef *fixtureDef)
@@ -68,6 +71,14 @@ QObjectList WorldModel::getBodies() const
     return bodies;
 }
 
+QObject* WorldModel::getBodyById(uint id) const
+{
+    foreach (QBodyDef *qbody, bodyList_)
+        if (qbody->getId() == id) return qbody;
+
+    return nullptr;
+}
+
 // -------- slots --------
 
 void WorldModel::removeBody(QBodyDef *body)
@@ -77,6 +88,8 @@ void WorldModel::removeBody(QBodyDef *body)
 
     if (bodyList_.removeOne(body))
     {
+        body->disconnect();
+        body->blockSignals(true);
         emit bodyRemoved(body);
         body->deleteLater();
     }

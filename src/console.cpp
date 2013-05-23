@@ -32,6 +32,11 @@ void Console::write(const QString &msg)
     ui->plainTextEdit->appendPlainText(msg);
 }
 
+void Console::clear()
+{
+    ui->plainTextEdit->clear();
+}
+
 void Console::returnPressed()
 {
     if (ui->lineEdit->text().length() == 0)
@@ -60,8 +65,13 @@ void Console::keyPressEvent(QKeyEvent *evt)
     }
     else if (evt->key() == Qt::Key_Down)
     {
-        if (historyIt_ != commandHistory_.begin()) --historyIt_;
-        ui->lineEdit->clear();
-        ui->lineEdit->setText(*historyIt_);
+        if (historyIt_ == commandHistory_.begin())
+            ui->lineEdit->clear();
+        else
+        {
+            --historyIt_;
+            ui->lineEdit->clear();
+            ui->lineEdit->setText(*historyIt_);
+        }
     }
 }

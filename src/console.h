@@ -30,6 +30,11 @@ public slots:
      */
     void write(const QString& msg);
 
+    /*!
+     * \brief Clears the console window
+     */
+    void clear();
+
 signals:
     /*!
      * \brief This signal is emited when user press enter, and
