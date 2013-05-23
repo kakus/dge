@@ -41,6 +41,7 @@ public:
 
 signals:
     void mouseEvent(QGraphicsSceneMouseEvent*);
+    void keyEvent(QKeyEvent*);
 
 public slots:
     void bodyAdded(const QBodyDef *);

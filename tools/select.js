@@ -12,6 +12,7 @@
     , moveX = 0
     , moveY = 0
     , SELECTION_MODE = false
+    , posBeforeDrag = []
     ;
 
     tool.icon = "input-mouse";
@@ -21,7 +22,10 @@
 
     tool.mouseButtonPress = function (x,y)
     {
-        var body = world.bodyAt(x, y);
+        var body = world.bodyAt(x, y)
+          , i
+          ;
+
         startX = moveX = x;
         startY = moveY = y;
 
@@ -29,7 +33,7 @@
         {
             SELECTION_MODE = true;
 
-            for (var i in selectedBodies)
+            for (i in selectedBodies)
                 selectedBodies[i].isSelected = false;
 
             selectedBodies = [];
@@ -39,19 +43,28 @@
         if (selectedBodies.length !== 0 )
         {
             var newSelection = true;
-            for (var i in selectedBodies)
+
+            for (i in selectedBodies)
                 if (body == selectedBodies[i])
                     newSelection = false;
 
             if (newSelection)
             {
-                for (var i in selectedBodies)
+                for (i in selectedBodies)
                     selectedBodies[i].isSelected = false;
 
                 selectedBodies = [];
             }
+            // we are clicked on selected body, which means we can move it now
             else
+            {
+                for (i in selectedBodies)
+                    posBeforeDrag.push({
+                                          x: selectedBodies[i].x,
+                                          y: selectedBodies[i].y
+                                      });
                 return;
+            }
         }
 
         selectedBodies = [ body ];
@@ -74,6 +87,51 @@
                 bodies[i].isSelected = true;
 
             selectedBodies = bodies;
+        }
+        else
+        {
+            if (selectedBodies.length === 0)
+                return;
+
+            cmdManager.pushCmd( (function(selectedBodies) {
+                var bodies = selectedBodies
+                  , bodiesPos = []
+                  , bodiesOldPos = []
+                  , i
+                  ;
+
+                for (i in selectedBodies)
+                    bodiesPos.push({
+                                       x: selectedBodies[i].x,
+                                       y: selectedBodies[i].y
+                                   });
+
+
+                for (i in posBeforeDrag)
+                    bodiesOldPos.push({
+                                          x: posBeforeDrag[i].x,
+                                          y: posBeforeDrag[i].y
+                                      });
+
+
+                return {
+                    exec: function() {
+                        for (i in bodies)
+                        {
+                            bodies[i].x = bodiesPos[i].x;
+                            bodies[i].y = bodiesPos[i].y;
+                        }
+                    },
+
+                    undo: function() {
+                        for (i in bodies)
+                        {
+                            bodies[i].x = bodiesOldPos[i].x;
+                            bodies[i].y = bodiesOldPos[i].y;
+                        }
+                    }
+                };
+            })(selectedBodies) );
         }
     }
 

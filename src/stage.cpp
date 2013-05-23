@@ -159,6 +159,10 @@ bool Stage::eventFilter(QObject *obj, QEvent *evt)
     case QEvent::GraphicsSceneMouseMove:
         emit mouseEvent(dynamic_cast<QGraphicsSceneMouseEvent*>(evt));
         break;
+
+    case QEvent::KeyPress:
+    case QEvent::KeyRelease:
+        emit keyEvent(dynamic_cast<QKeyEvent*>(evt));
     default:
         break;
     }
