@@ -15,6 +15,8 @@
     , posBeforeDrag = []
     ;
 
+    tool.keyboardManager = new KeyboardManager;
+
     tool.icon = "input-mouse";
     tool.checkable = true;
     tool.icon = "select.png";
@@ -23,8 +25,8 @@
     tool.mouseButtonPress = function (x,y)
     {
         var body = world.bodyAt(x, y)
-          , i
-          ;
+        , i
+        ;
 
         startX = moveX = x;
         startY = moveY = y;
@@ -60,9 +62,9 @@
             {
                 for (i in selectedBodies)
                     posBeforeDrag.push({
-                                          x: selectedBodies[i].x,
-                                          y: selectedBodies[i].y
-                                      });
+                                           x: selectedBodies[i].x,
+                                           y: selectedBodies[i].y
+                                       });
                 return;
             }
         }
@@ -95,10 +97,10 @@
 
             cmdManager.pushCmd( (function(selectedBodies) {
                 var bodies = selectedBodies
-                  , bodiesPos = []
-                  , bodiesOldPos = []
-                  , i
-                  ;
+                , bodiesPos = []
+                , bodiesOldPos = []
+                , i
+                ;
 
                 for (i in selectedBodies)
                     bodiesPos.push({
@@ -158,8 +160,8 @@
         else
         {
             var dx = x - moveX
-              , dy = y - moveY
-              ;
+            , dy = y - moveY
+            ;
 
             for (var i in selectedBodies)
             {
@@ -172,6 +174,34 @@
         moveX = x;
         moveY = y;
     }
+
+    tool.onDeletePress = function()
+    {
+        if(selectedBodies !== null){
+            cmdManager.pushCmd( (function(selectedBodies) {
+                var bodies = selectedBodies;
+                print("DOs");
+                return {
+                    exec: function() {
+                        print("DO");
+                        for (i in bodies)
+                        {
+                            world.removeBody(world.getBodyById(bodies[i].id));
+                        }
+                    },
+
+                    undo: function() {
+
+                    }
+                };
+            })(selectedBodies) );
+        }
+    }
+
+    tool.keyboardManager.register("Delete",
+                                  function(){
+                                      print("Delete");
+                                  });
 
     return tool;
 

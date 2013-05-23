@@ -10,7 +10,8 @@ OTHER_FILES += box2d.pri \
     tools/select.js \
     scripts/cmd_manager.js \
     scripts/cmd_mapper.js \
-    tools/box.js
+    tools/box.js \
+    scripts/keyboard_manager.js
 
 scripts.path = $$OUT_PWD/src
 scripts.files = scripts

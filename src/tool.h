@@ -24,6 +24,7 @@ signals:
     void mouseButtonPress(int x, int y);
     void mouseButtonRelease(int x, int y);
     void mouseMove(int x, int y);
+    void keyPress(int code, int modifier);
 
 
 private:

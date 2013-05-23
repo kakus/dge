@@ -1,22 +1,13 @@
-(function(global){
-
-    var map = [];
+(function(global)
+{
+    var cmd_map = {};
 
     global.getCmdManager= function()
     {
-        for(var x in map){
-            if( map[x].id == world.id)
-                return map[x].cmdManager;
-        }
+        if( cmd_map[world.id] === undefined)
+            cmd_map[world.id] = new CmdManager;
 
-        var newObject = {
-            id: world.id,
-            cmdManager: new CmdManager   };
-
-        map.push(newObject);
-
-        return newObject.cmdManager;
-
+        return cmd_map[world.id];
     }
 
 })(this);

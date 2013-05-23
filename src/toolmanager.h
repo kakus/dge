@@ -8,6 +8,7 @@
 #include <QToolBar>
 #include <QActionGroup>
 #include <QGraphicsSceneMouseEvent>
+#include <QKeyEvent>
 #include <QEvent>
 #include <QKeySequence>
 #include <QtAlgorithms>
@@ -40,7 +41,11 @@ public:
 public slots:
 
     void redirectEvent(QGraphicsSceneMouseEvent *event);
+    void redirectEvent(QKeyEvent *event);
     void setActiveTool();
+
+signals:
+    void keyEvent(int code, int modifier);
 
 private:
 

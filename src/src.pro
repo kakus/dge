@@ -49,7 +49,3 @@ FORMS    += mainwindow.ui \
 
 include(../box2d.pri)
 
-OTHER_FILES += \
-    ../scripts/cmd_mng.js
-
-
