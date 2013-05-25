@@ -3,8 +3,9 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "BodyDef",
         "FixtureDef",
+        "World",
         "console",
-        "world"
+        "global"
     ],
     "modules": [
         "core",

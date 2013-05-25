@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>world</title>
+    <title>global</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -47,7 +47,9 @@
             
                 <li><a href="../classes/FixtureDef.html">FixtureDef</a></li>
             
-                <li><a href="../classes/world.html">world</a></li>
+                <li><a href="../classes/global.html">global</a></li>
+            
+                <li><a href="../classes/World.html">World</a></li>
             
             </ul>
 
@@ -92,7 +94,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>world Class</h1>
+                        <h1>global Class</h1>
 <div class="box meta">
     
 
@@ -112,10 +114,7 @@
 
 
 <div class="box intro">
-    <p>This object represents your active world (currently displayed tab/window).
-The main role of this object is creating and removing bodies. Also you can
-query this object about bodies that are in the world or get acces to the
-stage that displaying them.</p>
+    
 </div>
 
 
@@ -145,28 +144,14 @@ stage that displaying them.</p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_createBody">createBody</a>
+                                <a href="#method_openFile">openFile</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getBodies">getBodies</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getBodyById">getBodyById</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_removeBody">removeBody</a>
+                                <a href="#method_saveFile">saveFile</a>
 
                                 
                                 
@@ -183,14 +168,14 @@ stage that displaying them.</p>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_id">id</a>
+                                <a href="#property_world">world</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_stage">stage</a>
+                                <a href="#property_worlds">worlds</a>
 
                                 
                                 
@@ -210,8 +195,8 @@ stage that displaying them.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_createBody" class="method item">
-    <h3 class="name"><code>createBody</code></h3>
+                    <div id="method_openFile" class="method item">
+    <h3 class="name"><code>openFile</code></h3>
 
     
         <div class="args">
@@ -219,7 +204,7 @@ stage that displaying them.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[body_or_fixture=null]</code>
+                        <code class="optional">[filename]</code>
                     
                 </li>
             
@@ -229,7 +214,7 @@ stage that displaying them.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="../classes/BodyDef.html" class="crosslink">BodyDef</a></span>
+            <span class="type">String</span>
         </span>
     
 
@@ -263,7 +248,8 @@ stage that displaying them.</p>
     </div>
 
     <div class="description">
-        
+        <p>Open a file and read its content. If no file name will be specified, then
+prompt will be opened and ask user for file name.</p>
     </div>
 
     
@@ -274,8 +260,8 @@ stage that displaying them.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[body_or_fixture=null]</code>
-                        <span class="type"><a href="../classes/BodyDef.html" class="crosslink">BodyDef</a> | <a href="../classes/FixtureDef.html" class="crosslink">FixtureDef</a></span>
+                        <code class="param-name optional">[filename]</code>
+                        <span class="type">String</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
@@ -299,28 +285,53 @@ stage that displaying them.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/BodyDef.html" class="crosslink">BodyDef</a></span>:
+                        <span class="type">String</span>:
                     
-                    reference to newly created body
+                    Content of opened file
                 
             </div>
         </div>
     
 
     
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>var fileContents = openFile() # now promp wil be shown
+</code></pre>
+            </div>
+        </div>
+    
 </div>
 
                 
-                    <div id="method_getBodies" class="method item">
-    <h3 class="name"><code>getBodies</code></h3>
+                    <div id="method_saveFile" class="method item">
+    <h3 class="name"><code>saveFile</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>content</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[filename]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">Array</span>
+            <span class="type">String</span>
         </span>
     
 
@@ -354,85 +365,8 @@ stage that displaying them.</p>
     </div>
 
     <div class="description">
-        <p>This method return all bodies that are in the world.</p>
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                    array of bodies
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getBodyById" class="method item">
-    <h3 class="name"><code>getBodyById</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>id</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/BodyDef.html" class="crosslink">BodyDef</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-            
-        
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>This method return body of given id, if body doesn't exist it will return
-undefined</p>
+        <p>Save content to the file. If no file name will be specified, then promp will
+be opened and ask user for file name.</p>
     </div>
 
     
@@ -443,14 +377,30 @@ undefined</p>
             
                 <li class="param">
                     
-                        <code class="param-name">id</code>
-                        <span class="type">Int</span>
+                        <code class="param-name">content</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>What to save to file</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[filename]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>path to file</p>
                     </div>
 
                     
@@ -467,96 +417,25 @@ undefined</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/BodyDef.html" class="crosslink">BodyDef</a></span>:
+                        <span class="type">String</span>:
                     
+                    Path to file name
                 
             </div>
         </div>
     
 
     
-</div>
+        <div class="example">
+            <h4>Example:</h4>
 
-                
-                    <div id="method_removeBody" class="method item">
-    <h3 class="name"><code>removeBody</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>bodyDef</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
+            <div class="example-content">
+                <pre class="code prettyprint"><code>var path = saveFile('this string will be in file');
+var fileContents = openFile(path); # no prompt here
+console.write(fileContents) # we should see "this string ..."
+</code></pre>
+            </div>
         </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-            
-        
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">bodyDef</code>
-                        <span class="type"><a href="../classes/BodyDef.html" class="crosslink">BodyDef</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
     
 </div>
 
@@ -569,9 +448,9 @@ undefined</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_id" class="property item">
-    <h3 class="name"><code>id</code></h3>
-    <span class="type">Int</span>
+                    <div id="property_world" class="property item">
+    <h3 class="name"><code>world</code></h3>
+    <span class="type"><a href="../classes/World.html" class="crosslink">World</a></span>
 
     
 
@@ -598,7 +477,7 @@ undefined</p>
     </div>
 
     <div class="description">
-        <p>Returns world id, which is unique for each world in program</p>
+        <p>Current active world</p>
     </div>
 
     
@@ -609,9 +488,9 @@ undefined</p>
 </div>
 
                 
-                    <div id="property_stage" class="property item">
-    <h3 class="name"><code>stage</code></h3>
-    <span class="type">Unknown</span>
+                    <div id="property_worlds" class="property item">
+    <h3 class="name"><code>worlds</code></h3>
+    <span class="type">Array of World</span>
 
     
 
@@ -638,7 +517,7 @@ undefined</p>
     </div>
 
     <div class="description">
-        <p>The stage that displays bodies</p>
+        
     </div>
 
     

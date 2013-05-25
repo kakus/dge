@@ -71,10 +71,25 @@ private:
     /// QBodyDef constructor
     static QScriptValue qBodyDefConstructor(QScriptContext *context, QScriptEngine *engine);
 
+    /*!
+     * \see MainWindow::saveFile
+     */
+    static QScriptValue saveFile(QScriptContext *context, QScriptEngine *engine);
+
+    /*!
+     * \see MainWindow::openFile
+     */
+    static QScriptValue openFile(QScriptContext *context, QScriptEngine *engine);
+
+    /*!
+     * \return array of current worlds
+     */
+    static QScriptValue getWorlds(QScriptContext *context, QScriptEngine *engine);
 
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;
     QMap<const QBodyDef*, QScriptValue> engineQBodyMap_;
+    QList<WorldModel*> worlds_;
     Loader loader_;
 
     static Controller *instance_;

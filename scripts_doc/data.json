@@ -19,6 +19,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "scripts/GlobalFunctions.api": {
+            "name": "scripts/GlobalFunctions.api",
+            "modules": {},
+            "classes": {
+                "global": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "scripts/console.api": {
             "name": "scripts/console.api",
             "modules": {
@@ -36,7 +45,7 @@
                 "core": 1
             },
             "classes": {
-                "world": 1
+                "World": 1
             },
             "fors": {},
             "namespaces": {}
@@ -49,7 +58,8 @@
             "classes": {
                 "BodyDef": 1,
                 "FixtureDef": 1,
-                "world": 1
+                "global": 1,
+                "World": 1
             },
             "fors": {},
             "namespaces": {},
@@ -99,6 +109,19 @@
             "description": "A fixture is used to attach a shape to a body for collision detection. A\nfixture inherits its transform from its parent (BodyDef). Fixtures hold additional\nnon-geometric data / such as friction, collision filters, etc. Fixtures are\nattached to BodyDef by calling BodyDef::createFixture(fixtureDef).",
             "is_constructor": 1
         },
+        "global": {
+            "name": "global",
+            "shortname": "global",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "scripts/GlobalFunctions.api",
+            "line": 5
+        },
         "console": {
             "name": "console",
             "shortname": "console",
@@ -112,9 +135,9 @@
             "file": "scripts/console.api",
             "line": 5
         },
-        "world": {
-            "name": "world",
-            "shortname": "world",
+        "World": {
+            "name": "World",
+            "shortname": "World",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -271,6 +294,80 @@
             "module": "core"
         },
         {
+            "file": "scripts/GlobalFunctions.api",
+            "line": 9,
+            "description": "Open a file and read its content. If no file name will be specified, then\nprompt will be opened and ask user for file name.",
+            "example": [
+                "\n    var fileContents = openFile() # now promp wil be shown"
+            ],
+            "itemtype": "method",
+            "name": "openFile",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "Content of opened file",
+                "type": "String"
+            },
+            "class": "global",
+            "module": "core"
+        },
+        {
+            "file": "scripts/GlobalFunctions.api",
+            "line": 21,
+            "description": "Save content to the file. If no file name will be specified, then promp will\nbe opened and ask user for file name.",
+            "example": [
+                "\n    var path = saveFile('this string will be in file');\n    var fileContents = openFile(path); # no prompt here\n    console.write(fileContents) # we should see \"this string ...\""
+            ],
+            "itemtype": "method",
+            "name": "saveFile",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "What to save to file",
+                    "type": "String"
+                },
+                {
+                    "name": "filename",
+                    "description": "path to file",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "Path to file name",
+                "type": "String"
+            },
+            "class": "global",
+            "module": "core"
+        },
+        {
+            "file": "scripts/GlobalFunctions.api",
+            "line": 36,
+            "itemtype": "property",
+            "name": "worlds",
+            "type": "{Array} of {World}",
+            "readonly": "",
+            "class": "global",
+            "module": "core"
+        },
+        {
+            "file": "scripts/GlobalFunctions.api",
+            "line": 42,
+            "description": "Current active world",
+            "itemtype": "property",
+            "name": "world",
+            "type": "{World}",
+            "readonly": "",
+            "class": "global",
+            "module": "core"
+        },
+        {
             "file": "scripts/console.api",
             "line": 9,
             "itemtype": "method",
@@ -312,7 +409,7 @@
                 "description": "reference to newly created body",
                 "type": "BodyDef"
             },
-            "class": "world",
+            "class": "World",
             "module": "core"
         },
         {
@@ -327,7 +424,7 @@
                     "type": "BodyDef"
                 }
             ],
-            "class": "world",
+            "class": "World",
             "module": "core"
         },
         {
@@ -340,7 +437,7 @@
                 "description": "array of bodies",
                 "type": "Array"
             },
-            "class": "world",
+            "class": "World",
             "module": "core"
         },
         {
@@ -360,7 +457,7 @@
                 "description": "",
                 "type": "BodyDef"
             },
-            "class": "world",
+            "class": "World",
             "module": "core"
         },
         {
@@ -370,7 +467,7 @@
             "itemtype": "property",
             "name": "stage",
             "readonly": "",
-            "class": "world",
+            "class": "World",
             "module": "core"
         },
         {
@@ -381,7 +478,7 @@
             "name": "id",
             "type": "{int}",
             "readonly": "",
-            "class": "world",
+            "class": "World",
             "module": "core"
         }
     ],
