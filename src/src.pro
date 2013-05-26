@@ -49,3 +49,6 @@ FORMS    += mainwindow.ui \
 
 include(../box2d.pri)
 
+OTHER_FILES += \
+    ../scripts/file.js
+
