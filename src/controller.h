@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QMap>
+#include <QThread>
 #include "loader.h"
 #include "toolmanager.h"
-#include <QThread>
 
 class MainWindow;
 class WorldModel;

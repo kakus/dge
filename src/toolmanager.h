@@ -1,16 +1,14 @@
 #ifndef TOOLMANAGER_H
 #define TOOLMANAGER_H
 
-#include <QDebug>
+#include <QObject>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include <QMainWindow>
 #include <QToolBar>
-#include <QActionGroup>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QEvent>
-#include <QKeySequence>
 #include <QtAlgorithms>
 #include <QList>
 #include <mutex>
@@ -40,6 +38,9 @@ public:
 
 public slots:
 
+    /*!
+     * \brief redirectEvent to activeTool_
+     */
     void redirectEvent(QGraphicsSceneMouseEvent *event);
     void redirectEvent(QKeyEvent *event);
     void setActiveTool();
@@ -51,10 +52,10 @@ private:
 
     ToolManager();
 
+    static ToolManager* instance_;
+
     void createTool(const QScriptValue&,  QString);
 
-    static std::mutex mutex_;
-    static ToolManager* instance_;
     QList<Tool*> tools_;
     Tool* activeTool_;
 

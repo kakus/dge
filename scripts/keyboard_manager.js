@@ -14,8 +14,6 @@ function KeyboardManager()
             var modifierString = modifier_map[modifier];
             var keyString = key_map[code];
 
-            print(keyString);
-
             if(keyString !== undefined)
             {
                 if(modifierString !== undefined)

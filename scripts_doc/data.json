@@ -19,6 +19,22 @@
             "fors": {},
             "namespaces": {}
         },
+        "scripts/cmd_manager.js": {
+            "name": "scripts/cmd_manager.js",
+            "modules": {},
+            "classes": {
+                "CmdManager": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "scripts/cmd_mapper.js": {
+            "name": "scripts/cmd_mapper.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "scripts/console.api": {
             "name": "scripts/console.api",
             "modules": {
@@ -49,6 +65,7 @@
             "classes": {
                 "BodyDef": 1,
                 "FixtureDef": 1,
+                "CmdManager": 1,
                 "world": 1
             },
             "fors": {},
@@ -97,6 +114,21 @@
             "file": "scripts/FixtureDef.api",
             "line": 5,
             "description": "A fixture is used to attach a shape to a body for collision detection. A\nfixture inherits its transform from its parent (BodyDef). Fixtures hold additional\nnon-geometric data / such as friction, collision filters, etc. Fixtures are\nattached to BodyDef by calling BodyDef::createFixture(fixtureDef).",
+            "is_constructor": 1
+        },
+        "CmdManager": {
+            "name": "CmdManager",
+            "shortname": "CmdManager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "scripts/cmd_manager.js",
+            "line": 1,
+            "description": "CmdManaager managing drawing/resizing/moving commands in application\nEvery command has to defined undo and exec functions\nEvery pushed command is immediately executing by call \"exec\" function",
             "is_constructor": 1
         },
         "console": {
@@ -268,6 +300,15 @@
             "name": "restitution",
             "type": "Number",
             "class": "FixtureDef",
+            "module": "core"
+        },
+        {
+            "file": "scripts/cmd_mapper.js",
+            "line": 1,
+            "description": "This method is necessary to pick right CmdManager ( every scene has its own CmdManager )",
+            "itemtype": "method",
+            "name": "getCmdManager",
+            "class": "console",
             "module": "core"
         },
         {

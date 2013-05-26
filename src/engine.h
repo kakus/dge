@@ -4,12 +4,12 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <iostream>
-#include <mutex>
 #include <QScriptEngine>
 #include <QPushButton>
 #include <QDebug>
 #include <QMutex>
+#include <iostream>
+#include <mutex>
 
 /*!
  * \brief The Engine class

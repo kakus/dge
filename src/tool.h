@@ -5,7 +5,9 @@
 #include <QIcon>
 #include <QApplication>
 
-
+/*!
+ * \brief The Tool class
+ */
 class Tool : public QAction
 {
     Q_OBJECT
@@ -26,15 +28,16 @@ signals:
     void mouseMove(int x, int y);
     void keyPress(int code, int modifier);
 
-
 private:
 
     int position_;
 
     friend class ToolManager;
-
 };
 
+/*!
+ * \brief compare tools position_ (on toolbar)
+ */
 bool isLessThen(Tool* a, Tool* b);
 
 #endif // TOOL_H

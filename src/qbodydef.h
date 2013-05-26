@@ -1,11 +1,12 @@
 #ifndef QBODYDEF_H
 #define QBODYDEF_H
 
-#include <Box2D/Box2D.h>
+
 #include <QObject>
 #include <QSharedPointer>
 #include <QLinkedList>
 #include <QScriptValue>
+#include <Box2D/Box2D.h>
 #include "qfixturedef.h"
 
 

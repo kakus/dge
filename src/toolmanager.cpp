@@ -1,7 +1,6 @@
 #include "toolmanager.h"
 
 ToolManager* ToolManager::instance_;
-std::mutex ToolManager::mutex_;
 
 ToolManager::ToolManager() : activeTool_(nullptr)
 {

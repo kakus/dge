@@ -1,3 +1,8 @@
+/**
+ * Return CmdManager for current scene ( every scene has its own CmdManager )
+ * @method getCmdManager
+ */
+
 (function(global)
 {
     var cmd_map = {};
