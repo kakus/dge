@@ -8,7 +8,7 @@
  * query this object about bodies that are in the world or get acces to the
  * stage that displaying them.
  *
- * @class world
+ * @class World
  * @final
  */
 

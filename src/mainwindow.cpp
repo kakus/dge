@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QKeySequence>
+#include <QFileDialog>
 #include "stage.h"
 #include "worldmodel.h"
 #include "controller.h"
@@ -34,4 +35,40 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+QString MainWindow::openFile(QString filename)
+{
+    if (filename.isEmpty())
+        filename = QFileDialog::getOpenFileName(this);
+
+    if (filename.isEmpty()) return "";
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return "";
+
+    QString content = file.readAll();
+    QApplication::restoreOverrideCursor();
+
+    return content;
+}
+
+QString MainWindow::saveFile(const QString &content, QString filename)
+{
+    if (filename.isEmpty())
+        filename = QFileDialog::getSaveFileName(this);
+
+    if (filename.isEmpty()) return "";
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly| QIODevice::Text))
+        return "";
+
+    file.write(content.toUtf8());
+    QApplication::restoreOverrideCursor();
+
+    return filename;
 }

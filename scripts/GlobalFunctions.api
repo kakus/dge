@@ -1,0 +1,47 @@
+/**
+ * @module core
+ */
+
+/**
+ * @class global
+ */
+
+/**
+ * Open a file and read its content. If no file name will be specified, then
+ * prompt will be opened and ask user for file name.
+ *
+ * @example
+ *     var fileContents = openFile() # now promp wil be shown
+ *
+ * @method openFile
+ * @param {String} [filename]
+ * @return {String} Content of opened file
+ */
+
+/**
+ * Save content to the file. If no file name will be specified, then promp will
+ * be opened and ask user for file name.
+ *
+ * @example
+ *     var path = saveFile('this string will be in file');
+ *     var fileContents = openFile(path); # no prompt here
+ *     console.write(fileContents) # we should see "this string ..."
+ *
+ * @method saveFile
+ * @param {String} content What to save to file
+ * @param {String} [filename] path to file
+ * @return {String} Path to file name
+ */
+
+/**
+ * @property worlds
+ * @type {Array} of {World}
+ * @readOnly
+ */
+
+/**
+ * Current active world
+ * @property world
+ * @type {World}
+ * @readOnly
+ */

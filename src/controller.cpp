@@ -43,6 +43,22 @@ void Controller::initEngine()
                          EngineProxy::getEngine()->newFunction(&Controller::getActiveModel),
                          QScriptValue::PropertyGetter);
 
+    // save file
+    EngineProxy::getEngine()->globalObject()
+            .setProperty("saveFile",
+                         EngineProxy::getEngine()->newFunction(&Controller::saveFile));
+
+    // load file
+    EngineProxy::getEngine()->globalObject()
+            .setProperty("openFile",
+                         EngineProxy::getEngine()->newFunction(&Controller::openFile));
+
+    // worlds
+    EngineProxy::getEngine()->globalObject()
+            .setProperty("worlds",
+                         EngineProxy::getEngine()->newFunction(&Controller::getWorlds),
+                         QScriptValue::PropertyGetter);
+
     // Connect console to the script engine
     connect(mainWindow_->console_, SIGNAL(command(QString)),
             EngineProxy::getInstace(), SLOT(evaluate(QString)));
@@ -73,6 +89,7 @@ void Controller::createNewProject()
     stage->connectToModel(stage, model);
 
     viewMap_.insert(stage, model);
+    worlds_.push_back(model);
 
     // redirects mouse events from new stage
     connect(stage, SIGNAL(mouseEvent(QGraphicsSceneMouseEvent*)),
@@ -223,4 +240,41 @@ QScriptValue Controller::qBodyDefConstructor(QScriptContext *context, QScriptEng
         qbody = new QBodyDef;
 
     return engine->newQObject(qbody, QScriptEngine::ScriptOwnership);
+}
+
+QScriptValue Controller::saveFile(QScriptContext *context, QScriptEngine *engine)
+{
+    if (context->argumentCount() == 2)
+    {
+        const QString &content = context->argument(0).toString();
+        const QString &filename = context->argument(1).toString();
+        return instance_->mainWindow_->saveFile(content, filename);
+    }
+    else if (context->argumentCount() == 1)
+    {
+        const QString &content = context->argument(0).toString();
+        return instance_->mainWindow_->saveFile(content);
+    }
+    else
+    {
+        // todo error
+        engine->evaluate("console.write('saveFile(content [, filename ]')");
+        return QScriptValue(QScriptValue::UndefinedValue);
+    }
+}
+
+QScriptValue Controller::openFile(QScriptContext *context, QScriptEngine *engine)
+{
+    if (context->argumentCount() == 1)
+    {
+        const QString &filename = context->argument(0).toString();
+        return instance_->mainWindow_->openFile(filename);
+    }
+    return instance_->mainWindow_->openFile();
+}
+
+QScriptValue Controller::getWorlds(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(context);
+    return qScriptValueFromSequence(engine, instance_->worlds_);
 }
