@@ -59,6 +59,11 @@ void Controller::initEngine()
                          EngineProxy::getEngine()->newFunction(&Controller::getWorlds),
                          QScriptValue::PropertyGetter);
 
+    // create new project/world
+    EngineProxy::getEngine()->globalObject()
+            .setProperty("newWorld",
+                         EngineProxy::getEngine()->newFunction(&Controller::createNewWorld));
+
     // Connect console to the script engine
     connect(mainWindow_->console_, SIGNAL(command(QString)),
             EngineProxy::getInstace(), SLOT(evaluate(QString)));
@@ -277,4 +282,10 @@ QScriptValue Controller::getWorlds(QScriptContext *context, QScriptEngine *engin
 {
     Q_UNUSED(context);
     return qScriptValueFromSequence(engine, instance_->worlds_);
+}
+
+QScriptValue Controller::createNewWorld(QScriptContext *context, QScriptEngine *engine)
+{
+    instance_->createNewProject();
+    return getActiveModel(context, engine);
 }

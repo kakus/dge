@@ -34,6 +34,12 @@
  */
 
 /**
+ * Create new project/world.
+ * @method newWorld
+ * @return {World}
+ */
+
+/**
  * @property worlds
  * @type {Array} of {World}
  * @readOnly

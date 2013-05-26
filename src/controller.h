@@ -86,6 +86,11 @@ private:
      */
     static QScriptValue getWorlds(QScriptContext *context, QScriptEngine *engine);
 
+    /*!
+     * \see Controller::createNewProject
+     */
+    static QScriptValue createNewWorld(QScriptContext *context, QScriptEngine *engine);
+
     MainWindow *mainWindow_;
     QMap<QObject*, WorldModel*> viewMap_;
     QMap<const QBodyDef*, QScriptValue> engineQBodyMap_;

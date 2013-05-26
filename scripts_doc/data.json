@@ -349,6 +349,19 @@
         {
             "file": "scripts/GlobalFunctions.api",
             "line": 36,
+            "description": "Create new project/world.",
+            "itemtype": "method",
+            "name": "newWorld",
+            "return": {
+                "description": "",
+                "type": "World"
+            },
+            "class": "global",
+            "module": "core"
+        },
+        {
+            "file": "scripts/GlobalFunctions.api",
+            "line": 42,
             "itemtype": "property",
             "name": "worlds",
             "type": "{Array} of {World}",
@@ -358,7 +371,7 @@
         },
         {
             "file": "scripts/GlobalFunctions.api",
-            "line": 42,
+            "line": 48,
             "description": "Current active world",
             "itemtype": "property",
             "name": "world",
