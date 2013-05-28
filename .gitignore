@@ -16,3 +16,7 @@
 
 # vim swp
 *.swp
+
+# doc dir
+script_doc
+doc

@@ -48,6 +48,9 @@ QBodyDef* WorldModel::createBody()
 
 QBodyDef* WorldModel::createBody(const QBodyDef *qbody)
 {
+    if (isSimulationRunning())
+        return nullptr;
+
     QBodyDef* clone = qbody->clone();
 
     bodyList_.append(clone);

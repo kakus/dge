@@ -122,7 +122,10 @@ QScriptValue Controller::getActiveModel(QScriptContext *context, QScriptEngine *
     Q_UNUSED(context);
 
     if (instance_->getActiveModel() == nullptr)
-        return QScriptValue("Err: There are no active models/projects");
+    {
+        engine->evaluate("console.write('Err: There are no active models/projects')");
+        return QScriptValue(QScriptValue::UndefinedValue);
+    }
 
     QScriptValue model = engine->newQObject(instance_->getActiveModel());
     // add method for creating bodies
