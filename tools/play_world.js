@@ -3,7 +3,7 @@
     var tool = {};
 
     tool.icon = "play_world.png"
-    tool.checkable = true;
+    tool.checkable = false;
     tool.positionOnToolbar = 15;
 
     tool.buttonClicked = function()
