@@ -14,8 +14,8 @@ class Tool : public QAction
 
 public:
 
-    explicit Tool(const QIcon & icon, const QString & text, QObject * parent) : QAction(icon, text, parent), position_(999) {}
-    explicit Tool(const QString & text, QObject * parent) : QAction(text, parent),position_(999) {}
+    explicit Tool(const QIcon & icon, const QString & text, QObject * parent) : QAction(icon, text, parent), position_(999), onFileMenu(false) {}
+    explicit Tool(const QString & text, QObject * parent) : QAction(text, parent),position_(999), onFileMenu(false) {}
     int position(){ return position_; }
     void setPosition(int pos){ position_ = pos;  }
     ~Tool(){}
@@ -31,6 +31,7 @@ signals:
 private:
 
     int position_;
+    bool onFileMenu;
 
     friend class ToolManager;
 };

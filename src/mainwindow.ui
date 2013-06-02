@@ -34,8 +34,6 @@
      <string>File</string>
     </property>
     <addaction name="actionNew_Project"/>
-    <addaction name="actionOpen_project"/>
-    <addaction name="actionSave_project"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -68,7 +66,9 @@
   </action>
   <action name="actionNew_Project">
    <property name="icon">
-    <iconset theme="document-new"/>
+    <iconset theme="document-new">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>New Project</string>
