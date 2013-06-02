@@ -18,5 +18,5 @@
 *.swp
 
 # doc dir
-script_doc
+scripts_doc
 doc

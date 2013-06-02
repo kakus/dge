@@ -26,5 +26,6 @@ SOURCES += ../../src/worldmodel.cpp \
 
 INCLUDEPATH += ../../src
 
+QMAKE_CXXFLAGS += -std=c++0x
 
 include(../../box2d.pri)
