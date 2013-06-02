@@ -57,9 +57,7 @@
         },
         "scripts/io.js": {
             "name": "scripts/io.js",
-            "modules": {
-                "io": 1
-            },
+            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -104,17 +102,6 @@
             "tag": "module",
             "file": "scripts/console.api",
             "line": 5
-        },
-        "io": {
-            "name": "io",
-            "submodules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "scripts/io.js",
-            "line": 5,
-            "is_constructor": 1
         }
     },
     "classes": {
@@ -467,19 +454,11 @@
         },
         {
             "file": "scripts/io.js",
-            "line": 10,
-            "itemtype": "method",
-            "name": "saveFile\nSave content of current open tab in JSON.",
-            "class": "World",
-            "module": "io"
-        },
-        {
-            "file": "scripts/io.js",
-            "line": 30,
+            "line": 16,
             "itemtype": "method",
             "name": "loadFile\nOpen file with JSON content in new tab",
             "class": "World",
-            "module": "io"
+            "module": "utils"
         },
         {
             "file": "scripts/world.api",
