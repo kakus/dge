@@ -54,7 +54,7 @@ var json_converter = (function(){
     {
         var fix = new FixtureDef;
 
-        for( x in obj.fixtureList )
+        for(var x in obj.fixtureList )
         {
             switch(obj["shape"][x])
             {
@@ -83,7 +83,7 @@ var json_converter = (function(){
         {
             if(body.hasOwnProperty(prop))
             {
-                if( typeof prop === Array )
+                if( prop instanceof Array )
                     for( var x in obj[prop])
                         body[prop][x] = obj[prop][x];
                 else

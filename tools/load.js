@@ -12,8 +12,9 @@
 
     tool.buttonClicked = function()
     {
-    io.loadFile();
-}
+        io.loadFile();
+    }
+
     return tool;
 
 })();

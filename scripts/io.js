@@ -5,9 +5,8 @@ var io = (function(){
         {
             var fileContent;
 
-            if(world != undefined){
-                var cos = print(world);
-
+            if(world !== undefined)
+            {
                 fileContent = json_converter.stringify( world );
                 saveFile(fileContent);
             }

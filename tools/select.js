@@ -22,9 +22,7 @@
 
     tool.mouseButtonPress = function (x,y)
     {
-        var body = world.bodyAt(x, y)
-        , i
-        ;
+        var body = world.bodyAt(x, y);
 
         startX = moveX = x;
         startY = moveY = y;
@@ -33,7 +31,7 @@
         {
             SELECTION_MODE = true;
 
-            for (i in selectedBodies)
+            for (var i in selectedBodies)
                 selectedBodies[i].isSelected = false;
 
             selectedBodies = [];
@@ -44,13 +42,13 @@
         {
             var newSelection = true;
 
-            for (i in selectedBodies)
+            for (var i in selectedBodies)
                 if (body == selectedBodies[i])
                     newSelection = false;
 
             if (newSelection)
             {
-                for (i in selectedBodies)
+                for (var i in selectedBodies)
                     selectedBodies[i].isSelected = false;
 
                 selectedBodies = [];
@@ -59,7 +57,7 @@
             else
             {
                 posBeforeDrag = []
-                for (i in selectedBodies)
+                for (var i in selectedBodies)
                     posBeforeDrag.push({
                                           id: selectedBodies[i].id,
                                           x: selectedBodies[i].x,
@@ -102,11 +100,9 @@
 
             getCmdManager().pushCmd( (function(selectedBodies, posBeforeDrag) {
                 var bodiesPos = []
-                  , bodiesOldPos = []
-                  , i
-                  ;
+                  , bodiesOldPos = [];
 
-                for (i in selectedBodies)
+                for (var i in selectedBodies)
                 {
                     bodiesPos.push({
                         id: selectedBodies[i].id,
@@ -115,7 +111,7 @@
                     });
                 }
 
-                for (i in posBeforeDrag)
+                for (var i in posBeforeDrag)
                 {
                     bodiesOldPos.push({
                         id: posBeforeDrag[i].id,
@@ -126,7 +122,7 @@
 
                 return {
                     exec: function() {
-                        for (i in bodiesPos)
+                        for (var i in bodiesPos)
                         {
                             var body = world.getBodyById(bodiesPos[i].id);
                             body.x = bodiesPos[i].x;
@@ -135,7 +131,7 @@
                     },
 
                     undo: function() {
-                        for (i in bodiesOldPos)
+                        for (var i in bodiesOldPos)
                         {
                             var body = world.getBodyById(bodiesOldPos[i].id);
                             body.x = bodiesOldPos[i].x;
@@ -193,9 +189,8 @@
 
                 var ids = [];
                 var bodies = [];
-                var i;
 
-                for (i in selectedBodies)
+                for (var i in selectedBodies)
                 {
                     ids.push(selectedBodies[i].id);
                     bodies.push(new BodyDef(selectedBodies[i]));
@@ -204,13 +199,13 @@
 
                 return {
                     exec: function() {
-                        for (i in ids)
+                        for (var i in ids)
                             world.removeBody(world.getBodyById(ids[i]));
                     },
 
                     undo: function()
                     {
-                        for (i in bodies)
+                        for (var i in bodies)
                             world.createBody(bodies[i]);
                     }
                 };
