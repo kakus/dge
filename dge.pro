@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     src \
-    # test
+    test
 
 OTHER_FILES += box2d.pri \
     tools/play_world.js \
